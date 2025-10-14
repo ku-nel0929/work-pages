@@ -1,54 +1,67 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>土地家屋調査士・行政書士 植村拓也事務所</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>植村事務所｜土地家屋調査士・行政書士</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- ヘッダー帯 -->
   <header>
-    <h1>土地家屋調査士・行政書士 植村拓也事務所</h1>
-    <p>登記・許認可の手続きはお任せください</p>
+    <div class="container">
+      <h1>植村事務所</h1>
+      <nav>
+        <ul>
+          <li><a href="#about">事務所案内</a></li>
+          <li><a href="#service">業務内容</a></li>
+          <li><a href="#contact">お問い合わせ</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <nav>
-    <a href="#service">業務内容</a>
-    <a href="#about">事務所紹介</a>
-    <a href="#access">アクセス</a>
-    <a href="#contact">お問い合わせ</a>
-  </nav>
+  <!-- メインコンテンツ -->
+  <main>
+    <div class="container">
+      <section id="about">
+        <h2>事務所案内</h2>
+        <p>岩手県花巻市を拠点とし、登記・測量・農地転用など土地・建物に関する手続きをサポートしています。</p>
+      </section>
 
-  <div class="container">
-    <section id="service">
-      <h2>業務内容</h2>
-      <ul>
-        <li>土地・建物の表示登記</li>
-        <li>境界調査・測量業務</li>
-        <li>農地転用・開発許可申請</li>
-        <li>各種行政手続きの代行</li>
-      </ul>
-    </section>
+      <section id="service">
+        <h2>業務内容</h2>
+        <ul>
+          <li>土地・建物の登記（表題登記・滅失登記など）</li>
+          <li>土地測量・境界確認</li>
+          <li>農地転用・開発許可など各種行政手続</li>
+        </ul>
+      </section>
 
-    <section id="about">
-      <h2>事務所紹介</h2>
-      <p>岩手県花巻市にある、地域密着の土地家屋調査士・行政書士事務所です。お客様に寄り添い、丁寧かつ迅速に対応いたします。</p>
-    </section>
+      <section id="contact">
+        <h2>お問い合わせ</h2>
+        <p>ご相談・お問い合わせは以下のフォームよりお気軽にどうぞ。</p>
+        <form>
+          <label for="name">お名前</label>
+          <input type="text" id="name" name="name" required>
 
-    <section id="access">
-      <h2>アクセス</h2>
-      <p>〒025-0063 岩手県花巻市花城町12番6号</p>
-      <iframe src="https://www.google.com/maps?q=岩手県花巻市花城町12番6号&output=embed"></iframe>
-    </section>
+          <label for="email">メールアドレス</label>
+          <input type="email" id="email" name="email" required>
 
-    <section id="contact">
-      <h2>お問い合わせ</h2>
-      <p>電話：0198-XX-XXXX<br>メール：info@example.com</p>
-    </section>
-  </div>
+          <label for="message">お問い合わせ内容</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
 
+          <button type="submit">送信</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <!-- フッター帯 -->
   <footer>
-    <p>&copy; 2025 植村拓也事務所 All Rights Reserved.</p>
+    <div class="container">
+      <p>© 2025 植村事務所（Uemura Office）</p>
+    </div>
   </footer>
 </body>
 </html>
