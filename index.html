@@ -3,76 +3,56 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>植村土地家屋調査士・行政書士事務所｜岩手県花巻・北上・一関ほか</title>
-  <meta name="description" content="登記・測量・境界・農地転用・国有地払下げなど、家づくりと不動産手続きをワンストップでサポート。花巻・北上・一関・遠野など岩手県内に対応。" />
+  <title>植村土地家屋調査士・行政書士事務所</title>
+  <meta name="description" content="登記・測量・境界、農地転用・国有地払下げなどをワンストップで支援。まずは無料相談から。" />
   <meta name="format-detection" content="telephone=no" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --brand:#0f766e; /* teal-700 */
-      --brand-600:#0d9488; /* teal-600 */
-      --brand-50:#f0fdfa;  /* teal-50 */
-      --ink:#0b1021; 
-      --muted:#5b6370;
-      --bg:#ffffff;
-      --card:#ffffff;
-      --shadow:0 10px 30px rgba(2, 6, 23, .08);
-      --radius:14px;
-      --max:1100px;
-    }
-    html,body{height:100%;}
-    body{font-family:'Noto Sans JP',system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;line-height:1.7;color:var(--ink);background:var(--bg);}
-    img{max-width:100%;height:auto;vertical-align:middle;border-radius:12px}
+    :root{--brand:#0f766e;--ink:#0b1021;--muted:#64748b;--card:#ffffff;--radius:14px;--shadow:0 10px 26px rgba(2,6,23,.08);--max:980px}
+    html,body{height:100%}
+    body{font-family:'Noto Sans JP',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial;color:var(--ink);margin:0;line-height:1.7;background:#fff}
+    img{max-width:100%;height:auto;border-radius:12px}
+    .container{max-width:var(--max);margin-inline:auto;padding:0 18px}
     a{color:var(--brand);text-decoration:none}
-    a:hover{opacity:.9}
-    .container{max-width:var(--max);margin-inline:auto;padding:0 20px}
+    /* Title */
+    .title-banner{padding:28px 0;background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff}
+    .title{margin:0;font-size:clamp(24px,4vw,34px);font-weight:900;letter-spacing:.01em}
     /* Header */
-    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:saturate(180%) blur(10px);box-shadow:0 1px 0 rgba(2,6,23,.06)}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
-    .logo{display:flex;align-items:center;gap:10px;font-weight:700}
-    .logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand-600));display:grid;place-items:center;color:white;font-size:16px;box-shadow:var(--shadow)}
-    .menu{display:flex;gap:14px;flex-wrap:wrap}
-    .menu a{padding:8px 10px;border-radius:10px;color:var(--ink);font-weight:600}
-    .menu a:hover{background:var(--brand-50);}
-    .cta{display:flex;gap:10px;align-items:center}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;font-weight:700;border:1px solid transparent}
-    .btn.primary{background:var(--brand);color:#fff}
-    .btn.ghost{border-color:#e5e7eb;color:var(--ink)}
-    /* Hero */
-    .hero{position:relative;padding:72px 0 48px;background:linear-gradient(180deg,#ffffff, #f5fffb)}
-    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
-    .badge{display:inline-flex;gap:10px;align-items:center;padding:6px 10px;border:1px solid #e5e7eb;border-radius:999px;background:#fff;box-shadow:var(--shadow);font-weight:600}
-    .h1{font-size:clamp(26px,3.5vw,40px);line-height:1.25;margin:16px 0 12px;font-weight:800}
-    .lead{color:var(--muted);font-size:clamp(15px,2vw,17px)}
-    .hero-card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:var(--shadow);padding:16px}
-    .pill-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-    .pill{padding:6px 10px;border-radius:999px;background:var(--brand-50);font-weight:600}
-    /* Sections */
-    section{padding:56px 0}
-    .section-title{font-size:clamp(22px,3vw,28px);font-weight:800;margin:0 0 16px}
-    .section-lead{color:var(--muted);margin:0 0 24px}
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-    .card{background:var(--card);border:1px solid #e5e7eb;border-radius:16px;padding:18px;box-shadow:var(--shadow)}
-    .card h3{margin:4px 0 6px;font-size:18px}
-    .card p{color:var(--muted)}
-    .list{margin:10px 0 0;padding:0 0 0 18px;color:var(--muted)}
-    .banner{background:linear-gradient(180deg,var(--brand-50),#fff);border:1px solid #e5e7eb;border-radius:16px;box-shadow:var(--shadow);padding:18px}
-    /* CTA */
-    .cta-block{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding:22px;border:1px dashed #d1d5db;border-radius:16px}
-    .cta-block strong{font-size:18px}
+    header{position:sticky;top:0;background:#fff;backdrop-filter:saturate(180%) blur(10px);box-shadow:0 1px 0 rgba(2,6,23,.06);z-index:20}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;height:58px}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--ink)}
+    .logo-mark{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#0f766e,#14b8a6);display:grid;place-items:center;color:#fff;font-size:15px;box-shadow:var(--shadow)}
+    .menu{display:flex;gap:10px}
+    .menu a{padding:8px 12px;border-radius:10px;color:var(--ink);font-weight:700}
+    .menu a:hover{background:#f0fdfa}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;border:1px solid #e5e7eb;font-weight:700;color:var(--ink)}
+    .btn.primary{background:var(--brand);color:#fff;border-color:transparent}
+    /* Intro */
+    .intro{padding:36px 0}
+    .lead{color:var(--muted);margin:0}
+    /* Services */
+    section{padding:48px 0}
+    .section-title{font-size:clamp(20px,3vw,26px);font-weight:900;margin:0 0 14px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .card{background:var(--card);border:1px solid #e5e7eb;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+    .card h3{margin:6px 0 6px;font-size:18px}
+    .card p{margin:0;color:var(--muted)}
+    ul.list{margin:8px 0 0;padding:0 0 0 18px;color:var(--muted)}
+    /* Contact */
+    form.card input, form.card select, form.card textarea{width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px}
+    .inline{display:flex;gap:12px;flex-wrap:wrap}
     /* Footer */
-    footer{background:#0b1021;color:#e5e7eb}
-    footer a{color:#c3eadf}
-    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:20px;padding:32px 0}
-    .copy{border-top:1px solid rgba(255,255,255,.12);padding:16px 0;color:#94a3b8}
-    /* Responsive */
-    @media (max-width: 960px){
-      .hero-grid,.grid-3,.grid-2,.footer-grid{grid-template-columns:1fr}
-      .menu{display:none}
-      .nav{height:auto; padding:12px 0}
+    footer{background:#0b1021;color:#cbd5e1}
+    .footer{padding:20px 0}
+    @media (max-width:820px){.grid{grid-template-columns:1fr}.menu{display:none}.nav{height:auto;padding:10px 0}}
+      /* 画像タイトル用の上書き */
+    .title-banner.img{padding:0;background:none;color:#fff}
+    .hero-illustration{display:block;width:100%;height:auto}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media (max-width:540px){
+      .title-banner.img .hero-illustration{min-height:220px}
     }
   </style>
   <script type="application/ld+json">
@@ -80,192 +60,128 @@
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "植村土地家屋調査士・行政書士事務所",
-    "image": ["/images/ogp.jpg"],
     "url": "https://example.com/",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "JP",
-      "addressRegion": "岩手県",
-      "addressLocality": "花巻市",
-      "postalCode": "（郵便番号）",
-      "streetAddress": "（住所を入力）"
-    },
-    "areaServed":["花巻市","北上市","一関市","遠野市","盛岡市"],
+    "address": {"@type":"PostalAddress","addressCountry":"JP","addressRegion":"岩手県","addressLocality":"花巻市","postalCode":"025-0071","streetAddress":"花城町12番6号"},
     "telephone": "（電話番号）",
-    "description": "登記・測量・境界・農地転用・国有地払下げなど。"
+    "areaServed": ["岩手県"],
+    "description": "登記・測量・境界、農地転用・国有地払下げなどを支援"
   }
   </script>
 </head>
 <body>
+  <!-- Title -->
+  <section id="top" class="title-banner img">
+    <div class="container">
+      <h1 class="sr-only">植村土地家屋調査士・行政書士事務所</h1>
+    </div>
+    <!-- 田園風景のイラスト（SVG）-->
+    <svg class="hero-illustration" viewBox="0 0 1200 380" role="img" aria-labelledby="heroTitle heroDesc" preserveAspectRatio="xMidYMid slice">
+      <title id="heroTitle">植村土地家屋調査士・行政書士事務所</title>
+      <desc id="heroDesc">山々と川、田畑が広がる田園風景の背景イラスト</desc>
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#bfe7ff"/>
+          <stop offset="100%" stop-color="#eaf7ff"/>
+        </linearGradient>
+        <linearGradient id="riverGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#9bd3ff"/>
+          <stop offset="100%" stop-color="#6ec7ff"/>
+        </linearGradient>
+        <linearGradient id="fieldGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c9f2c2"/>
+          <stop offset="100%" stop-color="#a7e6a0"/>
+        </linearGradient>
+        <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="rgba(0,0,0,.25)"/>
+        </filter>
+      </defs>
+      <!-- sky -->
+      <rect x="0" y="0" width="1200" height="380" fill="url(#skyGrad)"/>
+      <!-- sun -->
+      <circle cx="980" cy="80" r="36" fill="#ffe58a" opacity="0.9"/>
+      <!-- far mountains -->
+      <path d="M0 210 L140 150 L240 190 L320 140 L420 180 L540 120 L660 180 L760 150 L900 190 L1020 140 L1200 200 L1200 380 L0 380 Z" fill="#a8dfcc"/>
+      <!-- near mountains -->
+      <path d="M0 250 L120 210 L220 250 L340 200 L420 240 L560 190 L680 240 L820 210 L940 250 L1040 220 L1200 260 L1200 380 L0 380 Z" fill="#78cdb6"/>
+      <!-- fields -->
+      <path d="M0 300 C200 280, 280 280, 420 300 S760 340, 1200 300 L1200 380 L0 380 Z" fill="url(#fieldGrad)"/>
+      <!-- river -->
+      <path d="M1200 260 C1000 280, 820 300, 700 330 C560 360, 380 370, 0 360 L0 380 L1200 380 Z" fill="url(#riverGrad)" opacity="0.9"/>
+      <!-- trees (simple) -->
+      <g opacity="0.9">
+        <g transform="translate(190,280)">
+          <rect x="-4" y="10" width="8" height="22" fill="#5a664d"/>
+          <polygon points="0,-10 18,18 -18,18" fill="#2f7d66"/>
+        </g>
+        <g transform="translate(260,286)">
+          <rect x="-3" y="10" width="6" height="20" fill="#5a664d"/>
+          <polygon points="0,-8 14,16 -14,16" fill="#2f7d66"/>
+        </g>
+        <g transform="translate(920,270)">
+          <rect x="-4" y="10" width="8" height="22" fill="#5a664d"/>
+          <polygon points="0,-10 18,18 -18,18" fill="#2f7d66"/>
+        </g>
+      </g>
+      <!-- title text as part of the image -->
+      <g filter="url(#softShadow)">
+        <rect x="120" y="128" rx="14" ry="14" width="960" height="80" fill="rgba(15,118,110,.72)"/>
+        <text x="600" y="180" text-anchor="middle" font-family="'Noto Sans JP', sans-serif" font-weight="900" font-size="30" fill="#ffffff">植村土地家屋調査士・行政書士事務所</text>
+      </g>
+    </svg>
+  </section>
+
   <!-- Header -->
   <header>
-    <div class="container nav" aria-label="トップナビ">
-      <a class="logo" href="#top" aria-label="ホームへ">
-        <span class="logo-mark" aria-hidden>測</span>
-        <span>植村土地家屋調査士・行政書士事務所</span>
-      </a>
-      <nav class="menu" aria-label="主要メニュー">
-        <a href="#services-lhi">土地家屋調査士</a>
-        <a href="#services-gyosei">行政書士</a>
-        <a href="#areas">対応エリア</a>
-        <a href="#about">事務所案内</a>
+    <div class="container nav">
+      <a class="logo" href="#top"><span class="logo-mark">測</span><span>植村事務所</span></a>
+      <nav class="menu" aria-label="メニュー">
+        <a href="#services">業務案内</a>
         <a href="#contact">お問い合わせ</a>
       </nav>
-      <div class="cta">
-        <a class="btn ghost" href="tel:（電話番号）" aria-label="電話で相談">電話</a>
-        <a class="btn primary" href="#contact" aria-label="問い合わせフォームへ">無料相談</a>
-      </div>
+      <a class="btn primary" href="#contact">無料相談</a>
     </div>
   </header>
 
-  <!-- Hero -->
-  <main id="top" class="hero">
-    <div class="container hero-grid">
-      <div>
-        <span class="badge" aria-label="肩書バッジ">土地家屋調査士 × 行政書士｜ワンストップ</span>
-        <h1 class="h1">登記・測量・境界から <br>農地転用・許認可まで。<br>家づくりに欠かせない手続きを丸ごとサポート。</h1>
-        <p class="lead">参考サイト（Jimdo）と同じ導線を保ちつつ、スマホで見やすいワンページ構成に再設計。最短ルートで「いま相談」まで案内します。</p>
-        <div class="pill-list" aria-label="主な取扱業務">
-          <span class="pill">建物表題・新築/増築</span>
-          <span class="pill">土地地目変更・分筆/合筆</span>
-          <span class="pill">境界確定・立会・復元</span>
-          <span class="pill">農地転用（3・4・5条）</span>
-          <span class="pill">国有地払下げ</span>
-        </div>
-        <div class="cta-block" style="margin-top:18px">
-          <div>
-            <strong>平日9:00–18:00／土曜応相談</strong><br>
-            <small>まずは無料で状況ヒアリング。資料がなくてもOKです。</small>
-          </div>
-          <div style="display:flex;gap:10px">
-            <a class="btn primary" href="#contact">フォーム相談</a>
-            <a class="btn ghost" href="https://maps.google.com/?q=岩手県花巻市" target="_blank" rel="noopener">Googleマップ</a>
-          </div>
-        </div>
-      </div>
-      <aside class="hero-card" aria-label="新着情報">
-        <h2 style="margin:0 0 8px;font-size:18px">新着情報</h2>
-        <ul class="list" aria-label="お知らせ">
-          <li>2025-10-01  相談フォームを改善し写真添付に対応しました。</li>
-          <li>2025-09-15  秋の相続・測量無料相談会を開催予定（花巻市）。</li>
-          <li>2025-08-20  農地転用Q&Aを公開しました。</li>
-        </ul>
-      </aside>
-    </div>
-  </main>
-
-  <!-- Services: Land and House Investigator -->
-  <section id="services-lhi">
+  <!-- Intro -->
+  <section class="intro">
     <div class="container">
-      <h2 class="section-title">土地家屋調査士業務</h2>
-      <p class="section-lead">参考サイトの構成（建物・土地・測量・境界）を踏襲し、各業務への導線をカードで整理しました。</p>
-      <div class="grid-3">
+      <p class="lead">登記・測量・境界から、農地転用や国有地払下げまで。必要な手続きを、分かりやすくサポートします。</p>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+      <h2 class="section-title">業務案内</h2>
+      <div class="grid">
         <article class="card">
           <h3>建物に関する登記</h3>
-          <p>表題・滅失・附属建物・区分建物の各手続きを、調査から申請まで一気通貫で対応。</p>
-          <ul class="list">
-            <li>新築・増築・用途変更</li>
-            <li>滅失登記</li>
-            <li>区分建物の登記</li>
-          </ul>
+          <p>建物新築・取壊し・増改築の手続き
+          <ul class="list"><li>建物表題登記</li><li>建物滅失登記</li><li>建物表題変更登記</li>
         </article>
         <article class="card">
           <h3>土地に関する登記</h3>
-          <p>分筆・合筆・地目変更・地積更正など、売買・相続・造成に伴う手続きを支援。</p>
-          <ul class="list">
-            <li>分筆・合筆</li>
-            <li>地目変更</li>
-            <li>地積更正</li>
-          </ul>
+          <p>分筆・合筆・地目変更・地積更正等</p>
+          <ul class="list"><li>分筆・合筆</li><li>地目変更</li><li>地積更正</li></ul>
         </article>
         <article class="card">
           <h3>測量業務</h3>
-          <p>現況・確定・開発測量ほか、ドローン・GNSS等も活用し効率的に実施。</p>
-          <ul class="list">
-            <li>現況測量・境界確定測量</li>
-            <li>開発・造成に係る測量</li>
-            <li>高精度GNSS/RTK対応</li>
-          </ul>
+          <p>現況測量・境界確定測量</p>
+          <ul class="list"><li>現況測量・境界確定測量</li>
         </article>
         <article class="card">
           <h3>境界に関する業務</h3>
-          <p>境界不明・亡失時の復元、官民査定、立会・境界確認書作成まで。</p>
-          <ul class="list">
-            <li>境界復元・立会</li>
-            <li>官民境界査定</li>
-            <li>境界確認書・合意書</li>
-          </ul>
+          <p>境界不明・亡失時の復元、官民境界の確認、立会・境界確認書作成まで。</p>
+          <ul class="list"><li>境界復元・立会</li><li>官民境界境界確認</li><li>境界確認書</li></ul>
         </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services: Gyoseishoshi -->
-  <section id="services-gyosei" style="background:#fbfdfa">
-    <div class="container">
-      <h2 class="section-title">行政書士業務</h2>
-      <p class="section-lead">調査士業務とセットで発生しやすい手続きをワンストップで。</p>
-      <div class="grid-3">
         <article class="card">
           <h3>農地転用（3・4・5条）</h3>
-          <p>事前相談・事業計画書・理由書作成、農業委員会との調整まで一括対応。</p>
+          <p>事前相談から理由書・事業計画書、農業委員会との調整まで。</p>
         </article>
         <article class="card">
-          <h3>国有地払下げ</h3>
-          <p>対象地の特定から協議、申請書類の作成・提出代行まで。</p>
+          <h3>土地の払下げ</h3>
+          <p>対象地の特定から協議、申請書類作成・提出・登記まで</p>
         </article>
-        </div>
-    </div>
-  </section>
-
-  <!-- Areas -->
-  <section id="areas">
-    <div class="container">
-      <h2 class="section-title">対応エリア</h2>
-      <p class="section-lead">花巻・北上・一関・遠野・盛岡など岩手県内を中心に、近隣地域もご相談ください。</p>
-      <div class="banner">
-        <div class="grid-2">
-          <div>
-            <ul class="list">
-              <li>岩手県：花巻市／北上市／一関市／遠野市／盛岡市 ほか</li>
-              <li>近隣：奥州市／金ケ崎町／紫波町 ほか</li>
-            </ul>
-            <p style="margin-top:10px;color:var(--muted)">※出張相談可。オンライン打合せにも対応しています。</p>
-          </div>
-          <div>
-            <iframe title="Googleマップ" style="width:100%;height:260px;border:0;border-radius:12px" loading="lazy" allowfullscreen
-              referrerpolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26217.298!2d141.120!3d39.386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f8572f5c7b3b6af%3A0xXXXXXXXX!2z5bGx5b2i5biC!5e0!3m2!1sja!2sjp!4v1710000000000"></iframe>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section id="about" style="background:#fbfdfa">
-    <div class="container">
-      <h2 class="section-title">事務所案内</h2>
-      <div class="grid-2">
-        <div class="card">
-          <h3>ご挨拶</h3>
-          <p>地域の皆さまの「困った」に寄り添い、手続きをわかりやすく、正確に、スピーディーに。測量から許認可まで、一貫してお任せください。</p>
-          <ul class="list">
-            <li>土地家屋調査士／行政書士：植村 拓也</li>
-            <li>所在地：岩手県花巻市（詳細住所を記載）</li>
-            <li>営業時間：平日9:00–18:00（土曜応相談）</li>
-            <li>登録番号・所属会（必要に応じて記載）</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>よくあるご相談</h3>
-          <ul class="list">
-            <li>家を建てるので、境界をはっきりさせたい</li>
-            <li>相続にともない、土地の分筆と地目変更をしたい</li>
-            <li>農地転用の手続をどこから始めればよいか知りたい</li>
-            <li>国有地の払下げについて段取りを知りたい</li>
-          </ul>
-        </div>
       </div>
     </div>
   </section>
@@ -274,25 +190,24 @@
   <section id="contact">
     <div class="container">
       <h2 class="section-title">お問い合わせ</h2>
-      <p class="section-lead">下記フォームから24時間受付。折り返しご連絡いたします。</p>
-      <form class="card" name="contact" aria-label="お問い合わせフォーム" onsubmit="handleSubmit(event)">
-        <div class="grid-2">
-          <p>
+      <form class="card" onsubmit="handleSubmit(event)" aria-label="お問い合わせフォーム">
+        <div class="inline">
+          <p style="flex:1 1 240px">
             <label for="name">お名前</label><br>
-            <input id="name" name="name" required autocomplete="name" style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px" />
+            <input id="name" name="name" required autocomplete="name" />
           </p>
-          <p>
+          <p style="flex:1 1 240px">
             <label for="phone">電話番号</label><br>
-            <input id="phone" name="phone" inputmode="tel" autocomplete="tel" style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px" />
+            <input id="phone" name="phone" inputmode="tel" autocomplete="tel" />
           </p>
         </div>
         <p>
           <label for="email">メールアドレス</label><br>
-          <input id="email" name="email" type="email" required autocomplete="email" style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px" />
+          <input id="email" name="email" type="email" required autocomplete="email" />
         </p>
         <p>
           <label for="topic">ご相談種別</label><br>
-          <select id="topic" name="topic" style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px">
+          <select id="topic" name="topic">
             <option>測量・境界</option>
             <option>建物の登記</option>
             <option>土地の登記</option>
@@ -303,48 +218,39 @@
         </p>
         <p>
           <label for="message">ご相談内容</label><br>
-          <textarea id="message" name="message" rows="6" required style="width:100%;padding:10px;border:1px solid #e5e7eb;border-radius:10px"></textarea>
+          <textarea id="message" name="message" rows="6" required></textarea>
         </p>
-        <p>
-          <label for="file">参考資料（任意／写真・PDF可）</label><br>
-          <input id="file" name="file" type="file" accept="image/*,.pdf" />
-        </p>
-        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <div class="inline">
           <button class="btn primary" type="submit">送信する</button>
           <span id="formStatus" aria-live="polite" style="color:var(--muted)"></span>
         </div>
       </form>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px">※ デモ動作：送信後にメッセージが表示されます。</p>
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
-    <div class="container footer-grid">
-      <div>
-        <div class="logo" style="color:#e5e7eb"><span class="logo-mark">測</span><span>植村土地家屋調査士・行政書士事務所</span></div>
-        <p style="color:#cbd5e1;max-width:56ch">登記・測量・境界、農地転用・国有地払下げまで、地域密着でサポートします。</p>
-      </div>
-      <div>
-        <h4 style="margin:0 0 6px">所在地</h4>
-        <p style="color:#cbd5e1">岩手県花巻市（住所）<br>平日 9:00–18:00／土曜応相談</p>
-      </div>
-      <div>
-        <h4 style="margin:0 0 6px">連絡先</h4>
-        <p><a href="tel:（電話番号）">（電話番号）</a><br><a href="mailto:（メールアドレス）">（メールアドレス）</a></p>
+    <div class="container footer">
+      <div class="inline" style="justify-content:space-between">
+        <div>
+          <strong>植村土地家屋調査士・行政書士事務所</strong><br>
+          <span>〒025-0071 岩手県花巻市花城町12番6号
+        </div>
+        <div>
+          <a class="btn" href="tel:（電話番号）">お電話</a>
+          <a class="btn" href="mailto:（メールアドレス）">メール</a>
+        </div>
       </div>
     </div>
-    <div class="container copy">© <span id="y"></span> 植村土地家屋調査士・行政書士事務所</div>
   </footer>
 
   <script>
-    // 簡易送信（現状はデモ: 送信成功メッセージのみ）
     function handleSubmit(e){
       e.preventDefault();
-      const s=document.getElementById('formStatus');
-      s.textContent='送信しました。折り返しご連絡いたします。';
+      document.getElementById('formStatus').textContent='送信しました。折り返しご連絡いたします。';
       e.target.reset();
     }
-    document.getElementById('y').textContent=new Date().getFullYear();
   </script>
 </body>
 </html>
