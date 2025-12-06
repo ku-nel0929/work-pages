@@ -14,7 +14,7 @@
             --admin-color: #3b6c9b;   /* 行政書士カラー */
             --text-color: #333;
             --white: #ffffff;
-            --bg-body: #e0e0e0;       /* 背景色（少し濃くして中央を目立たせる） */
+            --bg-body: #e0e0e0;       /* 背景色 */
         }
         
         body {
@@ -23,26 +23,24 @@
             padding: 0;
             color: var(--text-color);
             line-height: 1.6;
-            background-color: var(--bg-body); /* 左右の余白の色 */
+            background-color: var(--bg-body);
         }
 
         a { text-decoration: none; color: inherit; }
         
         /* --- レイアウト共通設定 --- */
-        /* コンテンツの最大幅を統一 */
         .content-width {
             max-width: 1000px;
             margin: 0 auto;
-            background-color: var(--white); /* 中身は白背景 */
+            background-color: var(--white);
         }
 
-        /* --- ヘッダー（1段目の帯） --- */
+        /* --- ヘッダー --- */
         header {
             background-color: var(--primary-color);
             color: var(--white);
             padding: 15px 0;
             text-align: center;
-            /* 幅を制限して中央揃え */
             max-width: 1000px;
             margin: 0 auto;
         }
@@ -52,20 +50,16 @@
             font-weight: bold;
         }
 
-        /* --- メインビジュアル（2段目の帯） --- */
+        /* --- メインビジュアル --- */
         .hero {
             position: relative;
-            /* 幅を制限して中央揃え */
             max-width: 1000px;
             margin: 0 auto;
-            
-            /* 背景画像設定 */
             background-color: #87CEEB;
-            background-image: url('path/to/your-sokkia-image.jpg'); /* ←ここに写真のパス */
+            background-image: url('path/to/your-sokkia-image.jpg'); /* ←画像を反映してください */
             background-size: cover;
             background-position: center;
             height: 500px;
-            
             display: flex;
             align-items: center;
             justify-content: center;
@@ -93,18 +87,12 @@
             line-height: 1.4;
         }
 
-        .hero-content h2 {
-            font-size: 1.5rem;
-            font-weight: normal;
-        }
-
         @media (max-width: 768px) {
             .hero { height: 350px; }
             .hero-content h1 { font-size: 1.5rem; }
         }
 
         /* --- メイン業務選択エリア --- */
-        /* 背景を白にしてコンテンツ幅に合わせる */
         .main-actions-wrapper {
             max-width: 1000px;
             margin: 0 auto;
@@ -113,10 +101,10 @@
         }
 
         .main-actions {
-            margin-top: -50px; /* バナーに被せる */
+            margin-top: -50px;
             position: relative;
             z-index: 10;
-            padding: 0 20px; /* 左右の余白 */
+            padding: 0 20px;
         }
 
         .action-grid {
@@ -139,10 +127,7 @@
             transition: transform 0.2s;
         }
 
-        .action-box:hover {
-            transform: translateY(-5px);
-        }
-
+        .action-box:hover { transform: translateY(-5px); }
         .box-survey { background-color: var(--survey-color); }
         .box-admin { background-color: var(--admin-color); }
 
@@ -182,9 +167,9 @@
             max-width: 1000px;
             margin: 0 auto;
             background-color: var(--white);
-            padding: 60px 20px; /* 上下左右パディング */
+            padding: 60px 20px;
             text-align: center;
-            box-sizing: border-box; /* パディングを幅に含める */
+            box-sizing: border-box;
         }
 
         .section-title {
@@ -237,7 +222,6 @@
             text-align: center;
             padding: 20px 0;
             font-size: 0.9rem;
-            /* 幅を制限して中央揃え */
             max-width: 1000px;
             margin: 0 auto;
         }
@@ -305,7 +289,7 @@
             </table>
 
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3080.565818965721!2d141.1147!3d39.3925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f8f5c6b7b7b7b7b%3A0x0!2zMznCsDIzJzMzLjAiTiAxNDHCsDA2JzUzLjAiRQ!5e0!3m2!1sja!2sjp!4v1600000000000!5m2!1sja!2sjp" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://maps.google.com/maps?q=岩手県花巻市花城町12-6&t=&z=17&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
             </div>
         </section>
     </div>
@@ -313,9 +297,6 @@
     <footer>
         <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
     </footer>
-
-</body>
-</html>
 
 </body>
 </html>
