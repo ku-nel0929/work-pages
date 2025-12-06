@@ -256,24 +256,26 @@
             margin-top: 5px;
         }
 
+        /* 送信ボタンのスタイル */
         .submit-btn {
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
+            padding: 20px 40px;
+            font-size: 1.2rem;
             font-weight: bold;
-            border-radius: 50px;
+            border-radius: 5px;
             cursor: pointer;
             display: block;
-            margin: 30px auto 0;
+            margin: 40px auto 0;
             width: 100%;
-            max-width: 300px;
-            transition: opacity 0.3s;
+            max-width: 400px;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
 
         .submit-btn:hover {
-            opacity: 0.9;
+            background-color: var(--admin-color);
         }
 
         /* 代替手段（Googleフォームボタンなど） */
@@ -399,4 +401,63 @@
 
                 <div class="form-group">
                     <label class="form-label">ご相談の種類（複数選択可） <span class="required-badge">必須</span></label>
-                    <div class="checkbox
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="相談内容[]" value="境界・測量について"> 境界・測量について</label>
+                        <label><input type="checkbox" name="相談内容[]" value="建物の新築・増築・滅失登記"> 建物の新築・増築・滅失登記</label>
+                        <label><input type="checkbox" name="相談内容[]" value="分筆・合筆など土地の登記"> 分筆・合筆など土地の登記</label>
+                        <label><input type="checkbox" name="相談内容[]" value="農地転用"> 農地転用（農地から宅地・駐車場など）</label>
+                        <label><input type="checkbox" name="相談内容[]" value="開発許可・各種許認可"> 開発許可・各種許認可申請</label>
+                        <label><input type="checkbox" name="相談内容[]" value="相続・名義変更"> 相続・名義変更に関するご相談</label>
+                        <label><input type="checkbox" name="相談内容[]" value="その他"> その他</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">対象となる物件について <span class="optional-badge">任意</span></label>
+                    <p class="form-note">分かる範囲でご記入ください。</p>
+                    
+                    <div style="margin-top: 10px;">
+                        <label style="font-weight:bold; font-size:0.9rem;">① 物件の所在地</label>
+                        <input type="text" name="物件所在地" class="form-input-text" placeholder="例：花巻市〇〇町 △△番□□／家屋番号＊＊" style="margin-bottom: 10px;">
+                        
+                        <label style="font-weight:bold; font-size:0.9rem;">② 土地・建物の別</label>
+                        <input type="text" name="土地・建物" class="form-input-text" placeholder="例：土地 ／ 建物 ／ 土地と建物" style="margin-bottom: 10px;">
+                        
+                        <label style="font-weight:bold; font-size:0.9rem;">③ 地目・用途</label>
+                        <input type="text" name="地目・用途" class="form-input-text" placeholder="例：宅地・田・畑・雑種地 ／ 居宅・事務所など">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ご相談内容の詳細 <span class="required-badge">必須</span></label>
+                    <textarea name="詳細" class="form-textarea" placeholder="例）隣地との境界が分からず、ブロック塀を直す前にきちんと確認したい。
+例）中古住宅を購入予定で、登記や農地転用の流れを知りたい。など" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">上記の内容でメールを送信する</button>
+
+            </form>
+            <div class="alternative-contact">
+                <p>※「送信する」を押してもメールソフトが起動しない場合は、以下のボタンをご利用ください。</p>
+                <a href="https://docs.google.com/forms/" target="_blank" class="google-form-btn">
+                    Googleフォームで入力する
+                </a>
+            </div>
+
+            <div class="office-address-simple">
+                <h3>植村 土地家屋調査士・行政書士事務所</h3>
+                <p>〒025-0075 岩手県花巻市花城町12番6号</p>
+                <div class="map-container">
+                    <iframe src="https://maps.google.com/maps?q=岩手県花巻市花城町12-6&t=&z=17&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
+    </footer>
+
+</body>
+</html>
