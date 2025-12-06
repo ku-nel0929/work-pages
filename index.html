@@ -7,7 +7,7 @@
     <meta name="description" content="岩手県花巻市花城町の植村土地家屋調査士・行政書士事務所。測量と行政手続きをワンストップで対応。">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- CSS設定 --- */
+        /* --- 基本設定 --- */
         :root {
             --primary-color: #0f2350; /* 濃いネイビー */
             --survey-color: #c5a059;  /* 調査士カラー */
@@ -29,14 +29,14 @@
 
         a { text-decoration: none; color: inherit; }
         
-        /* コンテンツ幅の設定 */
+        /* --- レイアウト共通設定 --- */
         .content-width {
             max-width: 1000px;
             margin: 0 auto;
             background-color: var(--white);
         }
 
-        /* ヘッダー */
+        /* --- ヘッダー --- */
         header {
             background-color: var(--primary-color);
             color: var(--white);
@@ -51,18 +51,13 @@
             font-weight: bold;
         }
 
-        /* メインビジュアル */
+        /* --- メインビジュアル --- */
         .hero {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
-            background-color: #87CEEB; /* 画像がない時の背景色（空色） */
-            
-            /* ▼▼▼ 画像を設定する場合はここを書き換えてください ▼▼▼ */
-            /* 例: background-image: url('sokkia.jpg'); */
-            background-image: url('path/to/your-sokkia-image.jpg'); 
-            /* ▲▲▲▲▲▲ */
-            
+            background-color: #87CEEB;
+            background-image: url('path/to/your-sokkia-image.jpg'); /* ←画像を反映してください */
             background-size: cover;
             background-position: center;
             height: 500px;
@@ -98,7 +93,7 @@
             .hero-content h1 { font-size: 1.5rem; }
         }
 
-        /* 業務選択ボタンエリア */
+        /* --- メイン業務選択エリア --- */
         .main-actions-wrapper {
             max-width: 1000px;
             margin: 0 auto;
@@ -168,7 +163,7 @@
 
         a.phone-link { text-decoration: none; color: white; display: block; }
 
-        /* お問い合わせフォームエリア */
+        /* --- お問い合わせフォームエリア --- */
         .contact-section {
             max-width: 1000px;
             margin: 0 auto;
@@ -181,280 +176,3 @@
             color: var(--primary-color);
             font-size: 1.8rem;
             margin-bottom: 30px;
-            border-bottom: 2px solid #ddd;
-            display: inline-block;
-            padding-bottom: 10px;
-            text-align: center;
-            width: 100%;
-        }
-
-        .contact-form {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: var(--bg-form);
-            padding: 30px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-
-        .form-group { margin-bottom: 25px; }
-
-        .form-label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: var(--primary-color);
-            border-left: 4px solid var(--survey-color);
-            padding-left: 10px;
-        }
-
-        .required-badge {
-            background-color: #d9534f;
-            color: white;
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 3px;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-        
-        .optional-badge {
-            background-color: #999;
-            color: white;
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 3px;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-
-        .form-input-text, .form-textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 1rem;
-        }
-
-        .form-textarea { height: 150px; resize: vertical; }
-
-        .checkbox-group label {
-            display: block;
-            margin-bottom: 8px;
-            cursor: pointer;
-        }
-        
-        .checkbox-group input {
-            margin-right: 10px;
-            transform: scale(1.2);
-        }
-
-        .form-note {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .submit-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 20px 40px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            margin: 40px auto 0;
-            width: 100%;
-            max-width: 400px;
-            transition: background-color 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        }
-
-        .submit-btn:hover { background-color: var(--admin-color); }
-
-        .alternative-contact {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px dashed #ccc;
-        }
-        
-        .google-form-btn {
-            display: inline-block;
-            background-color: #34a853;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        /* 事務所情報 */
-        .office-address-simple {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            background: #f9f9f9;
-        }
-
-        .map-container {
-            width: 100%;
-            height: 300px;
-            margin-top: 20px;
-            background-color: #eee;
-        }
-        
-        iframe { width: 100%; height: 100%; border: 0; }
-
-        /* フッター */
-        footer {
-            background-color: var(--primary-color);
-            color: #aaa;
-            text-align: center;
-            padding: 20px 0;
-            font-size: 0.9rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="logo">植村 土地家屋調査士・行政書士事務所</div>
-    </header>
-
-    <section class="hero">
-        <div class="hero-content">
-            <h1>家づくり・土地活用。<br>「測量」と「許認可」をワンストップで。</h1>
-        </div>
-    </section>
-
-    <div class="main-actions-wrapper">
-        <section class="main-actions">
-            <div class="action-grid">
-                <div class="action-box box-survey">
-                    <span class="box-title">土地家屋調査士業務</span>
-                    <a href="tel:08072319467" class="phone-link">
-                        <div class="phone-area">
-                            <i class="fa-solid fa-mobile-screen"></i>
-                            <span class="phone-number">080-7231-9467</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="action-box box-admin">
-                    <span class="box-title">行政書士業務</span>
-                    <a href="tel:07066256247" class="phone-link">
-                        <div class="phone-area">
-                            <i class="fa-solid fa-mobile-screen"></i>
-                            <span class="phone-number">070-6625-6247</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="contact-section">
-            <h2 class="section-title">お問い合わせ・ご相談</h2>
-            <p style="text-align: center; margin-bottom: 30px;">
-                以下のフォームにご記入の上、送信ボタンを押してください。<br>
-                ※24時間以内に折り返しご連絡いたします。
-            </p>
-
-            <form action="mailto:info@uemura-office12-6.com" method="post" enctype="text/plain" class="contact-form" autocomplete="off">
-                
-                <h3 style="border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-bottom: 20px;">■ お客様情報</h3>
-                
-                <div class="form-group">
-                    <label class="form-label">お名前 <span class="required-badge">必須</span></label>
-                    <input type="text" name="お名前" class="form-input-text" placeholder="植村 太郎" required autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">フリガナ <span class="required-badge">必須</span></label>
-                    <input type="text" name="フリガナ" class="form-input-text" placeholder="ウエムラ タロウ" required autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">メールアドレス <span class="required-badge">必須</span></label>
-                    <input type="email" name="Email" class="form-input-text" placeholder="info@example.com" required autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">お電話番号 <span class="required-badge">必須</span></label>
-                    <input type="tel" name="電話番号" class="form-input-text" placeholder="090-0000-0000" required autocomplete="off">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">ご住所 <span class="optional-badge">任意</span></label>
-                    <input type="text" name="住所" class="form-input-text" placeholder="岩手県花巻市〇〇町（市区町村まででも可）" autocomplete="off">
-                </div>
-
-                <h3 style="border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-top: 40px; margin-bottom: 20px;">■ ご相談内容</h3>
-
-                <div class="form-group">
-                    <label class="form-label">ご相談の種類（複数選択可） <span class="required-badge">必須</span></label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="相談内容[]" value="境界・測量について"> 境界・測量について</label>
-                        <label><input type="checkbox" name="相談内容[]" value="建物の新築・増築・滅失登記"> 建物の新築・増築・滅失登記</label>
-                        <label><input type="checkbox" name="相談内容[]" value="分筆・合筆など土地の登記"> 分筆・合筆など土地の登記</label>
-                        <label><input type="checkbox" name="相談内容[]" value="農地転用"> 農地転用（農地から宅地・駐車場など）</label>
-                        <label><input type="checkbox" name="相談内容[]" value="開発許可・各種許認可"> 開発許可・各種許認可申請</label>
-                        <label><input type="checkbox" name="相談内容[]" value="相続・名義変更"> 相続・名義変更に関するご相談</label>
-                        <label><input type="checkbox" name="相談内容[]" value="その他"> その他</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">対象となる物件について <span class="optional-badge">任意</span></label>
-                    <p class="form-note">分かる範囲でご記入ください。</p>
-                    <div style="margin-top: 10px;">
-                        <label style="font-weight:bold; font-size:0.9rem;">① 物件の所在地</label>
-                        <input type="text" name="物件所在地" class="form-input-text" placeholder="例：花巻市〇〇町..." style="margin-bottom: 10px;" autocomplete="off">
-                        
-                        <label style="font-weight:bold; font-size:0.9rem;">② 土地・建物の別</label>
-                        <input type="text" name="土地・建物" class="form-input-text" placeholder="例：土地 ／ 建物" style="margin-bottom: 10px;" autocomplete="off">
-                        
-                        <label style="font-weight:bold; font-size:0.9rem;">③ 地目・用途</label>
-                        <input type="text" name="地目・用途" class="form-input-text" placeholder="例：宅地・田・畑" autocomplete="off">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">ご相談内容の詳細 <span class="required-badge">必須</span></label>
-                    <textarea name="詳細" class="form-textarea" placeholder="ご相談内容をご記入ください。" required autocomplete="off"></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">上記の内容でメールを送信する</button>
-            </form>
-
-            <div class="alternative-contact">
-                <p>※「送信する」を押してもメールソフトが起動しない場合は、以下のボタンをご利用ください。</p>
-                <a href="https://docs.google.com/forms/" target="_blank" class="google-form-btn">
-                    Googleフォームで入力する
-                </a>
-            </div>
-
-            <div class="office-address-simple">
-                <h3>植村 土地家屋調査士・行政書士事務所</h3>
-                <p>〒025-0075 岩手県花巻市花城町12番6号</p>
-                <div class="map-container">
-                    <iframe width="100%" height="100%" frameborder="0" style="border:0" src="https://maps.google.co.jp/maps?output=embed&q=岩手県花巻市花城町12-6"></iframe>
-                </div>
-            </div>
-
-        </section>
-    </div>
-
-    <footer>
-        <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
-    </footer>
-
-</body>
-</html>
-
-</body>
-</html>
