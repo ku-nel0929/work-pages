@@ -162,7 +162,7 @@
 
         a.phone-link { text-decoration: none; color: white; display: block; }
 
-        /* --- 事務所概要 --- */
+        /* --- 事務所概要（修正箇所） --- */
         .office-info {
             max-width: 1000px;
             margin: 0 auto;
@@ -200,9 +200,23 @@
             color: #555;
         }
 
-        .email-link {
-            color: var(--admin-color);
+        /* フォームボタン用スタイル */
+        .form-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 10px;
             font-weight: bold;
+        }
+        .form-btn:hover {
+            opacity: 0.8;
+        }
+        .email-note {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
         }
 
         .map-container {
@@ -242,7 +256,6 @@
     <div class="main-actions-wrapper">
         <section class="main-actions">
             <div class="action-grid">
-                
                 <div class="action-box box-survey">
                     <span class="box-title">土地家屋調査士業務</span>
                     <a href="tel:08072319467" class="phone-link">
@@ -252,7 +265,6 @@
                         </div>
                     </a>
                 </div>
-
                 <div class="action-box box-admin">
                     <span class="box-title">行政書士業務</span>
                     <a href="tel:07066256247" class="phone-link">
@@ -262,7 +274,6 @@
                         </div>
                     </a>
                 </div>
-
             </div>
         </section>
 
@@ -279,11 +290,16 @@
                     <td>〒025-0075 岩手県花巻市花城町12番6号</td>
                 </tr>
                 <tr>
-                    <th>メールアドレス</th>
+                    <th>お問い合わせ</th>
                     <td>
-                        <a href="mailto:info@uemura-office12-6.com" class="email-link">
+                        <div style="margin-bottom: 10px;">
                             <i class="fa-regular fa-envelope"></i> info@uemura-office12-6.com
+                        </div>
+                        
+                        <a href="https://docs.google.com/forms/" target="_blank" class="form-btn">
+                            お問い合わせフォームへ
                         </a>
+                        <p class="email-note">※メールソフトが起動しない場合は上記フォームをご利用ください。</p>
                     </td>
                 </tr>
             </table>
