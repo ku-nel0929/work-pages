@@ -15,6 +15,7 @@
             --text-color: #333;
             --white: #ffffff;
             --bg-body: #e0e0e0;       /* 背景色 */
+            --bg-form: #f4f8fb;       /* フォーム背景色 */
         }
         
         body {
@@ -162,13 +163,12 @@
 
         a.phone-link { text-decoration: none; color: white; display: block; }
 
-        /* --- 事務所概要（修正箇所） --- */
-        .office-info {
+        /* --- お問い合わせフォームエリア --- */
+        .contact-section {
             max-width: 1000px;
             margin: 0 auto;
             background-color: var(--white);
             padding: 60px 20px;
-            text-align: center;
             box-sizing: border-box;
         }
 
@@ -179,54 +179,135 @@
             border-bottom: 2px solid #ddd;
             display: inline-block;
             padding-bottom: 10px;
-        }
-
-        .info-table {
+            text-align: center;
             width: 100%;
+        }
+
+        .contact-form {
             max-width: 800px;
-            margin: 0 auto 30px auto;
-            border-collapse: collapse;
-            text-align: left;
+            margin: 0 auto;
+            background-color: var(--bg-form);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
         }
 
-        .info-table th, .info-table td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
+        .form-group {
+            margin-bottom: 25px;
         }
 
-        .info-table th {
-            width: 30%;
-            background-color: #f4f4f4;
-            color: #555;
-        }
-
-        /* フォームボタン用スタイル */
-        .form-btn {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-top: 10px;
+        .form-label {
+            display: block;
             font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            border-left: 4px solid var(--survey-color);
+            padding-left: 10px;
         }
-        .form-btn:hover {
-            opacity: 0.8;
+
+        .required-badge {
+            background-color: #d9534f;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 5px;
+            vertical-align: middle;
         }
-        .email-note {
-            font-size: 0.8rem;
+        
+        .optional-badge {
+            background-color: #999;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        .form-input-text, .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        .form-textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .checkbox-group label, .radio-group label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        
+        .checkbox-group input, .radio-group input {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .form-note {
+            font-size: 0.85rem;
             color: #666;
             margin-top: 5px;
         }
 
-        .map-container {
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
             width: 100%;
-            max-width: 800px;
-            height: 400px;
-            margin: 0 auto;
-            background-color: #eee;
+            max-width: 300px;
+            transition: opacity 0.3s;
         }
 
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* 代替手段（Googleフォームボタンなど） */
+        .alternative-contact {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+        }
+        
+        .google-form-btn {
+            display: inline-block;
+            background-color: #34a853; /* Google Green */
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* 事務所情報（下部） */
+        .office-address-simple {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            margin-top: 20px;
+        }
+        
         iframe { width: 100%; height: 100%; border: 0; }
 
         /* --- フッター --- */
@@ -277,42 +358,45 @@
             </div>
         </section>
 
-        <section class="office-info">
-            <h2 class="section-title">事務所概要</h2>
-            
-            <table class="info-table">
-                <tr>
-                    <th>名称</th>
-                    <td>植村 土地家屋調査士・行政書士事務所</td>
-                </tr>
-                <tr>
-                    <th>所在地</th>
-                    <td>〒025-0075 岩手県花巻市花城町12番6号</td>
-                </tr>
-                <tr>
-                    <th>お問い合わせ</th>
-                    <td>
-                        <div style="margin-bottom: 10px;">
-                            <i class="fa-regular fa-envelope"></i> info@uemura-office12-6.com
-                        </div>
-                        
-                        <a href="https://docs.google.com/forms/" target="_blank" class="form-btn">
-                            お問い合わせフォームへ
-                        </a>
-                        <p class="email-note">※メールソフトが起動しない場合は上記フォームをご利用ください。</p>
-                    </td>
-                </tr>
-            </table>
+        <section class="contact-section">
+            <h2 class="section-title">お問い合わせ・ご相談</h2>
+            <p style="text-align: center; margin-bottom: 30px;">
+                以下のフォームにご記入の上、送信ボタンを押してください。<br>
+                ※24時間以内に折り返しご連絡いたします。
+            </p>
 
-            <div class="map-container">
-                <iframe src="https://maps.google.com/maps?q=岩手県花巻市花城町12-6&t=&z=17&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-            </div>
-        </section>
-    </div>
+            <form action="mailto:info@uemura-office12-6.com" method="post" enctype="text/plain" class="contact-form">
+                
+                <h3 style="border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-bottom: 20px;">■ お客様情報</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">お名前 <span class="required-badge">必須</span></label>
+                    <input type="text" name="お名前" class="form-input-text" placeholder="植村 太郎" required>
+                </div>
 
-    <footer>
-        <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
-    </footer>
+                <div class="form-group">
+                    <label class="form-label">フリガナ <span class="required-badge">必須</span></label>
+                    <input type="text" name="フリガナ" class="form-input-text" placeholder="ウエムラ タロウ" required>
+                </div>
 
-</body>
-</html>
+                <div class="form-group">
+                    <label class="form-label">メールアドレス <span class="required-badge">必須</span></label>
+                    <input type="email" name="Email" class="form-input-text" placeholder="info@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">お電話番号 <span class="required-badge">必須</span></label>
+                    <input type="tel" name="電話番号" class="form-input-text" placeholder="090-0000-0000" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ご住所 <span class="optional-badge">任意</span></label>
+                    <input type="text" name="住所" class="form-input-text" placeholder="岩手県花巻市〇〇町（市区町村まででも可）">
+                </div>
+
+
+                <h3 style="border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-top: 40px; margin-bottom: 20px;">■ ご相談内容</h3>
+
+                <div class="form-group">
+                    <label class="form-label">ご相談の種類（複数選択可） <span class="required-badge">必須</span></label>
+                    <div class="checkbox
