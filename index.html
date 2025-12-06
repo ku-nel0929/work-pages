@@ -10,10 +10,11 @@
         /* --- 基本設定 --- */
         :root {
             --primary-color: #0f2350; /* 濃いネイビー */
-            --survey-color: #c5a059;  /* 調査士カラー（ゴールド系） */
-            --admin-color: #3b6c9b;   /* 行政書士カラー（青系） */
+            --survey-color: #c5a059;  /* 調査士カラー */
+            --admin-color: #3b6c9b;   /* 行政書士カラー */
             --text-color: #333;
             --white: #ffffff;
+            --bg-body: #e0e0e0;       /* 背景色（少し濃くして中央を目立たせる） */
         }
         
         body {
@@ -22,24 +23,28 @@
             padding: 0;
             color: var(--text-color);
             line-height: 1.6;
-            background-color: #f9f9f9;
+            background-color: var(--bg-body); /* 左右の余白の色 */
         }
 
         a { text-decoration: none; color: inherit; }
         
-        /* --- レイアウト --- */
-        .container {
+        /* --- レイアウト共通設定 --- */
+        /* コンテンツの最大幅を統一 */
+        .content-width {
             max-width: 1000px;
             margin: 0 auto;
-            padding: 0 20px;
+            background-color: var(--white); /* 中身は白背景 */
         }
 
-        /* --- ヘッダー --- */
+        /* --- ヘッダー（1段目の帯） --- */
         header {
             background-color: var(--primary-color);
             color: var(--white);
             padding: 15px 0;
             text-align: center;
+            /* 幅を制限して中央揃え */
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         .logo {
@@ -47,15 +52,20 @@
             font-weight: bold;
         }
 
-        /* --- メインビジュアル (バナー) --- */
+        /* --- メインビジュアル（2段目の帯） --- */
         .hero {
             position: relative;
-            /* 背景画像の設定：ご自身のSokkia iX-605の写真を設定してください */
-            background-color: #87CEEB; /* 画像がない時の仮の青空色 */
-            background-image: url('path/to/your-sokkia-image.jpg'); /* ←ここに写真のパスを入れる */
+            /* 幅を制限して中央揃え */
+            max-width: 1000px;
+            margin: 0 auto;
+            
+            /* 背景画像設定 */
+            background-color: #87CEEB;
+            background-image: url('path/to/your-sokkia-image.jpg'); /* ←ここに写真のパス */
             background-size: cover;
             background-position: center;
             height: 500px;
+            
             display: flex;
             align-items: center;
             justify-content: center;
@@ -64,7 +74,6 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
 
-        /* 文字を見やすくするためのオーバーレイ（少し暗くする） */
         .hero::before {
             content: '';
             position: absolute;
@@ -75,6 +84,7 @@
         .hero-content {
             position: relative;
             z-index: 2;
+            padding: 0 20px;
         }
 
         .hero-content h1 {
@@ -91,15 +101,22 @@
         @media (max-width: 768px) {
             .hero { height: 350px; }
             .hero-content h1 { font-size: 1.5rem; }
-            .hero-content h2 { font-size: 1.1rem; }
         }
 
         /* --- メイン業務選択エリア --- */
+        /* 背景を白にしてコンテンツ幅に合わせる */
+        .main-actions-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding-bottom: 60px;
+        }
+
         .main-actions {
-            margin-top: -50px; /* バナーに少し被せる */
+            margin-top: -50px; /* バナーに被せる */
             position: relative;
             z-index: 10;
-            padding-bottom: 60px;
+            padding: 0 20px; /* 左右の余白 */
         }
 
         .action-grid {
@@ -108,14 +125,12 @@
             justify-content: center;
         }
 
-        /* スマホでは縦並び */
         @media (max-width: 768px) {
             .action-grid { flex-direction: column; }
         }
 
         .action-box {
             flex: 1;
-            max-width: 450px;
             padding: 40px 20px;
             border-radius: 8px;
             text-align: center;
@@ -128,20 +143,8 @@
             transform: translateY(-5px);
         }
 
-        /* 土地家屋調査士ボックス */
-        .box-survey {
-            background-color: var(--survey-color);
-        }
-
-        /* 行政書士ボックス */
-        .box-admin {
-            background-color: var(--admin-color);
-        }
-
-        .box-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
+        .box-survey { background-color: var(--survey-color); }
+        .box-admin { background-color: var(--admin-color); }
 
         .box-title {
             font-size: 1.5rem;
@@ -163,10 +166,8 @@
             max-width: 350px;
         }
 
-        .phone-area i {
-            font-size: 1.5rem;
-        }
-
+        .phone-area i { font-size: 1.5rem; }
+        
         .phone-number {
             font-size: 1.6rem;
             font-weight: bold;
@@ -174,18 +175,16 @@
             letter-spacing: 1px;
         }
 
-        /* タップして電話をかけるリンク用 */
-        a.phone-link {
-            text-decoration: none;
-            color: white;
-            display: block;
-        }
+        a.phone-link { text-decoration: none; color: white; display: block; }
 
         /* --- 事務所概要 --- */
         .office-info {
+            max-width: 1000px;
+            margin: 0 auto;
             background-color: var(--white);
-            padding: 60px 0;
+            padding: 60px 20px; /* 上下左右パディング */
             text-align: center;
+            box-sizing: border-box; /* パディングを幅に含める */
         }
 
         .section-title {
@@ -229,11 +228,7 @@
             background-color: #eee;
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
+        iframe { width: 100%; height: 100%; border: 0; }
 
         /* --- フッター --- */
         footer {
@@ -242,49 +237,52 @@
             text-align: center;
             padding: 20px 0;
             font-size: 0.9rem;
+            /* 幅を制限して中央揃え */
+            max-width: 1000px;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <div class="logo">植村 土地家屋調査士・行政書士事務所</div>
-        </div>
+        <div class="logo">植村 土地家屋調査士・行政書士事務所</div>
     </header>
 
     <section class="hero">
         <div class="hero-content">
             <h1>家づくり・土地活用。<br>「測量」と「許認可」をワンストップで。</h1>
-            </div>
-    </section>
-
-    <section class="main-actions">
-        <div class="container action-grid">
-            
-            <div class="action-box box-survey">
-                <span class="box-title">土地家屋調査士業務</span>
-                <a href="tel:08072319467" class="phone-link">
-                    <div class="phone-area">
-                        <i class="fa-solid fa-mobile-screen"></i> <span class="phone-number">080-7231-9467</span>
-                    </div>
-                </a>
-            </div>
-
-            <div class="action-box box-admin">
-                <span class="box-title">行政書士業務</span>
-                <a href="tel:07066256247" class="phone-link">
-                    <div class="phone-area">
-                        <i class="fa-solid fa-mobile-screen"></i> <span class="phone-number">070-6625-6247</span>
-                    </div>
-                </a>
-            </div>
-
         </div>
     </section>
 
-    <section class="office-info">
-        <div class="container">
+    <div class="main-actions-wrapper">
+        <section class="main-actions">
+            <div class="action-grid">
+                
+                <div class="action-box box-survey">
+                    <span class="box-title">土地家屋調査士業務</span>
+                    <a href="tel:08072319467" class="phone-link">
+                        <div class="phone-area">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            <span class="phone-number">080-7231-9467</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="action-box box-admin">
+                    <span class="box-title">行政書士業務</span>
+                    <a href="tel:07066256247" class="phone-link">
+                        <div class="phone-area">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            <span class="phone-number">070-6625-6247</span>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="office-info">
             <h2 class="section-title">事務所概要</h2>
             
             <table class="info-table">
@@ -309,13 +307,11 @@
             <div class="map-container">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3080.565818965721!2d141.1147!3d39.3925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f8f5c6b7b7b7b7b%3A0x0!2zMznCsDIzJzMzLjAiTiAxNDHCsDA2JzUzLjAiRQ!5e0!3m2!1sja!2sjp!4v1600000000000!5m2!1sja!2sjp" allowfullscreen="" loading="lazy"></iframe>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
-        </div>
+        <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
     </footer>
 
 </body>
