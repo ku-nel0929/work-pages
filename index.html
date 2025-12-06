@@ -7,7 +7,7 @@
     <meta name="description" content="岩手県花巻市花城町の植村土地家屋調査士・行政書士事務所。測量と行政手続きをワンストップで対応。">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- 基本設定 --- */
+        /* --- CSS設定 --- */
         :root {
             --primary-color: #0f2350; /* 濃いネイビー */
             --survey-color: #c5a059;  /* 調査士カラー */
@@ -29,14 +29,14 @@
 
         a { text-decoration: none; color: inherit; }
         
-        /* --- レイアウト共通設定 --- */
+        /* コンテンツ幅の設定 */
         .content-width {
             max-width: 1000px;
             margin: 0 auto;
             background-color: var(--white);
         }
 
-        /* --- ヘッダー --- */
+        /* ヘッダー */
         header {
             background-color: var(--primary-color);
             color: var(--white);
@@ -51,13 +51,18 @@
             font-weight: bold;
         }
 
-        /* --- メインビジュアル --- */
+        /* メインビジュアル */
         .hero {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
-            background-color: #87CEEB;
-            background-image: url('path/to/your-sokkia-image.jpg'); /* ←画像を反映してください */
+            background-color: #87CEEB; /* 画像がない時の背景色（空色） */
+            
+            /* ▼▼▼ 画像を設定する場合はここを書き換えてください ▼▼▼ */
+            /* 例: background-image: url('sokkia.jpg'); */
+            background-image: url('path/to/your-sokkia-image.jpg'); 
+            /* ▲▲▲▲▲▲ */
+            
             background-size: cover;
             background-position: center;
             height: 500px;
@@ -93,7 +98,7 @@
             .hero-content h1 { font-size: 1.5rem; }
         }
 
-        /* --- メイン業務選択エリア --- */
+        /* 業務選択ボタンエリア */
         .main-actions-wrapper {
             max-width: 1000px;
             margin: 0 auto;
@@ -163,7 +168,7 @@
 
         a.phone-link { text-decoration: none; color: white; display: block; }
 
-        /* --- お問い合わせフォームエリア --- */
+        /* お問い合わせフォームエリア */
         .contact-section {
             max-width: 1000px;
             margin: 0 auto;
@@ -192,9 +197,7 @@
             border: 1px solid #ddd;
         }
 
-        .form-group {
-            margin-bottom: 25px;
-        }
+        .form-group { margin-bottom: 25px; }
 
         .form-label {
             display: block;
@@ -234,18 +237,15 @@
             font-size: 1rem;
         }
 
-        .form-textarea {
-            height: 150px;
-            resize: vertical;
-        }
+        .form-textarea { height: 150px; resize: vertical; }
 
-        .checkbox-group label, .radio-group label {
+        .checkbox-group label {
             display: block;
             margin-bottom: 8px;
             cursor: pointer;
         }
         
-        .checkbox-group input, .radio-group input {
+        .checkbox-group input {
             margin-right: 10px;
             transform: scale(1.2);
         }
@@ -256,7 +256,6 @@
             margin-top: 5px;
         }
 
-        /* 送信ボタンのスタイル */
         .submit-btn {
             background-color: var(--primary-color);
             color: white;
@@ -274,11 +273,8 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
 
-        .submit-btn:hover {
-            background-color: var(--admin-color);
-        }
+        .submit-btn:hover { background-color: var(--admin-color); }
 
-        /* 代替手段（Googleフォームボタンなど） */
         .alternative-contact {
             text-align: center;
             margin-top: 40px;
@@ -288,7 +284,7 @@
         
         .google-form-btn {
             display: inline-block;
-            background-color: #34a853; /* Google Green */
+            background-color: #34a853;
             color: white;
             padding: 12px 25px;
             border-radius: 5px;
@@ -296,7 +292,7 @@
             margin-top: 10px;
         }
 
-        /* 事務所情報（下部） */
+        /* 事務所情報 */
         .office-address-simple {
             text-align: center;
             margin-top: 50px;
@@ -308,11 +304,12 @@
             width: 100%;
             height: 300px;
             margin-top: 20px;
+            background-color: #eee;
         }
         
         iframe { width: 100%; height: 100%; border: 0; }
 
-        /* --- フッター --- */
+        /* フッター */
         footer {
             background-color: var(--primary-color);
             color: #aaa;
@@ -396,7 +393,6 @@
                     <input type="text" name="住所" class="form-input-text" placeholder="岩手県花巻市〇〇町（市区町村まででも可）" autocomplete="off">
                 </div>
 
-
                 <h3 style="border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-top: 40px; margin-bottom: 20px;">■ ご相談内容</h3>
 
                 <div class="form-group">
@@ -415,28 +411,26 @@
                 <div class="form-group">
                     <label class="form-label">対象となる物件について <span class="optional-badge">任意</span></label>
                     <p class="form-note">分かる範囲でご記入ください。</p>
-                    
                     <div style="margin-top: 10px;">
                         <label style="font-weight:bold; font-size:0.9rem;">① 物件の所在地</label>
-                        <input type="text" name="物件所在地" class="form-input-text" placeholder="例：花巻市〇〇町 △△番□□／家屋番号＊＊" style="margin-bottom: 10px;" autocomplete="off">
+                        <input type="text" name="物件所在地" class="form-input-text" placeholder="例：花巻市〇〇町..." style="margin-bottom: 10px;" autocomplete="off">
                         
                         <label style="font-weight:bold; font-size:0.9rem;">② 土地・建物の別</label>
-                        <input type="text" name="土地・建物" class="form-input-text" placeholder="例：土地 ／ 建物 ／ 土地と建物" style="margin-bottom: 10px;" autocomplete="off">
+                        <input type="text" name="土地・建物" class="form-input-text" placeholder="例：土地 ／ 建物" style="margin-bottom: 10px;" autocomplete="off">
                         
                         <label style="font-weight:bold; font-size:0.9rem;">③ 地目・用途</label>
-                        <input type="text" name="地目・用途" class="form-input-text" placeholder="例：宅地・田・畑・雑種地 ／ 居宅・事務所など" autocomplete="off">
+                        <input type="text" name="地目・用途" class="form-input-text" placeholder="例：宅地・田・畑" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">ご相談内容の詳細 <span class="required-badge">必須</span></label>
-                    <textarea name="詳細" class="form-textarea" placeholder="例）隣地との境界が分からず、ブロック塀を直す前にきちんと確認したい。
-例）中古住宅を購入予定で、登記や農地転用の流れを知りたい。など" required autocomplete="off"></textarea>
+                    <textarea name="詳細" class="form-textarea" placeholder="ご相談内容をご記入ください。" required autocomplete="off"></textarea>
                 </div>
 
                 <button type="submit" class="submit-btn">上記の内容でメールを送信する</button>
-
             </form>
+
             <div class="alternative-contact">
                 <p>※「送信する」を押してもメールソフトが起動しない場合は、以下のボタンをご利用ください。</p>
                 <a href="https://docs.google.com/forms/" target="_blank" class="google-form-btn">
@@ -448,7 +442,7 @@
                 <h3>植村 土地家屋調査士・行政書士事務所</h3>
                 <p>〒025-0075 岩手県花巻市花城町12番6号</p>
                 <div class="map-container">
-                    <iframe src="https://maps.google.com/maps?q=岩手県花巻市花城町12-6&t=&z=17&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                    <iframe width="100%" height="100%" frameborder="0" style="border:0" src="https://maps.google.co.jp/maps?output=embed&q=岩手県花巻市花城町12-6"></iframe>
                 </div>
             </div>
 
