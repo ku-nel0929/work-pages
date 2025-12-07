@@ -14,7 +14,7 @@
             --admin-color: #3b6c9b;   /* 青 */
             --text-color: #333;
             --white: #ffffff;
-            --bg-body: #f0f0f0;       /* 背景色（少し明るいグレー） */
+            --bg-body: #f0f0f0;
             --bg-form: #f9fbfd;
         }
         
@@ -36,21 +36,21 @@
             color: var(--white);
             padding: 15px 0;
             text-align: center;
-            /* 帯の長さを下のコンテンツと同じ(1000px)に制限 */
             max-width: 1000px;
-            margin: 0 auto; /* 中央揃え */
+            margin: 0 auto;
         }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
-        /* --- メインビジュアル（写真エリア） --- */
+        /* --- メインビジュアル --- */
         .hero {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
             background-color: #87CEEB;
             
-            /* ▼▼▼ 「ソキアiX-605と広大な田畑」のイラストに変更しました ▼▼▼ */
-            background-image: url('image_15.png');
+            /* ▼▼▼ ここをWeb上で表示できる画像URLに変更しました ▼▼▼ */
+            /* 田園風景と測量機のイメージ写真（Unsplashのフリー素材） */
+            background-image: url('https://images.unsplash.com/photo-1589987607627-616c54c8407d?q=80&w=2070&auto=format&fit=crop');
             
             background-size: cover;
             background-position: center;
@@ -60,22 +60,21 @@
             justify-content: center;
             text-align: center;
             color: var(--white);
-            /* イラストの雰囲気を壊さないよう、影を少し柔らかく調整 */
-            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
-        /* 文字を読みやすくするための薄いフィルター */
+        /* 文字を読みやすくするためのフィルター */
         .hero::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.15);
+            background: rgba(0, 0, 0, 0.2);
         }
         .hero-content {
             position: relative;
             z-index: 2;
         }
         .hero-content h1 {
-            font-size: 2.2rem; /* 文字を少し大きく強調 */
+            font-size: 2.2rem;
             margin: 0 20px;
             font-weight: bold;
             line-height: 1.4;
@@ -91,14 +90,12 @@
             max-width: 1000px;
             margin: 0 auto;
             background-color: var(--white);
-            /* 上に余白を空けて、ボタンが帯に重ならないようにする */
             padding-top: 50px; 
             padding-bottom: 60px;
         }
 
         /* --- 業務選択ボタン --- */
         .main-actions {
-            /* マージンを0にして重なりを解除 */
             margin-top: 0;
             padding: 0 20px;
         }
@@ -155,7 +152,6 @@
         .form-group { margin-bottom: 20px; }
         .form-label { display: block; font-weight: bold; margin-bottom: 5px; color: var(--primary-color); }
         .required { background: #d9534f; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
-        .optional { background: #999; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
         
         .form-input, .form-textarea {
             width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
@@ -199,7 +195,6 @@
             text-align: center;
             padding: 20px 0;
             font-size: 0.8rem;
-            /* 帯の長さを制限 */
             max-width: 1000px;
             margin: 0 auto;
         }
@@ -248,27 +243,22 @@
         </p>
 
         <form action="https://formspree.io/f/mdkqdjlz" method="POST" class="contact-form" autocomplete="off">
-            
             <div class="form-group">
                 <label class="form-label">お名前 <span class="required">必須</span></label>
                 <input type="text" name="お名前" class="form-input" placeholder="例：植村 太郎" required>
             </div>
-
             <div class="form-group">
                 <label class="form-label">メールアドレス <span class="required">必須</span></label>
                 <input type="email" name="email" class="form-input" placeholder="info@example.com" required>
             </div>
-
             <div class="form-group">
                 <label class="form-label">お電話番号 <span class="required">必須</span></label>
                 <input type="tel" name="電話番号" class="form-input" placeholder="090-0000-0000" required>
             </div>
-
             <div class="form-group">
                 <label class="form-label">ご相談内容 <span class="required">必須</span></label>
                 <textarea name="詳細" class="form-textarea" placeholder="ご相談内容をご記入ください。" required></textarea>
             </div>
-
             <button type="submit" class="submit-btn">送信する</button>
         </form>
 
