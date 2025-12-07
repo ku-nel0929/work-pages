@@ -7,19 +7,19 @@
     <meta name="description" content="岩手県花巻市花城町の植村土地家屋調査士・行政書士事務所。測量と行政手続きをワンストップで対応。">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- 基本設定 --- */
+        /* --- CSS設定 --- */
         :root {
-            --primary-color: #0f2350; /* 濃いネイビー */
-            --survey-color: #c5a059;  /* 調査士カラー */
-            --admin-color: #3b6c9b;   /* 行政書士カラー */
+            --primary-color: #0f2350; /* ネイビー */
+            --survey-color: #c5a059;  /* ゴールド */
+            --admin-color: #3b6c9b;   /* 青 */
             --text-color: #333;
             --white: #ffffff;
-            --bg-body: #e0e0e0;       /* 背景色 */
-            --bg-form: #f4f8fb;       /* フォーム背景色 */
+            --bg-body: #e0e0e0;
+            --bg-form: #f4f8fb;
         }
         
         body {
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            font-family: "Helvetica Neue", Arial, sans-serif;
             margin: 0;
             padding: 0;
             color: var(--text-color);
@@ -28,36 +28,25 @@
         }
 
         a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; height: auto; }
         
-        /* --- レイアウト共通設定 --- */
-        .content-width {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: var(--white);
-        }
-
-        /* --- ヘッダー --- */
+        /* ヘッダー */
         header {
             background-color: var(--primary-color);
             color: var(--white);
             padding: 15px 0;
             text-align: center;
-            max-width: 1000px;
-            margin: 0 auto;
         }
+        .logo { font-size: 1.4rem; font-weight: bold; }
 
-        .logo {
-            font-size: 1.4rem;
-            font-weight: bold;
-        }
-
-        /* --- メインビジュアル --- */
+        /* メインビジュアル */
         .hero {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
             background-color: #87CEEB;
-            background-image: url('path/to/your-sokkia-image.jpg'); /* ←画像を反映してください */
+            /* 画像がある場合はここにパスを指定 */
+            background-image: url('path/to/your-sokkia-image.jpg');
             background-size: cover;
             background-position: center;
             height: 500px;
@@ -68,111 +57,212 @@
             color: var(--white);
             text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.1);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            padding: 0 20px;
-        }
-
-        .hero-content h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
+        .hero-content h1 { font-size: 2rem; margin: 0 20px; }
 
         @media (max-width: 768px) {
-            .hero { height: 350px; }
-            .hero-content h1 { font-size: 1.5rem; }
+            .hero { height: 300px; }
+            .hero-content h1 { font-size: 1.4rem; }
         }
 
-        /* --- メイン業務選択エリア --- */
-        .main-actions-wrapper {
+        /* コンテンツ枠 */
+        .main-wrapper {
             max-width: 1000px;
             margin: 0 auto;
             background-color: var(--white);
             padding-bottom: 60px;
         }
 
+        /* 業務選択ボタン */
         .main-actions {
-            margin-top: -50px;
+            margin-top: -40px;
             position: relative;
             z-index: 10;
             padding: 0 20px;
         }
-
         .action-grid {
             display: flex;
             gap: 20px;
             justify-content: center;
+            flex-wrap: wrap;
         }
-
-        @media (max-width: 768px) {
-            .action-grid { flex-direction: column; }
-        }
-
         .action-box {
             flex: 1;
-            padding: 40px 20px;
+            min-width: 280px;
+            padding: 30px 20px;
             border-radius: 8px;
             text-align: center;
             color: var(--white);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             transition: transform 0.2s;
         }
-
-        .action-box:hover { transform: translateY(-5px); }
+        .action-box:hover { transform: translateY(-3px); }
         .box-survey { background-color: var(--survey-color); }
         .box-admin { background-color: var(--admin-color); }
-
-        .box-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            display: block;
-        }
-
+        
+        .box-title { display: block; font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; }
         .phone-area {
-            background-color: rgba(255,255,255,0.2);
-            padding: 15px;
-            border-radius: 50px;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
-            margin-top: 10px;
-            width: 90%;
-            max-width: 350px;
         }
+        .phone-number { font-size: 1.4rem; font-weight: bold; }
 
-        .phone-area i { font-size: 1.5rem; }
-        
-        .phone-number {
-            font-size: 1.6rem;
-            font-weight: bold;
-            font-family: Arial, sans-serif;
-            letter-spacing: 1px;
-        }
-
-        a.phone-link { text-decoration: none; color: white; display: block; }
-
-        /* --- お問い合わせフォームエリア --- */
+        /* お問い合わせフォーム */
         .contact-section {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: var(--white);
             padding: 60px 20px;
-            box-sizing: border-box;
         }
-
         .section-title {
+            text-align: center;
             color: var(--primary-color);
-            font-size: 1.8rem;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
             margin-bottom: 30px;
+        }
+        .contact-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--bg-form);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-weight: bold; margin-bottom: 5px; color: var(--primary-color); }
+        .required { background: #d9534f; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
+        .optional { background: #999; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
+        
+        .form-input, .form-textarea {
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+        }
+        .form-textarea { height: 120px; }
+        
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+            width: 100%;
+            max-width: 300px;
+        }
+        .submit-btn:hover { opacity: 0.9; }
+
+        /* 事務所情報 */
+        .office-info {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        .map-container {
+            width: 100%;
+            height: 350px;
+            margin-top: 20px;
+            background: #eee;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: #aaa;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">植村 土地家屋調査士・行政書士事務所</div>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>家づくり・土地活用。<br>「測量」と「許認可」をワンストップで。</h1>
+    </div>
+</section>
+
+<div class="main-wrapper">
+    <div class="main-actions">
+        <div class="action-grid">
+            <div class="action-box box-survey">
+                <span class="box-title">土地家屋調査士業務</span>
+                <a href="tel:08072319467">
+                    <div class="phone-area">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                        <span class="phone-number">080-7231-9467</span>
+                    </div>
+                </a>
+            </div>
+            <div class="action-box box-admin">
+                <span class="box-title">行政書士業務</span>
+                <a href="tel:07066256247">
+                    <div class="phone-area">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                        <span class="phone-number">070-6625-6247</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <h2 class="section-title">お問い合わせ・ご相談</h2>
+        <p style="text-align: center; margin-bottom: 20px;">
+            以下のフォームにご記入の上、送信ボタンを押してください。
+        </p>
+
+        <form action="https://formspree.io/f/mdkqdjlz" method="POST" class="contact-form" autocomplete="off">
+            
+            <div class="form-group">
+                <label class="form-label">お名前 <span class="required">必須</span></label>
+                <input type="text" name="お名前" class="form-input" placeholder="例：植村 太郎" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">メールアドレス <span class="required">必須</span></label>
+                <input type="email" name="email" class="form-input" placeholder="info@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">お電話番号 <span class="required">必須</span></label>
+                <input type="tel" name="電話番号" class="form-input" placeholder="090-0000-0000" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">ご相談内容 <span class="required">必須</span></label>
+                <textarea name="詳細" class="form-textarea" placeholder="ご相談内容をご記入ください。" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">送信する</button>
+        </form>
+        
+        <div style="text-align:center; margin-top:30px;">
+            <p style="font-size:0.9rem; color:#666;">※送信できない場合はこちらをご利用ください</p>
+            <a href="https://docs.google.com/forms/" target="_blank" style="color:#34a853; font-weight:bold; text-decoration:underline;">Googleフォームを開く</a>
+        </div>
+
+        <div class="office-info">
+            <h3>植村 土地家屋調査士・行政書士事務所</h3>
+            <p>〒025-0075 岩手県花巻市花城町12番6号</p>
+            <div class="map-container">
+                <iframe src="https://maps.google.co.jp/maps?output=embed&q=岩手県花巻市花城町12-6" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
+</footer>
+
+</body>
+</html>
