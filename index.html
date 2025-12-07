@@ -30,13 +30,12 @@
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; height: auto; }
         
-        /* --- ヘッダー（ここを修正しました） --- */
+        /* --- ヘッダー --- */
         header {
             background-color: var(--primary-color);
             color: var(--white);
             padding: 15px 0;
             text-align: center;
-            /* ▼▼▼ 帯の長さを下のコンテンツと同じ(1000px)に制限 ▼▼▼ */
             max-width: 1000px;
             margin: 0 auto; /* 中央揃え */
         }
@@ -48,11 +47,8 @@
             max-width: 1000px;
             margin: 0 auto;
             background-color: #87CEEB;
-            
-            /* ▼▼▼ 「青空と測量機械」の画像URLを設定しました ▼▼▼ */
-            /* もしご自身でアップロードした画像(sokkia.jpgなど)を使いたい場合は、ここを書き換えてください */
+            /* 「青空と測量機械」の画像URL */
             background-image: url('https://images.unsplash.com/photo-1589987607627-616c54c8407d?q=80&w=2070&auto=format&fit=crop');
-            
             background-size: cover;
             background-position: center;
             height: 500px;
@@ -81,17 +77,20 @@
             .hero-content h1 { font-size: 1.4rem; }
         }
 
-        /* コンテンツ枠 */
+        /* --- コンテンツ枠（修正箇所） --- */
         .main-wrapper {
             max-width: 1000px;
             margin: 0 auto;
             background-color: var(--white);
+            /* ▼▼▼ 上部に余白を追加して、バナーとの間隔を空ける ▼▼▼ */
+            padding-top: 50px; 
             padding-bottom: 60px;
         }
 
-        /* 業務選択ボタン */
+        /* --- 業務選択ボタン（修正箇所） --- */
         .main-actions {
-            margin-top: -40px;
+            /* ▼▼▼ 以前の「margin-top: -40px;」を削除し、0にしました ▼▼▼ */
+            margin-top: 0;
             position: relative;
             z-index: 10;
             padding: 0 20px;
@@ -186,14 +185,13 @@
             background: #eee;
         }
         
-        /* フッター（ここも修正しました） */
+        /* フッター */
         footer {
             background-color: var(--primary-color);
             color: #aaa;
             text-align: center;
             padding: 20px 0;
             font-size: 0.8rem;
-            /* 帯の長さを制限 */
             max-width: 1000px;
             margin: 0 auto;
         }
