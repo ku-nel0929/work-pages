@@ -14,8 +14,8 @@
             --admin-color: #3b6c9b;   /* 青 */
             --text-color: #333;
             --white: #ffffff;
-            --bg-body: #e0e0e0;
-            --bg-form: #f4f8fb;
+            --bg-body: #f0f0f0;
+            --bg-form: #f9fbfd;
         }
         
         body {
@@ -41,17 +41,17 @@
         }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
-        /* --- メインビジュアル（ここを修正） --- */
+        /* --- メインビジュアル --- */
         .hero {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
-            background-color: #87CEEB; /* 画像読み込み前の背景色 */
+            background-color: #87CEEB;
             
-            /* ▼▼▼ 画像の設定 ▼▼▼ */
-            /* 優先1: あなたが保存した画像 (bg-image.png) */
+            /* ▼▼▼ 背景画像の設定 ▼▼▼ */
+            /* 1. ご自身の画像がある場合は 'bg-image.png' を使用 */
+            /* 2. ない場合はネット上のフリー画像を使用 */
             background-image: url('bg-image.png'), 
-            /* 優先2: もし保存した画像がない場合に表示される予備のネット画像 */
                               url('https://images.unsplash.com/photo-1625246333195-58197bd47f3b?q=80&w=2070&auto=format&fit=crop');
             
             background-size: cover;
@@ -64,7 +64,6 @@
             color: var(--white);
             text-shadow: 0 2px 8px rgba(0,0,0,0.7);
         }
-        /* 文字を見やすくするフィルター */
         .hero::before {
             content: '';
             position: absolute;
@@ -148,13 +147,17 @@
         }
         .form-group { margin-bottom: 20px; }
         .form-label { display: block; font-weight: bold; margin-bottom: 5px; color: var(--primary-color); }
-        .required { background: #d9534f; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
         
-        .form-input, .form-textarea {
-            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+        .required { background: #d9534f; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
+        .optional { background: #999; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
+        
+        /* 入力欄のスタイル */
+        .form-input, .form-textarea, .form-select {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem;
         }
         .form-textarea { height: 120px; }
         
+        /* 送信ボタン */
         .submit-btn {
             background-color: var(--primary-color);
             color: white;
@@ -240,22 +243,55 @@
         </p>
 
         <form action="https://formspree.io/f/mdkqdjlz" method="POST" class="contact-form" autocomplete="off">
+            
             <div class="form-group">
                 <label class="form-label">お名前 <span class="required">必須</span></label>
                 <input type="text" name="お名前" class="form-input" placeholder="例：植村 太郎" required>
             </div>
+
             <div class="form-group">
                 <label class="form-label">メールアドレス <span class="required">必須</span></label>
                 <input type="email" name="email" class="form-input" placeholder="info@example.com" required>
             </div>
+
             <div class="form-group">
                 <label class="form-label">お電話番号 <span class="required">必須</span></label>
                 <input type="tel" name="電話番号" class="form-input" placeholder="090-0000-0000" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">土地家屋調査士業務欄 <span class="optional">任意</span></label>
+                <select name="土地家屋調査士業務" class="form-select">
+                    <option value="" selected>▼ 選択してください</option>
+                    
+                    <optgroup label="土地・測量">
+                        <option value="境界確定測量">境界確定測量（隣地との境界確認・立会い）</option>
+                        <option value="現況測量">現況測量（現況・高低差などの測量のみ）</option>
+                        <option value="土地分筆登記">土地分筆登記（土地を分けたい）</option>
+                        <option value="土地合筆登記">土地合筆登記（土地をまとめたい）</option>
+                        <option value="地積更正登記">地積更正登記（登記簿面積と実測面積が違う）</option>
+                        <option value="地目変更登記">地目変更登記（農地→宅地 など）</option>
+                        <option value="官民境界・道路水路払下げ">官民境界・道路／水路払下げに関するご相談</option>
+                    </optgroup>
+
+                    <optgroup label="建物">
+                        <option value="建物表題登記">建物表題登記（新築建物の登記）</option>
+                        <option value="建物滅失登記">建物滅失登記（建物を解体した）</option>
+                        <option value="建物表示変更登記">建物表示変更登記（増築・用途変更・種類変更など）</option>
+                    </optgroup>
+
+                    <optgroup label="その他">
+                        <option value="相続に伴う調査・登記">相続に伴う土地・建物の調査・登記</option>
+                        <option value="見積り・相談のみ">見積り・相談のみ（まだ具体的な内容は決まっていない）</option>
+                        <option value="その他">その他（内容をご相談内容記入欄に記載）</option>
+                    </optgroup>
+                </select>
             </div>
             <div class="form-group">
                 <label class="form-label">ご相談内容 <span class="required">必須</span></label>
                 <textarea name="詳細" class="form-textarea" placeholder="ご相談内容をご記入ください。" required></textarea>
             </div>
+
             <button type="submit" class="submit-btn">送信する</button>
         </form>
 
