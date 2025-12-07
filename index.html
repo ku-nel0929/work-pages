@@ -14,7 +14,7 @@
             --admin-color: #3b6c9b;   /* 青 */
             --text-color: #333;
             --white: #ffffff;
-            --bg-body: #e0e0e0;
+            --bg-body: #e0e0e0;       /* 画面全体の背景色（グレー） */
             --bg-form: #f4f8fb;
         }
         
@@ -24,36 +24,35 @@
             padding: 0;
             color: var(--text-color);
             line-height: 1.6;
-            background-color: var(--bg-body);
+            background-color: var(--bg-body); /* 左右の余白はグレー */
         }
 
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; height: auto; }
         
-        /* --- ヘッダー（修正箇所） --- */
+        /* --- ヘッダー（ここを修正しました） --- */
         header {
             background-color: var(--primary-color);
-            /* 背景色は画面幅いっぱいにする */
-            width: 100%;
-        }
-        /* ヘッダーの中身をコンテンツ幅に合わせるためのコンテナ */
-        .header-inner {
-            max-width: 1000px; /* 他のコンテンツと同じ幅 */
-            margin: 0 auto;    /* 中央揃え */
-            padding: 15px 20px; /* 上下15px, 左右20pxの余白 */
-            text-align: center;
             color: var(--white);
-            box-sizing: border-box; /* paddingを幅に含める */
+            padding: 15px 0;
+            text-align: center;
+            /* ▼▼▼ 帯の長さを下のコンテンツと同じ(1000px)に制限 ▼▼▼ */
+            max-width: 1000px;
+            margin: 0 auto; /* 中央揃え */
         }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
-        /* --- メインビジュアル（修正箇所） --- */
+        /* --- メインビジュアル（写真エリア） --- */
         .hero {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
-            /* ▼▼▼ 背景画像を「青空と測量機械」に変更しました ▼▼▼ */
-            background-image: url('https://images.unsplash.com/photo-1589987607627-616c54c8407d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-color: #87CEEB;
+            
+            /* ▼▼▼ 「青空と測量機械」の画像URLを設定しました ▼▼▼ */
+            /* もしご自身でアップロードした画像(sokkia.jpgなど)を使いたい場合は、ここを書き換えてください */
+            background-image: url('https://images.unsplash.com/photo-1535732759880-bbd5c7265e3f?q=80&w=2664&auto=format&fit=crop');
+            
             background-size: cover;
             background-position: center;
             height: 500px;
@@ -62,19 +61,18 @@
             justify-content: center;
             text-align: center;
             color: var(--white);
-            /* 文字を読みやすくするための影 */
-            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
-        /* 画像の上に少し暗いフィルターをかけて文字を読みやすくする */
+        /* 写真を少し暗くして文字を読みやすくする */
         .hero::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.2); /* 黒色を20%透過で重ねる */
+            background: rgba(0, 0, 0, 0.3);
         }
         .hero-content {
             position: relative;
-            z-index: 2; /* フィルターより上に表示 */
+            z-index: 2;
         }
         .hero-content h1 { font-size: 2rem; margin: 0 20px; font-weight: bold; }
 
@@ -188,21 +186,23 @@
             background: #eee;
         }
         
+        /* フッター（ここも修正しました） */
         footer {
             background-color: var(--primary-color);
             color: #aaa;
             text-align: center;
             padding: 20px 0;
             font-size: 0.8rem;
+            /* 帯の長さを制限 */
+            max-width: 1000px;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="header-inner">
-        <div class="logo">植村 土地家屋調査士・行政書士事務所</div>
-    </div>
+    <div class="logo">植村 土地家屋調査士・行政書士事務所</div>
 </header>
 
 <section class="hero">
@@ -265,7 +265,7 @@
 
             <button type="submit" class="submit-btn">送信する</button>
         </form>
-        
+
         <div class="office-info">
             <h3>植村 土地家屋調査士・行政書士事務所</h3>
             <p>〒025-0075 岩手県花巻市花城町12番6号</p>
