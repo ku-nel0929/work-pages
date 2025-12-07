@@ -14,8 +14,8 @@
             --admin-color: #3b6c9b;   /* 青 */
             --text-color: #333;
             --white: #ffffff;
-            --bg-body: #f0f0f0;
-            --bg-form: #f9fbfd;
+            --bg-body: #e0e0e0;
+            --bg-form: #f4f8fb;
         }
         
         body {
@@ -41,16 +41,18 @@
         }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
-        /* --- メインビジュアル --- */
+        /* --- メインビジュアル（ここを修正） --- */
         .hero {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
-            background-color: #87CEEB;
+            background-color: #87CEEB; /* 画像読み込み前の背景色 */
             
-            /* ▼▼▼ ここをWeb上で表示できる画像URLに変更しました ▼▼▼ */
-            /* 田園風景と測量機のイメージ写真（Unsplashのフリー素材） */
-            background-image: url('https://images.unsplash.com/photo-1589987607627-616c54c8407d?q=80&w=2070&auto=format&fit=crop');
+            /* ▼▼▼ 画像の設定 ▼▼▼ */
+            /* 優先1: あなたが保存した画像 (bg-image.png) */
+            background-image: url('bg-image.png'), 
+            /* 優先2: もし保存した画像がない場合に表示される予備のネット画像 */
+                              url('https://images.unsplash.com/photo-1625246333195-58197bd47f3b?q=80&w=2070&auto=format&fit=crop');
             
             background-size: cover;
             background-position: center;
@@ -60,9 +62,9 @@
             justify-content: center;
             text-align: center;
             color: var(--white);
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
         }
-        /* 文字を読みやすくするためのフィルター */
+        /* 文字を見やすくするフィルター */
         .hero::before {
             content: '';
             position: absolute;
@@ -73,12 +75,7 @@
             position: relative;
             z-index: 2;
         }
-        .hero-content h1 {
-            font-size: 2.2rem;
-            margin: 0 20px;
-            font-weight: bold;
-            line-height: 1.4;
-        }
+        .hero-content h1 { font-size: 2.2rem; margin: 0 20px; font-weight: bold; line-height: 1.4; }
 
         @media (max-width: 768px) {
             .hero { height: 300px; }
