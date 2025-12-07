@@ -30,35 +30,27 @@
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; height: auto; }
         
-        /* --- レイアウト全体設定 --- */
-        /* すべての主要要素の幅を1000pxに統一し、中央揃えにする */
-        .container-width {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
         /* --- ヘッダー --- */
         header {
             background-color: var(--primary-color);
             color: var(--white);
             padding: 15px 0;
             text-align: center;
-            /* 幅を1000pxに制限 */
+            /* 帯の長さを下のコンテンツと同じ(1000px)に制限 */
             max-width: 1000px;
-            margin: 0 auto;
+            margin: 0 auto; /* 中央揃え */
         }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
-        /* --- メインビジュアル --- */
+        /* --- メインビジュアル（写真エリア） --- */
         .hero {
             position: relative;
-            /* 幅を1000pxに制限 */
             max-width: 1000px;
             margin: 0 auto;
-            background-color: #87CEEB; /* 画像がない時の空色 */
+            background-color: #87CEEB;
             
-            /* ▼▼▼ ここに保存したイラスト画像のファイル名を指定 ▼▼▼ */
-            background-image: url('bg-illustration.jpg'); 
+            /* ▼▼▼ 「ソキアiX-605と広大な田畑」のイラストに変更しました ▼▼▼ */
+            background-image: url('image_15.png');
             
             background-size: cover;
             background-position: center;
@@ -68,9 +60,10 @@
             justify-content: center;
             text-align: center;
             color: var(--white);
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            /* イラストの雰囲気を壊さないよう、影を少し柔らかく調整 */
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
         }
-        /* イラストを見やすくするための薄いフィルター */
+        /* 文字を読みやすくするための薄いフィルター */
         .hero::before {
             content: '';
             position: absolute;
@@ -81,14 +74,19 @@
             position: relative;
             z-index: 2;
         }
-        .hero-content h1 { font-size: 2rem; margin: 0 20px; font-weight: bold; }
+        .hero-content h1 {
+            font-size: 2.2rem; /* 文字を少し大きく強調 */
+            margin: 0 20px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
 
         @media (max-width: 768px) {
             .hero { height: 300px; }
-            .hero-content h1 { font-size: 1.4rem; }
+            .hero-content h1 { font-size: 1.5rem; }
         }
 
-        /* --- コンテンツエリア（白い背景） --- */
+        /* --- コンテンツ枠 --- */
         .main-wrapper {
             max-width: 1000px;
             margin: 0 auto;
@@ -101,7 +99,7 @@
         /* --- 業務選択ボタン --- */
         .main-actions {
             /* マージンを0にして重なりを解除 */
-            margin-top: 0; 
+            margin-top: 0;
             padding: 0 20px;
         }
         .action-grid {
@@ -201,7 +199,7 @@
             text-align: center;
             padding: 20px 0;
             font-size: 0.8rem;
-            /* 幅を1000pxに制限 */
+            /* 帯の長さを制限 */
             max-width: 1000px;
             margin: 0 auto;
         }
