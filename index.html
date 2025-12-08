@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <meta name="google-site-verification" content="YdkYdalhqx1MHFQb7aFVKFsD7n2bUpgKDN--q0rWI9E" />
-    
     <title>植村 土地家屋調査士・行政書士事務所 | 岩手県花巻市花城町</title>
     <meta name="description" content="岩手県花巻市花城町の植村土地家屋調査士・行政書士事務所。測量と行政手続きをワンストップで対応。">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,7 +14,7 @@
             --admin-color: #3b6c9b;   /* 青 */
             --text-color: #333;
             --white: #ffffff;
-            --bg-body: #f0f0f0;       /* 背景色 */
+            --bg-body: #e0e0e0;       /* 背景色 */
             --bg-form: #f9fbfd;
         }
         
@@ -39,39 +36,39 @@
             color: var(--white);
             padding: 15px 0;
             text-align: center;
-            /* 帯の幅を1000pxに制限 */
             max-width: 1000px;
             margin: 0 auto; 
         }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
-        /* --- メインビジュアル --- */
+        /* --- メインビジュアル（ここを修正） --- */
         .hero {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
-            background-color: #87CEEB;
+            background-color: #ddd; /* 画像読み込み前の色 */
             
-            /* ▼▼▼ 背景画像の設定 ▼▼▼ */
-            /* 現在はネット上のフリー画像（田園風景）を表示しています */
-            /* ご自身の画像（top-banner.png等）を使う場合は書き換えてください */
-            background-image: url('https://images.unsplash.com/photo-1535732759880-bbd5c7265e3f?q=80&w=2664&auto=format&fit=crop');
+            /* ▼▼▼ 背景画像を、アップロードしていただく測量機の画像に変更 ▼▼▼ */
+            background-image: url('sokkia-bg.png');
             
             background-size: cover;
-            background-position: center;
+            /* 測量機が良い位置に来るように調整（中央寄せ） */
+            background-position: center center;
             height: 500px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             color: var(--white);
-            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9); /* 文字の影を強くして読みやすく */
         }
+        /* 文字を見やすくするためのフィルター（少し濃くしました） */
         .hero::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.25);
+            /* 白い背景の画像なので、黒いフィルターを強めにかけて文字を読めるようにします */
+            background: rgba(0, 0, 0, 0.5);
         }
         .hero-content {
             position: relative;
@@ -225,7 +222,6 @@
                         土地家屋調査士業務 <i class="fa-regular fa-image" style="font-size:0.8em; margin-left:5px;"></i>
                     </span>
                 </a>
-                
                 <a href="tel:08072319467">
                     <div class="phone-area">
                         <i class="fa-solid fa-mobile-screen"></i>
@@ -240,7 +236,6 @@
                         行政書士業務 <i class="fa-regular fa-image" style="font-size:0.8em; margin-left:5px;"></i>
                     </span>
                 </a>
-                
                 <a href="tel:07066256247">
                     <div class="phone-area">
                         <i class="fa-solid fa-mobile-screen"></i>
