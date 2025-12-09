@@ -9,7 +9,7 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": "LegalService",
       "name": "植村 土地家屋調査士・行政書士事務所",
       "image": "https://ku-nel0929.github.io/work-pages/sokkia-bg.png",
       "url": "https://ku-nel0929.github.io/work-pages/",
@@ -39,12 +39,14 @@
         "opens": "09:00",
         "closes": "18:00"
       },
-      "priceRange": "相談無料"
+      "priceRange": "相談無料",
+      "description": "岩手県花巻市の農地転用許可申請、土地の測量・分筆登記なら植村事務所へ。農地法3条・4条・5条の許可申請から開発許可、その後の建物表題登記までワンストップで対応します。"
     }
     </script>
 
-    <title>植村 土地家屋調査士・行政書士事務所 | 岩手県花巻市花城町</title>
-    <meta name="description" content="岩手県花巻市花城町の植村土地家屋調査士・行政書士事務所。測量と行政手続きをワンストップで対応。">
+    <title>農地転用・測量なら | 植村 土地家屋調査士・行政書士事務所（岩手県花巻市）</title>
+    <meta name="description" content="岩手県花巻市で農地転用許可申請（3条/4条/5条）、土地の測量、分筆登記をお考えなら当事務所へ。行政書士と土地家屋調査士のダブルライセンスで、農地を宅地にする手続きをワンストップで解決します。無料相談受付中。">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* --- CSS設定 --- */
@@ -76,7 +78,6 @@
             color: var(--white);
             padding: 15px 0;
             text-align: center;
-            /* 帯の幅を1000pxに制限 */
             max-width: 1000px;
             margin: 0 auto; 
         }
@@ -212,7 +213,7 @@
         }
         .submit-btn:hover { opacity: 0.9; }
 
-        /* --- コラム記事 --- */
+        /* --- コラム記事（SEO対策用） --- */
         .column-section {
             padding: 40px 20px;
             max-width: 900px;
@@ -236,6 +237,23 @@
             font-size: 0.95rem;
             line-height: 1.8;
             color: #444;
+        }
+        
+        /* 農地転用テーブル */
+        .nou-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        .nou-table th, .nou-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .nou-table th {
+            background-color: #f0f0f0;
+            text-align: center;
+            width: 20%;
         }
 
         /* --- 事務所情報 --- */
@@ -279,7 +297,6 @@
 <div class="main-wrapper">
     <div class="main-actions">
         <div class="action-grid">
-            
             <div class="action-box box-survey">
                 <a href="business-guide.png" target="_blank" style="text-decoration:none; color:white;">
                     <span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">
@@ -293,7 +310,6 @@
                     </div>
                 </a>
             </div>
-            
             <div class="action-box box-admin">
                 <a href="admin-guide.png" target="_blank" style="text-decoration:none; color:white;">
                     <span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">
@@ -317,17 +333,14 @@
         </p>
 
         <form action="https://formspree.io/f/mdkqdjlz" method="POST" class="contact-form" autocomplete="off">
-            
             <div class="form-group">
                 <label class="form-label">お名前 <span class="required">必須</span></label>
                 <input type="text" name="お名前" class="form-input" placeholder="例：植村 太郎" required>
             </div>
-
             <div class="form-group">
                 <label class="form-label">メールアドレス <span class="required">必須</span></label>
                 <input type="email" name="email" class="form-input" placeholder="info@example.com" required>
             </div>
-
             <div class="form-group">
                 <label class="form-label">お電話番号 <span class="optional">任意</span></label>
                 <input type="tel" name="電話番号" class="form-input" placeholder="090-0000-0000">
@@ -337,27 +350,24 @@
                 <label class="form-label">土地家屋調査士業務（ドロップダウンリストから選択してください） <span class="optional">任意</span></label>
                 <select name="土地家屋調査士業務" class="form-select">
                     <option value="" selected>▼ 選択してください</option>
-                    
                     <optgroup label="土地・測量">
-                        <option value="境界確定測量">境界確定測量（隣地との境界確認・立会い）</option>
-                        <option value="現況測量">現況測量（現況・高低差などの測量のみ）</option>
-                        <option value="土地分筆登記">土地分筆登記（土地を分けたい）</option>
-                        <option value="土地合筆登記">土地合筆登記（土地をまとめたい）</option>
-                        <option value="地積更正登記">地積更正登記（登記簿面積と実測面積が違う）</option>
-                        <option value="地目変更登記">地目変更登記（農地→宅地 など）</option>
-                        <option value="官民境界・道路水路払下げ">官民境界・道路／水路払下げに関するご相談</option>
+                        <option value="境界確定測量">境界確定測量</option>
+                        <option value="現況測量">現況測量</option>
+                        <option value="土地分筆登記">土地分筆登記</option>
+                        <option value="土地合筆登記">土地合筆登記</option>
+                        <option value="地積更正登記">地積更正登記</option>
+                        <option value="地目変更登記">地目変更登記</option>
+                        <option value="官民境界・道路水路払下げ">官民境界・道路／水路払下げ</option>
                     </optgroup>
-
                     <optgroup label="建物">
-                        <option value="建物表題登記">建物表題登記（新築建物の登記）</option>
-                        <option value="建物滅失登記">建物滅失登記（建物を解体した）</option>
-                        <option value="建物表示変更登記">建物表示変更登記（増築・用途変更・種類変更など）</option>
+                        <option value="建物表題登記">建物表題登記</option>
+                        <option value="建物滅失登記">建物滅失登記</option>
+                        <option value="建物表示変更登記">建物表示変更登記</option>
                     </optgroup>
-
                     <optgroup label="その他">
-                        <option value="相続に伴う調査・登記">相続に伴う土地・建物の調査・登記</option>
-                        <option value="見積り・相談のみ">見積り・相談のみ（まだ具体的な内容は決まっていない）</option>
-                        <option value="その他">その他（内容をご相談内容記入欄に記載）</option>
+                        <option value="相続に伴う調査・登記">相続に伴う調査・登記</option>
+                        <option value="見積り・相談のみ">見積り・相談のみ</option>
+                        <option value="その他">その他</option>
                     </optgroup>
                 </select>
             </div>
@@ -366,13 +376,13 @@
                 <label class="form-label">行政書士業務（ドロップダウンリストから選択してください） <span class="optional">任意</span></label>
                 <select name="行政書士業務" class="form-select">
                     <option value="" selected>▼ 選択してください</option>
-                    <option value="相続手続き全般">相続手続き全般（相続人・財産調査、協議書作成など）</option>
-                    <option value="飲食店・風営法許可">飲食店営業許可／深夜酒類／風俗営業許可</option>
-                    <option value="在留資格・帰化">在留資格変更・更新／永住許可／帰化申請</option>
-                    <option value="外国人雇用手続き">外国人雇用手続き（技能実習生・特定技能など）</option>
-                    <option value="農地転用">農地法関係転用（3条・4条・5条）</option>
-                    <option value="内容証明郵便">内容証明郵便の作成（クレーム・契約解除・売掛金等）</option>
-                    <option value="その他">その他（内容をご相談内容記入欄に記載）</option>
+                    <option value="相続手続き全般">相続手続き全般</option>
+                    <option value="飲食店・風営法許可">飲食店営業許可／風俗営業許可</option>
+                    <option value="在留資格・帰化">在留資格・帰化申請</option>
+                    <option value="外国人雇用手続き">外国人雇用手続き</option>
+                    <option value="農地転用">農地転用（3条・4条・5条）</option>
+                    <option value="内容証明郵便">内容証明郵便</option>
+                    <option value="その他">その他</option>
                 </select>
             </div>
 
@@ -386,35 +396,57 @@
     </div>
 
     <div class="column-section">
-        <h2 class="section-title">よくあるご相談・お役立ち情報</h2>
+        <h2 class="section-title">農地転用・相続・測量のお役立ち情報</h2>
         
         <article class="column-article">
             <h3 class="column-title">
-                <i class="fa-solid fa-book-open"></i> 実家の畑に家を建てたい方へ（農地転用の手続き）
+                <i class="fa-solid fa-book-open"></i> 農地転用許可・届出（3条・4条・5条）について
             </h3>
             <p class="column-text">
-                花巻市で「親の農地にマイホームを建てたい」というご相談が増えています。農地を宅地にするには、農業委員会への<strong>「農地転用許可（または届出）」</strong>が必要です。<br>
-                当事務所では、行政書士としての「農地転用許可申請」から、土地家屋調査士としての「地目変更登記」「建物表題登記」まで、窓口ひとつでワンストップ対応が可能です。
+                花巻市で農地（田んぼや畑）に家を建てたり、駐車場にするには、農業委員会への<strong>「農地転用許可」</strong>が必要です。無許可で転用すると、工事の中止や原状回復命令が出される場合があります。<br>
+                当事務所は、農地転用の手続きから、転用後の「地目変更登記」までを一貫してサポートできます。
+            </p>
+            <table class="nou-table">
+                <tr>
+                    <th>種類</th>
+                    <th>内容</th>
+                    <th>主なケース</th>
+                </tr>
+                <tr>
+                    <td><strong>3条許可</strong></td>
+                    <td>権利移動</td>
+                    <td>農地を農地のまま売買・貸借する場合</td>
+                </tr>
+                <tr>
+                    <td><strong>4条許可</strong></td>
+                    <td>転用</td>
+                    <td>自分の農地を宅地や駐車場にする場合</td>
+                </tr>
+                <tr>
+                    <td><strong>5条許可</strong></td>
+                    <td>転用＋権利移動</td>
+                    <td>農地を買って（借りて）宅地にする場合</td>
+                </tr>
+            </table>
+        </article>
+
+        <article class="column-article">
+            <h3 class="column-title">
+                <i class="fa-solid fa-map-location-dot"></i> 境界確定測量と境界トラブル
+            </h3>
+            <p class="column-text">
+                土地を売却したり、ブロック塀を設置する際、「境界杭が見当たらない」ことは大きなトラブルの原因になります。<br>
+                正しい境界を確定させるためには、土地家屋調査士による<strong>「境界確定測量」</strong>が必要です。隣地所有者様との立会いを行い、永続性のある境界標を設置することで、将来の安心を守ります。
             </p>
         </article>
 
         <article class="column-article">
             <h3 class="column-title">
-                <i class="fa-solid fa-map-location-dot"></i> お隣との境界杭が見当たらない時は？
-            </h3>
-            <p class="column-text">
-                土地を売却したり、ブロック塀を設置したりする際、「境界杭がない」ことは大きなトラブルの原因になります。<br>
-                正しい境界をはっきりさせるためには、土地家屋調査士による<strong>「境界確定測量」</strong>が必要です。お隣の方との立会いを行い、永続性のある境界標を設置することで、将来の安心を守ります。
-            </p>
-        </article>
-
-        <article class="column-article">
-            <h3 class="column-title">
-                <i class="fa-solid fa-users"></i> 相続した土地の「分筆」と「名義変更」
+                <i class="fa-solid fa-users"></i> 相続した土地の「分筆」と手続き
             </h3>
             <p class="column-text">
                 「広い土地を相続したが、兄弟で分けたい」という場合は、土地を物理的に分ける<strong>「分筆登記（ぶんぴつとうき）」</strong>が必要です。<br>
-                当事務所はダブルライセンス事務所ですので、相続関係書類の作成（行政書士業務）から、分筆のための測量・登記（調査士業務）まで一括でお引き受けできます。
+                当事務所はダブルライセンス事務所ですので、相続関係書類の作成（行政書士業務）から、分筆のための測量・登記（調査士業務）まで、別々の事務所へ依頼することなく一括でお引き受けできます。
             </p>
         </article>
     </div>
