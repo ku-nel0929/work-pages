@@ -42,6 +42,7 @@
       "priceRange": "相談無料"
     }
     </script>
+
     <title>植村 土地家屋調査士・行政書士事務所 | 岩手県花巻市花城町</title>
     <meta name="description" content="岩手県花巻市花城町の植村土地家屋調査士・行政書士事務所。測量と行政手続きをワンストップで対応。">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -80,15 +81,14 @@
         }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
-        /* --- メインビジュアル（ここを修正しました） --- */
+        /* --- メインビジュアル --- */
         .hero {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
-            background-color: #87CEEB; /* 画像が読み込まれるまでの背景色 */
+            background-color: #87CEEB;
             
-            /* ▼▼▼ ここで画像を固定しています ▼▼▼ */
-            /* 必ず 'sokkia-bg.png' という名前で画像をアップロードしてください */
+            /* 背景画像（sokkia-bg.png 固定） */
             background-image: url('sokkia-bg.png');
             
             background-size: cover;
@@ -101,12 +101,11 @@
             color: var(--white);
             text-shadow: 0 2px 8px rgba(0,0,0,0.7);
         }
-        /* 画像の上に重ねる暗いフィルター（文字を読みやすくするため） */
         .hero::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.3); /* 0.3の数値を上げるとより暗くなります */
+            background: rgba(0, 0, 0, 0.3);
         }
         .hero-content {
             position: relative;
@@ -212,6 +211,32 @@
         }
         .submit-btn:hover { opacity: 0.9; }
 
+        /* --- コラム記事（新規追加） --- */
+        .column-section {
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .column-article {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .column-title {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .column-text {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
         /* --- 事務所情報 --- */
         .office-info {
             text-align: center;
@@ -260,7 +285,6 @@
                         土地家屋調査士業務 <i class="fa-regular fa-image" style="font-size:0.8em; margin-left:5px;"></i>
                     </span>
                 </a>
-                
                 <a href="tel:08072319467">
                     <div class="phone-area">
                         <i class="fa-solid fa-mobile-screen"></i>
@@ -275,7 +299,6 @@
                         行政書士業務 <i class="fa-regular fa-image" style="font-size:0.8em; margin-left:5px;"></i>
                     </span>
                 </a>
-                
                 <a href="tel:07066256247">
                     <div class="phone-area">
                         <i class="fa-solid fa-mobile-screen"></i>
@@ -359,13 +382,46 @@
 
             <button type="submit" class="submit-btn">送信する</button>
         </form>
+    </div>
 
-        <div class="office-info">
-            <h3>植村 土地家屋調査士・行政書士事務所</h3>
-            <p>〒025-0075 岩手県花巻市花城町12番6号</p>
-            <div class="map-container">
-                <iframe src="https://maps.google.co.jp/maps?output=embed&q=岩手県花巻市花城町12-6" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
+    <div class="column-section">
+        <h2 class="section-title">よくあるご相談・お役立ち情報</h2>
+        
+        <article class="column-article">
+            <h3 class="column-title">
+                <i class="fa-solid fa-book-open"></i> 実家の畑に家を建てたい方へ（農地転用の手続き）
+            </h3>
+            <p class="column-text">
+                花巻市で「親の農地にマイホームを建てたい」というご相談が増えています。農地を宅地にするには、農業委員会への<strong>「農地転用許可（または届出）」</strong>が必要です。<br>
+                当事務所では、行政書士としての「農地転用許可申請」から、土地家屋調査士としての「地目変更登記」「建物表題登記」まで、窓口ひとつでワンストップ対応が可能です。
+            </p>
+        </article>
+
+        <article class="column-article">
+            <h3 class="column-title">
+                <i class="fa-solid fa-map-location-dot"></i> お隣との境界杭が見当たらない時は？
+            </h3>
+            <p class="column-text">
+                土地を売却したり、ブロック塀を設置したりする際、「境界杭がない」ことは大きなトラブルの原因になります。<br>
+                正しい境界をはっきりさせるためには、土地家屋調査士による<strong>「境界確定測量」</strong>が必要です。お隣の方との立会いを行い、永続性のある境界標を設置することで、将来の安心を守ります。
+            </p>
+        </article>
+
+        <article class="column-article">
+            <h3 class="column-title">
+                <i class="fa-solid fa-users"></i> 相続した土地の「分筆」と「名義変更」
+            </h3>
+            <p class="column-text">
+                「広い土地を相続したが、兄弟で分けたい」という場合は、土地を物理的に分ける<strong>「分筆登記（ぶんぴつとうき）」</strong>が必要です。<br>
+                当事務所はダブルライセンス事務所ですので、遺産分割協議書の作成（行政書士業務）から、分筆のための測量・登記（調査士業務）まで一括でお引き受けできます。
+            </p>
+        </article>
+    </div>
+    <div class="office-info">
+        <h3>植村 土地家屋調査士・行政書士事務所</h3>
+        <p>〒025-0075 岩手県花巻市花城町12番6号</p>
+        <div class="map-container">
+            <iframe src="https://maps.google.co.jp/maps?output=embed&q=岩手県花巻市花城町12-6" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
     </div>
 </div>
