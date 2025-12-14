@@ -488,14 +488,21 @@
             <div class="tool-header" style="margin-top:20px;">相続人（配偶者・子）</div>
             <div id="heirsContainer">
                 <div class="family-input-row">
-                    <select class="heir-rel" style="width:80px;">
-                        <option value="配偶者">配偶者</option>
+                    <select class="heir-rel" style="width:90px;" disabled>
+                        <option value="配偶者" selected>配偶者</option>
                     </select>
                     <input type="text" class="heir-name" placeholder="氏名 (例: 植村 花子)" style="flex:1;">
                     <input type="text" class="heir-addr" placeholder="住所" style="flex:2;">
                 </div>
                 <div class="family-input-row">
-                    <select class="heir-rel" style="width:80px;">
+                    <select class="heir-rel" style="width:90px;">
+                        <option value="長男">長男</option>
+                        <option value="二男">二男</option>
+                        <option value="三男">三男</option>
+                        <option value="長女">長女</option>
+                        <option value="二女">二女</option>
+                        <option value="三女">三女</option>
+                        <option value="養子">養子</option>
                         <option value="子">子</option>
                     </select>
                     <input type="text" class="heir-name" placeholder="氏名 (例: 植村 次郎)" style="flex:1;">
@@ -564,14 +571,21 @@
             const canvas = document.getElementById('familyCanvas');
             const ctx = canvas.getContext('2d');
 
-            // 相続人追加ボタン
+            // 相続人追加ボタン（ドロップダウンリストを追加）
             addHeirBtn.addEventListener('click', function() {
                 const div = document.createElement('div');
                 div.className = 'family-input-row';
+                // 一般的な続柄を選択肢に追加
                 div.innerHTML = `
-                    <select class="heir-rel" style="width:80px;">
+                    <select class="heir-rel" style="width:90px;">
+                        <option value="長男">長男</option>
+                        <option value="二男">二男</option>
+                        <option value="三男">三男</option>
+                        <option value="長女">長女</option>
+                        <option value="二女">二女</option>
+                        <option value="三女">三女</option>
+                        <option value="養子">養子</option>
                         <option value="子">子</option>
-                        <option value="配偶者">配偶者</option>
                     </select>
                     <input type="text" class="heir-name" placeholder="氏名" style="flex:1;">
                     <input type="text" class="heir-addr" placeholder="住所" style="flex:2;">
@@ -598,8 +612,13 @@
                     const name = row.querySelector('.heir-name').value;
                     const addr = row.querySelector('.heir-addr').value;
                     if(name) {
-                        if(rel === '配偶者') spouse = { name, addr };
-                        else children.push({ name, addr });
+                        // 配偶者とそれ以外（子たち）で分類
+                        if(rel === '配偶者') {
+                            spouse = { name, addr, rel };
+                        } else {
+                            // relには「長男」「二女」などが入る
+                            children.push({ name, addr, rel });
+                        }
                     }
                 });
 
@@ -629,7 +648,6 @@
                 const centerX = canvas.width / 2;
 
                 // --- 1. 被相続人の描画 ---
-                // 配偶者がいる場合は左に寄せる、いない場合は中央
                 let decedentX = spouse ? centerX - (boxW / 2) - 30 : centerX - (boxW / 2);
                 let decedentY = startY;
 
@@ -638,7 +656,8 @@
                 // --- 2. 配偶者の描画 ---
                 if (spouse) {
                     let spouseX = decedentX + boxW + 60; // 間隔を空ける
-                    drawBox(spouseX, decedentY, boxW, boxH, `配偶者 ${spouse.name}`, "", spouse.addr);
+                    // rel は「配偶者」
+                    drawBox(spouseX, decedentY, boxW, boxH, `${spouse.rel} ${spouse.name}`, "", spouse.addr);
                     
                     // 二重線で結ぶ (=)
                     ctx.beginPath();
@@ -662,8 +681,8 @@
                     // 縦線（親から下へ）
                     const childLevelY = decedentY + boxH + 60;
                     ctx.beginPath();
-                    ctx.moveTo(parentLineCenterX, decedentY + boxH/2 + 3); // 二重線の下から
-                    if(!spouse) ctx.moveTo(parentLineCenterX, decedentY + boxH); // 配偶者なしなら箱の下から
+                    ctx.moveTo(parentLineCenterX, decedentY + boxH/2 + 3);
+                    if(!spouse) ctx.moveTo(parentLineCenterX, decedentY + boxH); 
                     ctx.lineTo(parentLineCenterX, childLevelY - 20);
                     ctx.stroke();
 
@@ -688,7 +707,8 @@
                         ctx.lineTo(cx + boxW/2, cy);
                         ctx.stroke();
 
-                        drawBox(cx, cy, boxW, boxH, `子 ${child.name}`, "", child.addr);
+                        // child.rel には「長男」「二女」などが入っているので、それを表示
+                        drawBox(cx, cy, boxW, boxH, `${child.rel} ${child.name}`, "", child.addr);
                     });
                 }
 
@@ -727,13 +747,12 @@
                その他のツール（年齢・郵便番号）
                ※以前のコードをそのまま維持
                ========================================= */
-            // (ここに以前の年齢計算・郵便番号検索のJSコードが入りますが、
-            // 長くなるため省略せず、上記のHTMLにはすべて含まれています)
+            // (ここに以前の年齢計算・郵便番号検索のJSコードが入ります)
             
             // --- 年齢計算 ---
             const eraSelect = document.getElementById('eraSelect');
             const yearInput = document.getElementById('yearInput');
-            // ... (前回の干支アイコンロジック等は省略せず実装済み) ...
+            // 干支データ
              const zodiacData = [
                 { char: "申 (さる)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z" },
                 { char: "酉 (とり)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" },
@@ -742,7 +761,7 @@
                 { char: "子 (ねずみ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" },
                 { char: "丑 (うし)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z" },
                 { char: "寅 (とら)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z" },
-                { char: "卯 (うさぎ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
+                { char: "卯 (うさぎ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
                 { char: "辰 (たつ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z" },
                 { char: "巳 (へび)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z" },
                 { char: "午 (うま)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
@@ -766,10 +785,9 @@
                 else if (era === 'Reiwa') adYear = inputVal + 2018;
                 else if (era === 'Heisei') adYear = inputVal + 1988;
                 else if (era === 'Showa') adYear = inputVal + 1925;
-                // 省略
-                
-                // (前回の計算ロジックと同じ内容で動作します)
-                 // 和暦文字列
+                else if (era === 'Taisho') adYear = inputVal + 1911;
+                else if (era === 'Meiji') adYear = inputVal + 1867;
+
                 let eraString = "";
                 if (adYear >= 2019) eraString = "令和 " + (adYear - 2018) + "年";
                 else if (adYear >= 1989) eraString = "平成 " + (adYear - 1988) + "年";
@@ -779,13 +797,11 @@
                 else eraString = "明治以前";
                 eraString = eraString.replace(" 1年", " 元年");
 
-                // 年齢
                 const currentYear = new Date().getFullYear();
                 const age = currentYear - adYear;
                 let ageString = age + "歳";
                 if (age < 0) ageString = "生まれていません";
 
-                // 干支
                 const zodiacIndex = adYear % 12;
                 const zodiacInfo = zodiacData[zodiacIndex];
                 const zodiacHtml = `
