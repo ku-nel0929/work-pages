@@ -40,130 +40,187 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* --- 基本設定 --- */
         :root {
-            --primary-color: #0f2350;
-            --survey-color: #c5a059;
-            --admin-color: #3b6c9b;
+            --primary-color: #0f2350; /* ネイビー */
+            --survey-color: #c5a059;  /* ゴールド */
+            --admin-color: #3b6c9b;   /* 青 */
             --text-color: #333;
+            --white: #ffffff;
             --bg-body: #f0f0f0;
+            --bg-form: #f9fbfd;
         }
         
-        body { font-family: "Helvetica Neue", Arial, sans-serif; margin: 0; padding: 0; color: var(--text-color); background-color: var(--bg-body); line-height: 1.6; }
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--bg-body);
+            width: 100%;
+        }
+
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; height: auto; }
         
-        header { background-color: var(--primary-color); color: #fff; padding: 15px 0; text-align: center; }
+        /* --- ヘッダー（帯を全幅にする修正） --- */
+        header {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 15px 0;
+            margin: 0;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
+        /* --- メインビジュアル（帯を全幅にする修正） --- */
         .hero {
+            width: 100%;
+            position: relative;
             background-color: #87CEEB;
             background-image: url('sokkia-bg.png');
-            background-size: cover; background-position: center;
-            height: 400px; display: flex; align-items: center; justify-content: center;
-            text-align: center; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.7);
-            position: relative;
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
         }
-        .hero::before { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.3); }
-        .hero-content { position: relative; z-index: 2; }
-        .hero-content h1 { font-size: 2rem; margin: 0 20px; font-weight: bold; }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .hero-content h1 { font-size: 2.2rem; font-weight: bold; line-height: 1.4; }
 
-        .main-wrapper { max-width: 1000px; margin: 0 auto; background-color: #fff; padding: 40px 0; }
+        /* --- コンテンツ枠 --- */
+        .main-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding-top: 50px; 
+            padding-bottom: 60px;
+        }
 
-        /* ボタン群 */
+        /* --- 業務選択ボタン --- */
         .main-actions { padding: 0 20px; margin-bottom: 40px; }
         .action-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-        .action-box { flex: 1; min-width: 280px; padding: 30px 20px; border-radius: 8px; text-align: center; color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s; }
+        .action-box { flex: 1; min-width: 280px; padding: 30px 20px; border-radius: 8px; text-align: center; color: var(--white); box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s; }
         .action-box:hover { transform: translateY(-3px); }
         .box-survey { background-color: var(--survey-color); }
         .box-admin { background-color: var(--admin-color); }
-        .box-title { font-size: 1.4rem; font-weight: bold; display: block; margin-bottom: 10px; }
+        .box-title { display: block; font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; }
         .phone-area { background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 30px; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
 
-        /* フォーム */
+        /* --- フォーム --- */
         .contact-section { padding: 40px 20px; }
         .section-title { text-align: center; color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 30px; }
-        .contact-form { max-width: 800px; margin: 0 auto; background: #f9fbfd; padding: 30px; border-radius: 8px; border: 1px solid #ddd; }
+        .contact-form { max-width: 800px; margin: 0 auto; background-color: var(--bg-form); padding: 30px; border-radius: 8px; border: 1px solid #ddd; }
         .form-group { margin-bottom: 20px; }
         .form-label { display: block; font-weight: bold; margin-bottom: 5px; color: var(--primary-color); }
         .form-input, .form-textarea, .form-select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem; }
         .form-textarea { height: 120px; }
-        .submit-btn { background-color: var(--primary-color); color: #fff; border: none; padding: 15px 40px; font-size: 1.1rem; font-weight: bold; border-radius: 5px; cursor: pointer; display: block; margin: 30px auto 0; width: 100%; max-width: 300px; }
-        
-        /* ツール共通 */
-        .tool-section { padding: 40px 20px; max-width: 800px; margin: 0 auto 40px; background: #f5f8fc; border-radius: 8px; border: 1px solid #dce4ec; }
-        .tool-box { background: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .submit-btn { background-color: var(--primary-color); color: white; border: none; padding: 15px 40px; font-size: 1.1rem; font-weight: bold; border-radius: 5px; cursor: pointer; display: block; margin: 30px auto 0; width: 100%; max-width: 300px; }
+        .required { background: #d9534f; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
+        .optional { background: #999; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
+
+        /* --- ツール共通 --- */
+        .tool-section { padding: 40px 20px; max-width: 800px; margin: 0 auto 40px; background-color: #f5f8fc; border-radius: 8px; border: 1px solid #dce4ec; }
+        .tool-box { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; }
         .tool-header { text-align: center; margin-bottom: 15px; font-weight: bold; color: var(--primary-color); border-bottom: 1px dashed #ccc; padding-bottom: 10px; }
         .tool-input-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-        .tool-btn { padding: 10px 20px; border-radius: 4px; cursor: pointer; border: none; color: #fff; white-space: nowrap; }
-        .active-btn { background-color: #0f2350; }
-        .inactive-btn { background-color: #999; opacity: 0.8; }
+        .tool-btn { background-color: var(--admin-color); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; white-space: nowrap; }
+        .active-btn { background-color: #0f2350 !important; }
+        .inactive-btn { background-color: #6c757d !important; opacity: 0.8; }
+        
+        .tool-result { background-color: #0f2350; color: white; padding: 20px; border-radius: 5px; }
+        .tool-result-item { margin-bottom: 10px; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px; display: flex; align-items: center; }
+        .tool-result-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .tool-label { font-size: 0.8rem; opacity: 0.8; display: block; min-width: 100px; }
+        .zodiac-icon { width: 28px; height: 28px; margin-left: 10px; fill: #fff; vertical-align: middle; }
 
-        /* 位置図マップエリア（重要：高さ固定） */
-        #mapContainer {
-            width: 100%;
-            height: 500px; /* 高さを明示 */
-            background: #eee;
-            margin-top: 15px;
-            border: 1px solid #ccc;
-            position: relative;
-        }
-        /* Google MapとLeafletの切り替え用 */
-        #googleMapFrame { width: 100%; height: 100%; border: 0; display: block; }
-        #simaLeafletMap { width: 100%; height: 100%; display: none; } /* 初期は非表示 */
-
-        /* ファイルドロップ */
+        /* --- マップ用 --- */
+        #mapContainer { width: 100%; height: 500px; background: #eee; margin-top: 15px; border: 1px solid #ccc; position: relative; }
+        #googleMapFrame, #simaLeafletMap { width: 100%; height: 100%; border: 0; }
         .file-upload-area { border: 3px dashed #ccc; padding: 30px; text-align: center; border-radius: 8px; background: #fafafa; margin-bottom: 15px; cursor: pointer; transition: 0.3s; }
         .file-upload-area:hover { background: #eef4fb; border-color: var(--admin-color); }
 
-        /* 相続図など */
-        .family-input-row { display: flex; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; flex-wrap: wrap; align-items: center; }
-        .family-input-row input, .family-input-row select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-        .btn-add { background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
-        .btn-del { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+        /* --- 相続図 --- */
+        .family-input-row { display: flex; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; align-items: center; flex-wrap: wrap; }
+        .family-input-row input, .family-input-row select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; min-width: 0; }
+        .btn-add { background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+        .btn-del { background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
         #canvasContainer { text-align: center; overflow-x: auto; margin-top: 20px; display: none; }
+        canvas { max-width: 100%; height: auto; }
 
-        /* 印刷設定 */
+        /* --- コラム --- */
+        .column-section { padding: 40px 20px; max-width: 900px; margin: 0 auto; }
+        .column-article { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        .column-title { color: var(--primary-color); font-size: 1.4rem; margin-bottom: 10px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .column-text { font-size: 0.95rem; line-height: 1.8; color: #444; }
+        .nou-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        .nou-table th, .nou-table td { border: 1px solid #ccc; padding: 10px; }
+        .nou-table th { background-color: #f0f0f0; text-align: center; width: 20%; }
+
+        /* --- 印刷設定 --- */
         #printHeader { display: none; }
         @media print {
             @page { size: A4 portrait; margin: 5mm; }
-            body { background: #fff; height: 100vh; overflow: hidden; }
-            body > * { display: none !important; } /* 全て隠す */
-            .main-wrapper { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
-            /* 印刷対象のツールボックスのみ表示 */
-            .tool-section, .tool-box { display: block !important; border: none !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; }
+            body { background: white !important; height: 100vh; margin: 0 !important; padding: 0 !important; width: 100% !important; }
+            body > * { display: none !important; }
+            .main-wrapper { display: block !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
             
-            /* マップ以外の要素を隠す */
             header, footer, .hero, .main-actions, .contact-section, .column-section, .office-info,
             .tool-section > h2, .tool-section > p, 
             .tool-box > *:not(#mapContainer):not(#printHeader),
-            #tabChiban, #tabSima, .file-upload-area, #simaStatus {
+            #tabChiban, #tabSima, .file-upload-area, #simaStatus, .tool-input-group {
                 display: none !important;
             }
-
-            /* 印刷ヘッダー表示 */
-            #printHeader { display: block !important; border-bottom: 2px solid #000; margin-bottom: 10px; }
+            .tool-section, .tool-box { border: none !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
+            #printHeader { display: block !important; width: 100%; margin-bottom: 5mm; border-bottom: 2px solid #000; padding-bottom: 2mm; }
             #printHeader h1 { font-size: 24pt; margin: 0; }
-            #printHeader p { font-size: 14pt; margin: 5px 0; }
-
-            /* マップを最大化 */
-            #mapContainer { height: 260mm !important; border: 2px solid #000 !important; }
-            
-            /* プロット(点)を隠す */
+            #printHeader p { font-size: 16pt; margin: 2mm 0 0 0; }
+            #mapContainer { display: block !important; height: 260mm !important; border: 2px solid #000 !important; box-sizing: border-box !important; }
             .sima-marker { display: none !important; }
         }
 
         @media (max-width: 600px) {
-            .family-input-row input { width: 100%; margin-top: 5px; }
+            .family-input-row { gap: 5px; }
+            .heir-rel { flex-basis: 35%; }
+            .heir-name { flex: 1; }
+            .heir-addr { flex-basis: 100% !important; margin-top: 5px; width: 100%; }
+            .btn-del { margin-left: auto; }
+            .hero { height: 300px; }
+            .hero-content h1 { font-size: 1.5rem; }
         }
+
         .office-info { text-align: center; margin-top: 50px; padding: 20px; background: #f9f9f9; }
-        .map-frame { width: 100%; height: 300px; background: #eee; margin-top: 20px; }
-        footer { background: var(--primary-color); color: #aaa; text-align: center; padding: 20px 0; font-size: 0.8rem; }
+        footer { background-color: var(--primary-color); color: #aaa; text-align: center; padding: 20px 0; font-size: 0.8rem; width: 100%; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">植村 土地家屋調査士・行政書士事務所</div>
+    <div class="header-inner">
+        <div class="logo">植村 土地家屋調査士・行政書士事務所</div>
+    </div>
 </header>
 
 <section class="hero">
@@ -176,57 +233,87 @@
     <div class="main-actions">
         <div class="action-grid">
             <div class="action-box box-survey">
-                <a href="business-guide.png" target="_blank"><span class="box-title" style="text-decoration:underline; color:#fff;">土地家屋調査士業務</span></a>
-                <div class="phone-area"><i class="fa-solid fa-mobile-screen"></i> 080-7231-9467</div>
+                <a href="business-guide.png" target="_blank" style="text-decoration:none; color:white;">
+                    <span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">
+                        土地家屋調査士業務 <i class="fa-regular fa-image" style="font-size:0.8em;"></i>
+                    </span>
+                </a>
+                <a href="tel:08072319467">
+                    <div class="phone-area">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                        <span class="phone-number">080-7231-9467</span>
+                    </div>
+                </a>
             </div>
             <div class="action-box box-admin">
-                <a href="admin-guide.png" target="_blank"><span class="box-title" style="text-decoration:underline; color:#fff;">行政書士業務</span></a>
-                <div class="phone-area"><i class="fa-solid fa-mobile-screen"></i> 070-6625-6247</div>
+                <a href="admin-guide.png" target="_blank" style="text-decoration:none; color:white;">
+                    <span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">
+                        行政書士業務 <i class="fa-regular fa-image" style="font-size:0.8em;"></i>
+                    </span>
+                </a>
+                <a href="tel:07066256247">
+                    <div class="phone-area">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                        <span class="phone-number">070-6625-6247</span>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
 
     <div class="contact-section">
-        <h2 class="section-title">お問い合わせ</h2>
-        <form action="https://formspree.io/f/mdkqdjlz" method="POST" class="contact-form">
+        <h2 class="section-title">お問い合わせ・ご相談</h2>
+        <form action="https://formspree.io/f/mdkqdjlz" method="POST" class="contact-form" autocomplete="off">
             <div class="form-group"><label class="form-label">お名前 <span class="required">必須</span></label><input type="text" name="お名前" class="form-input" required></div>
             <div class="form-group"><label class="form-label">メールアドレス <span class="required">必須</span></label><input type="email" name="email" class="form-input" required></div>
+            <div class="form-group"><label class="form-label">お電話番号 <span class="optional">任意</span></label><input type="tel" name="電話番号" class="form-input"></div>
             <div class="form-group"><label class="form-label">ご相談内容 <span class="required">必須</span></label><textarea name="詳細" class="form-textarea" required></textarea></div>
             <button type="submit" class="submit-btn">送信する</button>
         </form>
     </div>
 
+    <div class="column-section">
+        <h2 class="section-title">お役立ち情報</h2>
+        <article class="column-article">
+            <h3 class="column-title" style="color:#d9534f;"><i class="fa-solid fa-triangle-exclamation"></i> 【重要】相続登記義務化</h3>
+            <p class="column-text">2024年4月より相続登記が義務化されました。放置すると過料の対象となる可能性があります。</p>
+        </article>
+        </div>
+
     <div class="tool-section">
         <h2 class="section-title">【便利ツール】現場位置図検索</h2>
         <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
-            地番検索(Google)、またはSIMAファイル読込(地理院地図)で位置図を表示します。
+            地番検索、またはSIMAファイルから地図を表示します。<br>
+            <small style="color:#d9534f;">※地番はGoogleマップのデータに依存します。SIMAは世界測地系(第10系)対応。</small>
         </p>
         
-        <div class="tool-box">
+        <div class="tool-box" id="mapToolBox">
             <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;">
-                <button type="button" class="tool-btn active-btn" id="tabChiban" onclick="setMode('chiban')">地番から検索</button>
-                <button type="button" class="tool-btn inactive-btn" id="tabSima" onclick="setMode('sima')">SIMAから特定</button>
+                <button type="button" class="tool-btn active-btn" id="tabChiban" onclick="switchMapMode('chiban')">地番から検索</button>
+                <button type="button" class="tool-btn inactive-btn" id="tabSima" onclick="switchMapMode('sima')">SIMAから特定</button>
             </div>
 
-            <div id="ctrlChiban">
+            <div id="modeChiban">
                 <div class="tool-input-group">
                     <input type="text" id="mapCity" class="form-input" placeholder="市町村 (例: 花巻市)" value="花巻市" style="flex:1;">
                     <input type="text" id="mapTown" class="form-input" placeholder="町名・大字" style="flex:1;">
                     <input type="text" id="mapLot" class="form-input" placeholder="地番" style="flex:1;">
                 </div>
-                <div style="text-align:center;"><button class="tool-btn active-btn" id="searchMapBtn">地図を表示</button></div>
+                <div style="text-align:center; margin-bottom:10px;">
+                    <button type="button" id="showMapBtn" class="tool-btn">地図を表示</button>
+                </div>
             </div>
 
-            <div id="ctrlSima" style="display:none;">
+            <div id="modeSima" style="display:none;">
                 <div class="file-upload-area" id="dropArea" onclick="document.getElementById('simaFile').click()">
-                    <i class="fa-solid fa-file-arrow-up" style="font-size:2rem; color:#aaa;"></i><br>
-                    <span style="font-weight:bold; color:#0f2350;">SIMAファイルをここにドロップ</span><br>
-                    <span style="font-size:0.8rem; color:#666;">またはクリックして選択</span>
+                    <i class="fa-solid fa-file-arrow-up" style="font-size:2rem; color:#aaa; margin-bottom:10px;"></i><br>
+                    <span style="font-size:0.95rem; font-weight:bold; color:#0f2350;">SIMAファイルをドロップ</span><br>
+                    <span style="font-size:0.85rem; color:#666;">またはクリックして選択</span>
                     <input type="file" id="simaFile" accept=".sim,.sima,.txt" style="display:none;">
                 </div>
-                <div id="simaStatus" style="text-align:center; font-size:0.9rem; margin-bottom:10px; color:#0f2350; font-weight:bold;"></div>
+                <div id="simaStatus" style="text-align:center; font-size:0.9rem; color:#0f2350; font-weight:bold; margin-bottom:10px;"></div>
             </div>
-
+            
             <div id="printHeader">
                 <h1>位置図</h1>
                 <p>所在：<span id="printLocation"></span></p>
@@ -236,9 +323,9 @@
                 <iframe id="googleMapFrame" src="https://maps.google.co.jp/maps?q=花巻市&output=embed&t=m&z=13" frameborder="0" allowfullscreen></iframe>
                 <div id="simaLeafletMap"></div>
             </div>
-
+            
             <div style="text-align:center; margin-top:15px;">
-                <button class="tool-btn" style="background-color:#c5a059;" onclick="printMap()">
+                <button type="button" id="printMapBtn" class="tool-btn" style="background-color:#c5a059;">
                     <i class="fa-solid fa-print"></i> 位置図作成 (PDF保存・印刷)
                 </button>
             </div>
@@ -246,275 +333,311 @@
     </div>
 
     <div class="tool-section">
-        <h2 class="section-title">【便利ツール】坪 ⇔ 平米 ⇔ 畳</h2>
+        <h2 class="section-title">【便利ツール】坪 ⇔ 平米(㎡) ⇔ 畳 換算</h2>
         <div class="tool-box">
-            <div class="family-input-row"><span class="tool-label">坪数</span><input type="number" id="tsubo" class="form-input"></div>
-            <div class="family-input-row"><span class="tool-label">平米</span><input type="number" id="heibei" class="form-input"></div>
-            <div class="family-input-row"><span class="tool-label">畳数</span><input type="number" id="jou" class="form-input"></div>
+            <div class="family-input-row"><span class="tool-label">坪数</span><input type="number" id="tsuboInput" class="form-input"></div>
+            <div class="family-input-row"><span class="tool-label">平米</span><input type="number" id="m2Input" class="form-input"></div>
+            <div class="family-input-row"><span class="tool-label">畳数</span><input type="number" id="joInput" class="form-input"></div>
         </div>
     </div>
 
     <div class="tool-section">
-        <h2 class="section-title">【便利ツール】登録免許税 (概算)</h2>
+        <h2 class="section-title">【便利ツール】登録免許税 (概算) 計算</h2>
         <div class="tool-box">
-            <div class="family-input-row"><span class="tool-label">評価額</span><input type="number" id="taxVal" class="form-input" placeholder="円"></div>
-            <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
-                <button class="tool-btn active-btn" onclick="calcTax(0.004)">保存(0.4%)</button>
-                <button class="tool-btn active-btn" onclick="calcTax(0.02)">移転(2.0%)</button>
-                <button class="tool-btn active-btn" onclick="calcTax(0.004)">抵当(0.4%)</button>
+            <div class="family-input-row"><span class="tool-label">評価額</span><input type="number" id="taxValue" class="form-input" placeholder="円"></div>
+            <div style="display:flex; gap:10px; margin-top:10px; justify-content:center;">
+                <button class="tool-btn" onclick="calcTax(0.004, '所有権保存')">保存 (0.4%)</button>
+                <button class="tool-btn" onclick="calcTax(0.02, '所有権移転')">移転 (2.0%)</button>
+                <button class="tool-btn" onclick="calcTax(0.004, '抵当権設定')">抵当権 (0.4%)</button>
             </div>
-            <div id="taxRes" style="text-align:center; margin-top:15px; font-size:1.2rem; font-weight:bold; color:#c5a059;">---</div>
+            <div id="taxResult" style="background:#f9f9f9; padding:10px; margin-top:15px; text-align:center;">---</div>
         </div>
     </div>
 
     <div class="tool-section">
-        <h2 class="section-title">【無料ツール】相続関係説明図</h2>
+        <h2 class="section-title">【無料ツール】相続関係説明図メーカー</h2>
         <div class="tool-box">
             <div class="tool-header">被相続人</div>
-            <div class="family-input-row"><input type="text" id="decName" placeholder="氏名" style="flex:1;"><input type="text" id="decDate" placeholder="死亡日" style="flex:1;"></div>
-            <div class="tool-header">相続人</div>
-            <div id="heirRows">
-                <div class="family-input-row"><select disabled><option>配偶者</option></select><input type="text" id="spName" placeholder="氏名" style="flex:1;"></div>
+            <div class="family-input-row"><input type="text" id="decedentName" placeholder="氏名" style="flex:2;"><input type="text" id="decedentDate" placeholder="死亡日" style="flex:2;"></div>
+            <div class="family-input-row"><input type="text" id="decedentAddress" placeholder="住所" style="flex:4;"></div>
+            <div class="tool-header" style="margin-top:20px;">相続人</div>
+            <div id="heirsContainer">
+                <div class="family-input-row"><select class="heir-rel" disabled><option>配偶者</option></select><input type="text" class="heir-name" placeholder="氏名"><input type="text" class="heir-addr" placeholder="住所"></div>
             </div>
-            <div style="text-align:right;"><button class="btn-add" onclick="addHeir()">＋子を追加</button></div>
-            <div style="text-align:center; margin-top:10px;"><button class="tool-btn active-btn" onclick="drawFam()">図を作成</button></div>
+            <div style="text-align:right; margin:10px 0;"><button type="button" class="btn-add" id="addHeirBtn">＋追加</button></div>
+            <div style="text-align:center;"><button class="tool-btn" id="genMapBtn">作成</button> <button class="tool-btn" id="downloadMapBtn" style="display:none; bg-color:#c5a059;">保存</button></div>
         </div>
-        <div id="canvasContainer"><canvas id="famCanvas" width="800" height="600"></canvas></div>
+        <div id="canvasContainer" style="display:none;"><canvas id="familyCanvas" width="800" height="600"></canvas></div>
     </div>
 
     <div class="tool-section">
-        <h2 class="section-title">郵便番号 ↔ 住所</h2>
+        <h2 class="section-title">【便利ツール】西暦・和暦・年齢・干支</h2>
         <div class="tool-box">
-            <div class="tool-input-group"><input type="text" id="zipIn" class="form-input" placeholder="0250075"><button class="tool-btn active-btn" onclick="searchZip()">住所検索</button></div>
-            <div id="zipOut" style="padding:5px;"></div>
-            <div class="tool-input-group" style="margin-top:10px;"><input type="text" id="addrIn" class="form-input" placeholder="住所"><button class="tool-btn" style="background:#4285F4; color:#fff;" onclick="searchAddr()">Google検索</button></div>
+            <div class="tool-input-group">
+                <select id="eraSelect" class="form-select"><option value="AD">西暦</option><option value="Reiwa">令和</option><option value="Heisei">平成</option><option value="Showa">昭和</option></select>
+                <input type="number" id="yearInput" class="form-input" placeholder="年">
+            </div>
+            <div class="tool-result">
+                <div class="tool-result-item"><span class="tool-label">西暦</span><span id="resAD">---</span></div>
+                <div class="tool-result-item"><span class="tool-label">和暦</span><span id="resEra">---</span></div>
+                <div class="tool-result-item"><span class="tool-label">年齢</span><span id="resAge">---</span></div>
+                <div class="tool-result-item"><span class="tool-label">干支</span><span id="resZodiac">---</span></div>
+            </div>
         </div>
     </div>
 
+    <div class="tool-section" style="margin-top:-20px;">
+        <h2 class="section-title">【便利ツール】郵便番号 ↔ 住所</h2>
+        <div class="tool-box">
+            <div class="tool-header">郵便番号 <i class="fa-solid fa-arrow-right"></i> 住所</div>
+            <div class="tool-input-group"><input type="text" id="zipInput" class="form-input"><button id="zipSearchBtn" class="tool-btn">検索</button></div>
+            <div id="zipResult" style="padding:10px;"></div>
+        </div>
+        <div class="tool-box">
+            <div class="tool-header">住所 <i class="fa-solid fa-arrow-right"></i> 郵便番号</div>
+            <div class="tool-input-group"><input type="text" id="addrInput" class="form-input"><button id="addrSearchBtn" class="tool-btn" style="bg-color:#4285F4;">検索</button></div>
+        </div>
+    </div>
+    
     <script>
-        // --- 1. マップ機能 ---
-        let map = null; // Leafletインスタンス
-        let simaLayer = null;
-        let currentMode = 'chiban';
-        let printLabel = "";
+        // --- 関数定義 ---
+        function calcTax(rate, typeName) {
+            const val = parseInt(document.getElementById('taxValue').value);
+            const res = document.getElementById('taxResult');
+            if(!val || val<=0) { res.innerHTML='<span style="color:red">数値を入力してください</span>'; return; }
+            const base = Math.floor(val/1000)*1000;
+            let t = Math.floor(base*rate); t = Math.floor(t/100)*100; if(t<1000) t=1000;
+            res.innerHTML = `<strong>${typeName}</strong><br><span style="font-size:1.4rem; color:#c5a059;">約 ${t.toLocaleString()} 円</span>`;
+        }
 
-        function setMode(mode) {
-            currentMode = mode;
-            document.getElementById('tabChiban').className = mode==='chiban' ? 'tool-btn active-btn' : 'tool-btn inactive-btn';
-            document.getElementById('tabSima').className = mode==='sima' ? 'tool-btn active-btn' : 'tool-btn inactive-btn';
-            
-            const gMap = document.getElementById('googleMapFrame');
-            const lMap = document.getElementById('simaLeafletMap');
-            const ctrl1 = document.getElementById('ctrlChiban');
-            const ctrl2 = document.getElementById('ctrlSima');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Leaflet & State
+            let leafletMap = null; 
+            let simaLayerGroup = null; 
+            let currentMode = "chiban"; 
+            let currentQueryOrCoord = "";
 
-            if(mode === 'chiban') {
-                gMap.style.display = 'block';
-                lMap.style.display = 'none';
-                ctrl1.style.display = 'block';
-                ctrl2.style.display = 'none';
-            } else {
-                gMap.style.display = 'none';
-                lMap.style.display = 'block';
-                ctrl1.style.display = 'none';
-                ctrl2.style.display = 'block';
+            const showMapBtn = document.getElementById('showMapBtn');
+            const printMapBtn = document.getElementById('printMapBtn');
+            const googleMapFrame = document.getElementById('googleMapFrame');
+            const simaLeafletMapDiv = document.getElementById('simaLeafletMap');
+            const printLocation = document.getElementById('printLocation');
+
+            // --- マップモード切替 ---
+            window.switchMapMode = function(mode) {
+                currentMode = mode;
+                const btnChiban = document.getElementById('tabChiban');
+                const btnSima = document.getElementById('tabSima');
                 
-                // Leaflet初期化 & サイズ更新 (重要)
-                if(!map) initLeaflet();
-                setTimeout(() => { map.invalidateSize(); }, 200);
-            }
-        }
-
-        // GoogleMap検索
-        document.getElementById('searchMapBtn').addEventListener('click', function() {
-            const city = document.getElementById('mapCity').value;
-            const town = document.getElementById('mapTown').value;
-            const lot = document.getElementById('mapLot').value;
-            if(!city || !town) { alert("市町村と町名を入力してください"); return; }
-            
-            const q = `${city} ${town} ${lot}`;
-            printLabel = q;
-            document.getElementById('googleMapFrame').src = `https://maps.google.co.jp/maps?q=${encodeURIComponent(q)}&output=embed&t=m&z=17`;
-        });
-
-        // Leaflet初期化
-        function initLeaflet() {
-            // 平面直角座標系10系 (岩手)
-            if(typeof proj4 !== 'undefined') {
-                proj4.defs("EPSG:6678", "+proj=tmerc +lat_0=40 +lon_0=140.8333333333333 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs");
-            }
-            
-            const gsiStd = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {attribution: '地理院タイル'});
-            const gsiOrt = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg', {attribution: '地理院タイル'});
-            
-            map = L.map('simaLeafletMap', {
-                center: [39.3905, 141.1186],
-                zoom: 15,
-                layers: [gsiStd]
-            });
-            
-            L.control.layers({"標準地図": gsiStd, "航空写真": gsiOrt}).addTo(map);
-            simaLayer = L.layerGroup().addTo(map);
-        }
-
-        // SIMA読込
-        const simaInput = document.getElementById('simaFile');
-        const dropArea = document.getElementById('dropArea');
-        const status = document.getElementById('simaStatus');
-
-        function handleFile(file) {
-            setMode('sima'); // 強制的にSIMA画面へ
-            status.textContent = "読み込み中...";
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const text = e.target.result;
-                const lines = text.split(/\r\n|\n/);
-                const points = [];
-                let minX = 9e9, maxX = -9e9, minY = 9e9, maxY = -9e9;
-
-                // 座標抽出ロジック
-                lines.forEach(line => {
-                    const parts = line.trim().split(/[\s,]+/);
-                    for(let i=0; i<parts.length-1; i++) {
-                        const v1 = parseFloat(parts[i]);
-                        const v2 = parseFloat(parts[i+1]);
-                        // 日本の座標系範囲チェック (X,Yどちらも1000~1000000の範囲)
-                        if(!isNaN(v1) && !isNaN(v2) && Math.abs(v1)>1000 && Math.abs(v2)>1000) {
-                            // 座標とみなす (X=v1, Y=v2)
-                            if(v1 < minX) minX = v1; if(v1 > maxX) maxX = v1;
-                            if(v2 < minY) minY = v2; if(v2 > maxY) maxY = v2;
-                            
-                            // 変換 (EPSG:6678 -> WGS84) Proj4は[Y, X]
-                            try {
-                                const wgs = proj4("EPSG:6678", "WGS84", [v2, v1]);
-                                points.push([wgs[1], wgs[0]]); // Leafletは[Lat, Lon]
-                            } catch(err){}
-                            break; // 1行1点
-                        }
+                if(mode === 'chiban') {
+                    document.getElementById('modeChiban').style.display = 'block';
+                    document.getElementById('modeSima').style.display = 'none';
+                    googleMapFrame.style.display = 'block';
+                    simaLeafletMapDiv.style.display = 'none';
+                    btnChiban.className = 'tool-btn active-btn';
+                    btnSima.className = 'tool-btn inactive-btn';
+                } else {
+                    document.getElementById('modeChiban').style.display = 'none';
+                    document.getElementById('modeSima').style.display = 'block';
+                    googleMapFrame.style.display = 'none';
+                    simaLeafletMapDiv.style.display = 'block'; // 表示オン
+                    btnSima.className = 'tool-btn active-btn';
+                    btnChiban.className = 'tool-btn inactive-btn';
+                    
+                    // Leafletの描画サイズ再計算 (重要)
+                    if(leafletMap) {
+                        setTimeout(() => { leafletMap.invalidateSize(); }, 100);
                     }
-                });
-
-                if(points.length === 0) {
-                    status.textContent = "座標データが見つかりませんでした。";
-                    alert("座標データが見つかりませんでした。\nSIMAファイル(第10系)か確認してください。");
-                    return;
                 }
-
-                simaLayer.clearLayers();
-                
-                // ポリゴン (薄い赤)
-                const poly = L.polygon(points, {color: '#FF6666', weight: 3, fillOpacity: 0.2}).addTo(simaLayer);
-                
-                // プロット (印刷時はクラスで消す)
-                points.forEach(p => {
-                    L.circleMarker(p, {radius: 3, color: 'blue', className: 'sima-marker'}).addTo(simaLayer);
-                });
-
-                map.fitBounds(poly.getBounds());
-                status.textContent = `読込完了: ${points.length}点`;
-                printLabel = ""; // SIMA時は空欄
-                
-                // 地図サイズ再調整
-                setTimeout(() => { map.invalidateSize(); }, 200);
             };
-            reader.readAsText(file, "Shift_JIS");
-        }
 
-        simaInput.addEventListener('change', e => { if(e.target.files[0]) handleFile(e.target.files[0]); });
-        
-        dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.style.background='#eef4fb'; });
-        dropArea.addEventListener('dragleave', e => { e.preventDefault(); dropArea.style.background='#fafafa'; });
-        dropArea.addEventListener('drop', e => { 
-            e.preventDefault(); 
-            dropArea.style.background='#fafafa';
-            if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
-        });
-
-        // 印刷
-        function printMap() {
-            document.getElementById('printLocation').textContent = printLabel;
-            alert("【印刷のコツ】\n・用紙サイズ：A4\n・向き：縦\n\nに設定して印刷またはPDF保存してください。");
-            window.print();
-        }
-        window.printMap = printMap; // グローバル公開
-
-        // --- 2. 坪平米 ---
-        const tsubo = document.getElementById('tsubo');
-        const heibei = document.getElementById('heibei');
-        const jou = document.getElementById('jou');
-        const T=3.30578, J=1.6562;
-        tsubo.oninput = function(){ const v=parseFloat(this.value); if(v){heibei.value=(v*T).toFixed(2); jou.value=((v*T)/J).toFixed(2);} };
-        heibei.oninput = function(){ const v=parseFloat(this.value); if(v){tsubo.value=(v/T).toFixed(2); jou.value=(v/J).toFixed(2);} };
-        jou.oninput = function(){ const v=parseFloat(this.value); if(v){heibei.value=(v*J).toFixed(2); tsubo.value=((v*J)/T).toFixed(2);} };
-
-        // --- 3. 登録免許税 ---
-        window.calcTax = function(rate) {
-            const v = parseInt(document.getElementById('taxVal').value);
-            if(!v) return;
-            const base = Math.floor(v/1000)*1000;
-            let tax = Math.floor(base*rate);
-            tax = Math.floor(tax/100)*100;
-            if(tax<1000) tax=1000;
-            document.getElementById('taxRes').innerText = "約 " + tax.toLocaleString() + " 円";
-        };
-
-        // --- 4. 相続図 ---
-        window.addHeir = function() {
-            const div = document.createElement('div');
-            div.className = 'family-input-row';
-            div.innerHTML = `<select class="heir-rel" style="width:90px;"><option>子</option><option>長男</option><option>二男</option><option>長女</option></select><input class="heir-name" placeholder="氏名" style="flex:1;"><button class="btn-del" onclick="this.parentElement.remove()">×</button>`;
-            document.getElementById('heirRows').appendChild(div);
-        };
-        window.drawFam = function() {
-            const c = document.getElementById('famCanvas');
-            const ctx = c.getContext('2d');
-            const dName = document.getElementById('decName').value || "被相続人";
-            const sName = document.getElementById('spName').value;
-            
-            document.getElementById('canvasContainer').style.display='block';
-            ctx.fillStyle="#fff"; ctx.fillRect(0,0,800,600);
-            ctx.fillStyle="#000"; ctx.strokeStyle="#000"; ctx.font="bold 16px sans-serif";
-            
-            // 簡易描画
-            ctx.fillText("相続関係説明図", 30, 40);
-            ctx.strokeRect(300, 100, 150, 60);
-            ctx.fillText(dName, 310, 135);
-            
-            if(sName) {
-                ctx.strokeRect(500, 100, 150, 60);
-                ctx.fillText(sName, 510, 135);
-                ctx.beginPath(); ctx.moveTo(450,125); ctx.lineTo(500,125); ctx.moveTo(450,135); ctx.lineTo(500,135); ctx.stroke();
+            // A. 地番検索
+            if (showMapBtn) {
+                showMapBtn.addEventListener('click', function() {
+                    const city = document.getElementById('mapCity').value;
+                    const town = document.getElementById('mapTown').value;
+                    const lot = document.getElementById('mapLot').value;
+                    if (!city || !town) { alert("市町村と町名を入力してください"); return; }
+                    const query = `${city} ${town} ${lot}`;
+                    currentQueryOrCoord = query;
+                    const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; 
+                    googleMapFrame.src = embedUrl;
+                });
             }
-            
-            // 子の描画（簡易）
-            const kids = document.querySelectorAll('#heirRows .heir-name');
-            let startX = 200;
-            kids.forEach((k, i) => {
-                if(i===0) return; // 配偶者スキップ
-                if(k.value) {
-                    ctx.strokeRect(startX, 250, 120, 60);
-                    ctx.fillText(k.value, startX+10, 285);
-                    ctx.beginPath(); ctx.moveTo(400,160); ctx.lineTo(startX+60,250); ctx.stroke();
-                    startX += 140;
+
+            // B. SIMAファイル読込
+            const simaFile = document.getElementById('simaFile');
+            const simaStatus = document.getElementById('simaStatus');
+            const dropArea = document.getElementById('dropArea');
+
+            function initLeaflet() {
+                if(leafletMap) return;
+                const gsiTile = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', { attribution: "地理院" });
+                const gsiPhoto = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg', { attribution: "地理院" });
+                leafletMap = L.map('simaLeafletMap', { center: [39.3905, 141.1186], zoom: 15, layers: [gsiTile] });
+                L.control.layers({ "標準地図": gsiTile, "航空写真": gsiPhoto }).addTo(leafletMap);
+                simaLayerGroup = L.layerGroup().addTo(leafletMap);
+            }
+
+            if (simaFile && dropArea) {
+                if(typeof proj4 !== 'undefined') {
+                    proj4.defs("EPSG:6678", "+proj=tmerc +lat_0=40 +lon_0=140.8333333333333 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs");
                 }
-            });
-        };
 
-        // --- 5. 郵便番号 ---
-        window.searchZip = function() {
-            const z = document.getElementById('zipIn').value.replace('-','');
-            if(z.length!=7) return;
-            fetch('https://zipcloud.ibsnet.co.jp/api/search?zipcode='+z).then(r=>r.json()).then(d=>{
-                document.getElementById('zipOut').innerText = d.results ? d.results[0].address1+d.results[0].address2+d.results[0].address3 : "該当なし";
-            });
-        };
-        window.searchAddr = function() {
-            const a = document.getElementById('addrIn').value;
-            if(a) window.open('https://www.google.com/search?q='+encodeURIComponent(a)+'+郵便番号');
-        };
+                dropArea.addEventListener('dragover', function(e) { e.preventDefault(); this.style.background = '#eef4fb'; }, false);
+                dropArea.addEventListener('dragleave', function(e) { e.preventDefault(); this.style.background = '#fafafa'; }, false);
+                dropArea.addEventListener('drop', function(e) { 
+                    e.preventDefault(); 
+                    this.style.background = '#fafafa';
+                    if(e.dataTransfer.files.length > 0) { 
+                        simaFile.files = e.dataTransfer.files; 
+                        readSima(e.dataTransfer.files[0]); 
+                    }
+                }, false);
 
-    });
+                simaFile.addEventListener('change', function(e) { if(e.target.files[0]) readSima(e.target.files[0]); });
+
+                function readSima(file) {
+                    simaStatus.textContent = "読み込み中...";
+                    
+                    // 自動でモード切替 & 初期化
+                    switchMapMode('sima');
+                    initLeaflet();
+
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        const text = evt.target.result;
+                        const lines = text.split(/\r\n|\n/);
+                        const points = [];
+                        let minX = 9e9, maxX = -9e9, minY = 9e9, maxY = -9e9;
+
+                        // SIMA読込
+                        lines.forEach(line => {
+                            const parts = line.trim().split(/[\s,]+/);
+                            for(let i=0; i<parts.length-1; i++) {
+                                const v1 = parseFloat(parts[i]); 
+                                const v2 = parseFloat(parts[i+1]); 
+                                if(!isNaN(v1) && !isNaN(v2) && Math.abs(v1)>1000 && Math.abs(v2)>1000) {
+                                    if(v1 < minX) minX = v1; if(v1 > maxX) maxX = v1;
+                                    if(v2 < minY) minY = v2; if(v2 > maxY) maxY = v2;
+                                    try {
+                                        const wgs = proj4("EPSG:6678", "WGS84", [v2, v1]); 
+                                        points.push([wgs[1], wgs[0]]);
+                                    } catch(e){}
+                                    break; 
+                                }
+                            }
+                        });
+
+                        if(points.length === 0) {
+                            simaStatus.textContent = "座標データなし";
+                            alert("座標が見つかりませんでした。");
+                            return;
+                        }
+
+                        simaLayerGroup.clearLayers();
+                        
+                        const poly = L.polygon(points, {color: '#FF6666', weight: 3, fillOpacity:0.2}).addTo(simaLayerGroup);
+                        points.forEach(p => L.circleMarker(p, {radius:3, color:'blue', className:'sima-marker'}).addTo(simaLayerGroup));
+                        
+                        leafletMap.fitBounds(poly.getBounds());
+                        simaStatus.textContent = `描画完了: ${points.length}点`;
+                        currentQueryOrCoord = ""; // SIMA時は空欄
+                        
+                        // 地図再描画（念のため再度）
+                        setTimeout(() => { leafletMap.invalidateSize(); }, 300);
+                    };
+                    reader.readAsText(file, "Shift_JIS");
+                }
+            }
+
+            // 印刷機能
+            if (printMapBtn) {
+                printMapBtn.onclick = function() {
+                    printLocation.textContent = currentQueryOrCoord;
+                    alert("【印刷のコツ】\n・用紙サイズ：A4\n・向き：縦\n・ヘッダー/フッター：オフ");
+                    window.print();
+                };
+            }
+
+            // --- 2.坪平米 ---
+            const tsuboInput=document.getElementById('tsuboInput');
+            const m2Input=document.getElementById('m2Input');
+            const joInput=document.getElementById('joInput');
+            if(tsuboInput){
+                const T=3.30578, J=1.6562;
+                tsuboInput.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){m2Input.value=(v*T).toFixed(2);joInput.value=((v*T)/J).toFixed(2)}else{m2Input.value='';joInput.value=''} });
+                m2Input.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){tsuboInput.value=(v/T).toFixed(2);joInput.value=(v/J).toFixed(2)}else{tsuboInput.value='';joInput.value=''} });
+                joInput.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){m2Input.value=(v*J).toFixed(2);tsuboInput.value=((v*J)/T).toFixed(2)}else{tsuboInput.value='';m2Input.value=''} });
+            }
+
+            // --- 4.相続図 ---
+            const genMapBtn=document.getElementById('genMapBtn');
+            if(genMapBtn){
+                const addBtn=document.getElementById('addHeirBtn'), heirsCont=document.getElementById('heirsContainer'), dlBtn=document.getElementById('downloadMapBtn'), cvsCont=document.getElementById('canvasContainer'), canvas=document.getElementById('familyCanvas'), ctx=canvas.getContext('2d');
+                addBtn.onclick=function(){const d=document.createElement('div');d.className='family-input-row';d.innerHTML=`<select class="heir-rel" style="width:90px;"><option>長男</option><option>二男</option><option>長女</option><option>二女</option><option>子</option></select><input class="heir-name" placeholder="氏名" style="flex:1;"><input class="heir-addr" placeholder="住所" style="flex:2;"><button class="btn-del" onclick="this.parentElement.remove()">×</button>`;heirsCont.appendChild(d)};
+                genMapBtn.onclick=function(){
+                    const decName=document.getElementById('decedentName').value||"被相続人", decDate=document.getElementById('decedentDate').value||"", decAddr=document.getElementById('decedentAddress').value||"";
+                    const heirs=document.querySelectorAll('#heirsContainer .family-input-row');
+                    let sp=null, ch=[];
+                    heirs.forEach(r=>{ const rel=r.querySelector('.heir-rel').value, nm=r.querySelector('.heir-name').value, ad=r.querySelector('.heir-addr').value; if(nm){if(rel=='配偶者')sp={n:nm,a:ad,r:rel}; else ch.push({n:nm,a:ad,r:rel});}});
+                    
+                    cvsCont.style.display='block'; dlBtn.style.display='inline-block';
+                    ctx.fillStyle="#fff"; ctx.fillRect(0,0,800,600);
+                    ctx.fillStyle="#000"; ctx.font="bold 20px sans-serif"; ctx.fillText("相続関係説明図",30,40);
+                    
+                    const drawB=(x,y,l1,l2,l3)=>{ctx.strokeRect(x,y,160,80);ctx.fillText(l1,x+10,y+25);ctx.font="12px sans-serif";if(l2)ctx.fillText(l2,x+10,y+45);if(l3)ctx.fillText(l3,x+10,y+65);ctx.font="bold 14px sans-serif";};
+                    
+                    let cx=400, sy=100, dx=sp?cx-110:cx-80;
+                    drawB(dx,sy,`被相続人 ${decName}`,decDate,decAddr);
+                    
+                    if(sp){
+                        let sx=dx+220; drawB(sx,sy,`${sp.r} ${sp.n}`,"",sp.a);
+                        ctx.beginPath(); ctx.moveTo(dx+160,sy+37); ctx.lineTo(sx,sy+37); ctx.moveTo(dx+160,sy+43); ctx.lineTo(sx,sy+43); ctx.stroke();
+                    }
+                    if(ch.length>0){
+                        let pcx=sp?dx+190:dx+80, cy=sy+140;
+                        ctx.beginPath(); ctx.moveTo(pcx,sy+(sp?40:80)); ctx.lineTo(pcx,cy-20); ctx.stroke();
+                        let tw=(160*ch.length)+(40*(ch.length-1)), scx=pcx-(tw/2);
+                        ctx.beginPath(); ctx.moveTo(scx+80,cy-20); ctx.lineTo(scx+tw-80,cy-20); ctx.stroke();
+                        ch.forEach((c,i)=>{
+                            let kx=scx+(200*i);
+                            ctx.beginPath(); ctx.moveTo(kx+80,cy-20); ctx.lineTo(kx+80,cy); ctx.stroke();
+                            drawB(kx,cy,`${c.r} ${c.n}`,"",c.a);
+                        });
+                    }
+                    ctx.font="12px sans-serif"; ctx.fillText("作成：植村 土地家屋調査士・行政書士事務所", 550, 580);
+                };
+                dlBtn.onclick=function(){const a=document.createElement('a');a.download='sozoku.png';a.href=canvas.toDataURL();a.click()};
+            }
+
+            // --- 5.年齢 ---
+            const eraSel=document.getElementById('eraSelect'), yrIn=document.getElementById('yearInput');
+            if(eraSel){
+                const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"];
+                const cE=function(){
+                    const v=parseInt(yrIn.value); if(isNaN(v)){document.getElementById('resAge').innerText='---';return;}
+                    let ad=v; if(eraSel.value=='Reiwa')ad+=2018; else if(eraSel.value=='Heisei')ad+=1988; else if(eraSel.value=='Showa')ad+=1925;
+                    document.getElementById('resAD').innerText=ad+"年"; document.getElementById('resAge').innerText=(new Date().getFullYear()-ad)+"歳"; document.getElementById('resZodiac').innerText=zD[ad%12];
+                };
+                eraSel.onchange=cE; yrIn.oninput=cE;
+            }
+
+            // --- 6.郵便番号 ---
+            const zBtn=document.getElementById('zipSearchBtn');
+            if(zBtn){
+                zBtn.onclick=function(){
+                    let z=document.getElementById('zipInput').value.replace(/-/g,'');
+                    if(z.length!=7)return;
+                    fetch('https://zipcloud.ibsnet.co.jp/api/search?zipcode='+z).then(r=>r.json()).then(d=>{
+                        document.getElementById('zipResult').innerText = d.results ? d.results[0].address1+d.results[0].address2+d.results[0].address3 : "該当なし";
+                    });
+                };
+                document.getElementById('addrSearchBtn').onclick=function(){
+                    const a=document.getElementById('addrInput').value; if(a)window.open('https://www.google.com/search?q='+encodeURIComponent(a)+'+郵便番号');
+                };
+            }
+        });
     </script>
 </div>
 
