@@ -44,8 +44,8 @@
     }
     </script>
 
-    <title>位置図作成・相続関係図・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
-    <meta name="description" content="岩手県花巻市で農地転用許可申請（3条/4条/5条）、土地の測量、分筆登記をお考えなら当事務所へ。Webで簡単に位置図や相続関係説明図が作れるツールも公開中。">
+    <title>位置図作成・法務局地図データ・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
+    <meta name="description" content="岩手県花巻市で農地転用許可申請、土地の測量、分筆登記をお考えなら当事務所へ。Webで簡単に位置図、相続関係説明図が作れるツールや、法務局地図データ（SIM）へのアクセス支援も提供。">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -546,12 +546,49 @@
     </div>
 
     <div class="tool-section">
-        <h2 class="section-title">【無料ツール】相続関係説明図メーカー</h2>
+        <h2 class="section-title">【便利ツール】法務局地図データ (SIM) 活用</h2>
         <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
-            被相続人と相続人の情報を入力すると、簡易的な相続関係説明図を自動作成し、画像として保存できます。<br>
-            <small>※ 配偶者と子供のみの簡易版です。複雑な関係は当事務所までご相談ください。</small>
+            法務局の公開地図データを活用するためのリンク集です。<br>
+            <small>※データは膨大なため、専用サイトでの閲覧・ダウンロードを推奨します。</small>
         </p>
         
+        <div class="tool-box">
+            <div class="tool-header">データを探す・見る</div>
+            
+            <div style="display:flex; flex-direction:column; gap:15px;">
+                <div style="border:1px solid #ddd; padding:15px; border-radius:5px; background:#f9f9f9;">
+                    <h3 style="font-size:1.1rem; color:#0f2350; margin-bottom:5px;">
+                        <i class="fa-solid fa-database"></i> 地図データのダウンロード
+                    </h3>
+                    <p style="font-size:0.9rem; color:#666;">
+                        G空間情報センターから「法務省登記所備付地図データ」をダウンロードできます。<br>
+                        （ログイン不要・無料）
+                    </p>
+                    <a href="https://www.geospatial.jp/ckan/dataset/houmuxml" target="_blank" class="tool-btn" style="display:block; text-align:center; text-decoration:none; margin-top:10px;">
+                        G空間情報センターへ移動 <i class="fa-solid fa-up-right-from-square"></i>
+                    </a>
+                </div>
+
+                <div style="border:1px solid #ddd; padding:15px; border-radius:5px; background:#f9f9f9;">
+                    <h3 style="font-size:1.1rem; color:#0f2350; margin-bottom:5px;">
+                        <i class="fa-solid fa-map"></i> 地図データをブラウザで見る
+                    </h3>
+                    <p style="font-size:0.9rem; color:#666;">
+                        「MAPPLE 法務局地図ビューア」を使うと、XMLデータをダウンロードせずに地図上で地番を確認できます。
+                    </p>
+                    <div class="tool-input-group" style="margin-top:10px;">
+                        <input type="text" id="simAddress" class="form-input" placeholder="住所を入力 (例: 花巻市花城町12-6)" style="flex:2;">
+                        <button type="button" id="openMappleBtn" class="tool-btn" style="background-color:#28a745;">
+                            地図ビューアで開く
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tool-section">
+        <h2 class="section-title">【無料ツール】相続関係説明図メーカー</h2>
         <div class="tool-box">
             <div class="tool-header">被相続人（亡くなられた方）</div>
             <div class="family-input-row">
@@ -652,7 +689,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             
             // ============================================
-            // 1. 位置図マップ検索（地番対応 ＆ 位置図印刷・統合レイアウト）
+            // 1. 位置図マップ検索
             // ============================================
             {
                 const showMapBtn = document.getElementById('showMapBtn');
@@ -670,14 +707,13 @@
                             return;
                         }
                         
-                        // 検索クエリ
                         const query = `${city} ${town} ${lot}`;
                         const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; 
                         
                         mapFrame.src = embedUrl;
                         printMapBtn.style.display = 'inline-block';
                         
-                        // 印刷ボタンの動作（マップ内にタイトルを重ねて出力）
+                        // 印刷・PDF保存
                         printMapBtn.onclick = function() {
                             const printWindow = window.open('', '_blank');
                             
@@ -686,7 +722,7 @@
                                 <head>
                                     <title>位置図 - ${query}</title>
                                     <style>
-                                        @page { size: A4 portrait; margin: 10mm; } /* 余白を狭く設定 */
+                                        @page { size: A4 portrait; margin: 10mm; }
                                         body { 
                                             font-family: "Helvetica Neue", Arial, sans-serif; 
                                             margin: 0; 
@@ -694,22 +730,19 @@
                                             height: 100vh;
                                             box-sizing: border-box;
                                         }
-                                        /* 印刷用コンテナ */
                                         .print-wrapper {
                                             position: relative;
                                             width: 100%;
-                                            height: 98%; /* ほぼ全面 */
+                                            height: 98%;
                                             border: 2px solid #000;
                                             box-sizing: border-box;
                                             overflow: hidden;
                                         }
-                                        /* 地図を全面に */
                                         iframe {
                                             width: 100%;
                                             height: 100%;
                                             border: 0;
                                         }
-                                        /* 地図の上に重ねるタイトルボックス（左上に配置してGoogle表示を隠す） */
                                         .overlay-box {
                                             position: absolute;
                                             top: 0;
@@ -750,7 +783,6 @@
                                         <iframe src="${embedUrl}"></iframe>
                                     </div>
                                     <script>
-                                        // 地図読み込み待ち
                                         setTimeout(function() {
                                             window.print();
                                         }, 1500); 
@@ -765,7 +797,31 @@
             }
 
             // ============================================
-            // 2. 相続関係説明図ジェネレーター
+            // 2. SIMデータ活用支援（MAPPLEリンク）
+            // ============================================
+            {
+                const openMappleBtn = document.getElementById('openMappleBtn');
+                const simAddress = document.getElementById('simAddress');
+
+                if (openMappleBtn) {
+                    openMappleBtn.addEventListener('click', function() {
+                        const address = simAddress.value;
+                        if (!address) {
+                            alert("住所を入力してください");
+                            return;
+                        }
+                        // MAPPLEは住所検索機能がないため、Google検索で経由させるか、トップへ誘導が現実的だが
+                        // ここでは公式ビューアへのリンクを開く
+                        const url = "https://mapple-moj.jp/";
+                        // ユーザーに住所をコピーさせるアラート
+                        alert("「MAPPLE 法務局地図ビューア」を開きます。\n入力した住所を検索バーに貼り付けて検索してください。");
+                        window.open(url, '_blank');
+                    });
+                }
+            }
+
+            // ============================================
+            // 3. 相続関係説明図ジェネレーター
             // ============================================
             {
                 const addHeirBtn = document.getElementById('addHeirBtn');
@@ -919,7 +975,7 @@
             }
 
             // ============================================
-            // 3. 年齢・和暦変換
+            // 4. 年齢・和暦変換
             // ============================================
             {
                 const eraSelect = document.getElementById('eraSelect');
@@ -989,7 +1045,7 @@
             }
 
             // ============================================
-            // 4. 郵便番号 ↔ 住所 検索
+            // 5. 郵便番号 ↔ 住所 検索
             // ============================================
             {
                 // ① Zip -> Addr
