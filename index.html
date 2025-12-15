@@ -7,6 +7,8 @@
     <meta name="google-site-verification" content="YdkYdalhqx1MHFQb7aFVKFsD7n2bUpgKDN--q0rWI9E" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.9.0/proj4.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
     <script type="application/ld+json">
     {
@@ -42,12 +44,12 @@
         "closes": "18:00"
       },
       "priceRange": "相談無料",
-      "description": "岩手県花巻市の農地転用許可申請、土地の測量・分筆登記、相続手続きなら植村事務所へ。SIMAデータ読込による位置特定や、登録免許税計算などの便利ツールも無料公開中。"
+      "description": "岩手県花巻市の農地転用許可申請、土地の測量・分筆登記、相続手続きなら植村事務所へ。SIMAデータ読込による位置図作成（結線対応）や、登録免許税計算などの便利ツールも無料公開中。"
     }
     </script>
 
-    <title>位置図作成・SIMA読込・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
-    <meta name="description" content="岩手県花巻市で農地転用許可申請、土地の測量、分筆登記をお考えなら当事務所へ。SIMAファイルを読み込んで位置図を作成するツールや、登録免許税計算ツールなどを無料公開中。">
+    <title>位置図作成(SIMA結線)・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
+    <meta name="description" content="岩手県花巻市で農地転用許可申請、土地の測量、分筆登記をお考えなら当事務所へ。SIMAファイルを読み込んで形状を結線・表示する位置図作成ツールなどを無料公開中。">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -58,7 +60,7 @@
             --admin-color: #3b6c9b;   /* 青 */
             --text-color: #333;
             --white: #ffffff;
-            --bg-body: #f0f0f0;       /* 背景色 */
+            --bg-body: #f0f0f0;
             --bg-form: #f9fbfd;
         }
         
@@ -365,14 +367,14 @@
         /* --- 位置図マップ用 --- */
         .map-result-container {
             position: relative;
-            padding-bottom: 75%;
+            padding-bottom: 75%; /* 4:3 */
             height: 0;
             overflow: hidden;
             background: #eee;
             margin-top: 15px;
             border: 1px solid #ccc;
         }
-        .map-result-container iframe {
+        .map-result-container iframe, .map-result-container .leaflet-container {
             position: absolute;
             top: 0;
             left: 0;
@@ -554,6 +556,9 @@
                 <div style="text-align:center; margin-bottom:10px;">
                     <button type="button" id="showMapBtn" class="tool-btn">地図を表示</button>
                 </div>
+                <div class="map-result-container">
+                    <iframe id="mapFrame" src="" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
             </div>
 
             <div id="modeSima" style="display:none;">
@@ -564,10 +569,10 @@
                     <input type="file" id="simaFile" accept=".sim,.sima,.txt" style="display:none;">
                 </div>
                 <div id="simaStatus" style="text-align:center; font-size:0.9rem; color:#0f2350; font-weight:bold; margin-bottom:10px;"></div>
-            </div>
-            
-            <div class="map-result-container">
-                <iframe id="mapFrame" src="" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                
+                <div class="map-result-container" id="simaMapContainer">
+                    <div id="simaLeafletMap" style="width:100%; height:100%;"></div>
+                </div>
             </div>
             
             <div style="text-align:center; margin-top:15px;">
@@ -717,7 +722,6 @@
             const valStr = document.getElementById('taxValue').value;
             const val = parseInt(valStr);
             const resBox = document.getElementById('taxResult');
-            
             if (!val || val <= 0) {
                 resBox.innerHTML = '<span style="color:red;">評価額を正しく入力してください</span>';
                 return;
@@ -726,7 +730,6 @@
             let tax = Math.floor(baseAmount * rate);
             tax = Math.floor(tax / 100) * 100;
             if (tax < 1000) tax = 1000;
-            
             resBox.innerHTML = `
                 <div style="font-weight:bold; color:#0f2350; margin-bottom:5px;">${typeName}</div>
                 <div style="font-size:1.4rem; color:#c5a059;">約 ${tax.toLocaleString()} 円</div>
@@ -739,6 +742,11 @@
             document.getElementById('modeChiban').style.display = (mode === 'chiban') ? 'block' : 'none';
             document.getElementById('modeSima').style.display = (mode === 'sima') ? 'block' : 'none';
             
+            // SIMAモード切り替え時にLeafletのサイズを再計算 (表示崩れ防止)
+            if(mode === 'sima' && window.leafletMap) {
+                setTimeout(() => { window.leafletMap.invalidateSize(); }, 100);
+            }
+
             const btnChiban = document.getElementById('tabChiban');
             const btnSima = document.getElementById('tabSima');
             
@@ -756,154 +764,187 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            let leafletMap = null; // Leafletインスタンス保持用
+            let simaLayerGroup = null; // SIMA図形レイヤー
+            let currentMode = "chiban"; // 現在の印刷対象モード
+            let currentQueryOrCoord = ""; // 印刷用ラベル
+
+            // ============================================
+            // 1. 位置図マップ (地番: GoogleMap / SIMA: Leaflet)
+            // ============================================
             
-            // ============================================
-            // 1. 位置図マップ検索（地番検索 & SIMA読込）
-            // ============================================
-            {
-                const showMapBtn = document.getElementById('showMapBtn');
-                const printMapBtn = document.getElementById('printMapBtn');
-                const mapFrame = document.getElementById('mapFrame');
-                const simaFile = document.getElementById('simaFile');
-                const simaStatus = document.getElementById('simaStatus');
-                const dropArea = document.getElementById('dropArea');
-                
-                let currentQueryOrCoord = ""; // 印刷用ラベル
-
-                // A. 地番検索
-                if (showMapBtn) {
-                    showMapBtn.addEventListener('click', function() {
-                        const city = document.getElementById('mapCity').value;
-                        const town = document.getElementById('mapTown').value;
-                        const lot = document.getElementById('mapLot').value;
-                        
-                        if (!city || !town) {
-                            alert("市町村と町名を入力してください");
-                            return;
-                        }
-                        
-                        const query = `${city} ${town} ${lot}`;
-                        currentQueryOrCoord = query;
-                        const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; 
-                        
-                        mapFrame.src = embedUrl;
-                        printMapBtn.style.display = 'inline-block';
-                    });
-                }
-
-                // B. SIMAファイル読込 (第10系 -> WGS84)
-                if (simaFile && dropArea) {
-                    // ドラッグ＆ドロップイベント
-                    dropArea.addEventListener('dragover', function(e) {
-                        e.stopPropagation(); e.preventDefault();
-                        this.style.background = '#eef4fb';
-                        this.style.borderColor = '#0f2350';
-                    }, false);
-                    dropArea.addEventListener('dragleave', function(e) {
-                        e.stopPropagation(); e.preventDefault();
-                        this.style.background = '#fafafa';
-                        this.style.borderColor = '#ccc';
-                    }, false);
-                    dropArea.addEventListener('drop', function(e) {
-                        e.stopPropagation(); e.preventDefault();
-                        this.style.background = '#fafafa';
-                        this.style.borderColor = '#ccc';
-                        const files = e.dataTransfer.files;
-                        if(files.length > 0) {
-                            simaFile.files = files; // inputにセット
-                            readSima(files[0]);
-                        }
-                    }, false);
-
-                    simaFile.addEventListener('change', function(e) {
-                        const file = e.target.files[0];
-                        if (!file) return;
-                        readSima(file);
-                    });
-
-                    function readSima(file) {
-                        simaStatus.textContent = "読み込み中...";
-                        
-                        // 平面直角座標系 第10系（岩手など）の定義
-                        if(typeof proj4 !== 'undefined') {
-                            proj4.defs("EPSG:6678", "+proj=tmerc +lat_0=40 +lon_0=140.8333333333333 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs");
-                        } else {
-                            simaStatus.textContent = "エラー: 座標変換ライブラリがロードされていません";
-                            return;
-                        }
-
-                        const reader = new FileReader();
-                        reader.onload = function(evt) {
-                            const text = evt.target.result;
-                            const lines = text.split(/\r\n|\n/);
-                            let minX = 999999999, maxX = -999999999;
-                            let minY = 999999999, maxY = -999999999;
-                            let count = 0;
-
-                            lines.forEach(line => {
-                                // カンマ区切りで分割
-                                const parts = line.split(',');
-                                // 配列走査して座標らしきペアを探す (X, Y)
-                                // 日本の座標: X(北)は約-150000〜+150000, Y(東)は約-100000〜+100000
-                                // 2つの連続する数値を探す
-                                for(let i=0; i < parts.length - 1; i++) {
-                                    const val1 = parseFloat(parts[i]);
-                                    const val2 = parseFloat(parts[i+1]);
-                                    
-                                    // 座標らしき数値判定 (1000 < abs < 1000000)
-                                    if(!isNaN(val1) && !isNaN(val2) && 
-                                       Math.abs(val1) > 1000 && Math.abs(val1) < 1000000 &&
-                                       Math.abs(val2) > 1000 && Math.abs(val2) < 1000000) {
-                                        
-                                        // 座標として採用 (X=val1, Y=val2)
-                                        if (val1 < minX) minX = val1;
-                                        if (val1 > maxX) maxX = val1;
-                                        if (val2 < minY) minY = val2;
-                                        if (val2 > maxY) maxY = val2;
-                                        count++;
-                                        break; // 1行に1ペア見つけたら次へ
-                                    }
-                                }
-                            });
-
-                            if (count === 0) {
-                                simaStatus.textContent = "有効な座標データが見つかりませんでした。";
-                                return;
-                            }
-
-                            // 重心を計算 (X=North, Y=East)
-                            const centerX = (minX + maxX) / 2;
-                            const centerY = (minY + maxY) / 2;
-
-                            try {
-                                // Proj4: [Easting, Northing] -> [Longitude, Latitude]
-                                // 日本の測量系(X,Y) -> Proj4入力(Y,X)
-                                const wgs84 = proj4("EPSG:6678", "WGS84", [centerY, centerX]); 
-                                const lat = wgs84[1];
-                                const lon = wgs84[0];
-
-                                simaStatus.textContent = `特定完了 (${count}点): 北緯${lat.toFixed(5)}, 東経${lon.toFixed(5)}`;
-                                currentQueryOrCoord = `座標読込 (${lat.toFixed(4)}, ${lon.toFixed(4)})`;
-                                
-                                const embedUrl = `https://maps.google.co.jp/maps?q=${lat},${lon}&output=embed&t=m&z=17`;
-                                mapFrame.src = embedUrl;
-                                printMapBtn.style.display = 'inline-block';
-
-                            } catch (err) {
-                                simaStatus.textContent = "座標変換に失敗しました。";
-                                console.error(err);
-                            }
-                        };
-                        reader.readAsText(file, "Shift_JIS");
+            // A. 地番検索 (Google Maps Iframe)
+            const showMapBtn = document.getElementById('showMapBtn');
+            const printMapBtn = document.getElementById('printMapBtn');
+            const mapFrame = document.getElementById('mapFrame');
+            
+            if (showMapBtn) {
+                showMapBtn.addEventListener('click', function() {
+                    currentMode = "chiban";
+                    const city = document.getElementById('mapCity').value;
+                    const town = document.getElementById('mapTown').value;
+                    const lot = document.getElementById('mapLot').value;
+                    
+                    if (!city || !town) {
+                        alert("市町村と町名を入力してください");
+                        return;
                     }
+                    const query = `${city} ${town} ${lot}`;
+                    currentQueryOrCoord = query;
+                    const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; 
+                    mapFrame.src = embedUrl;
+                    printMapBtn.style.display = 'inline-block';
+                });
+            }
+
+            // B. SIMAファイル読込 (Leaflet + GSI Tiles)
+            const simaFile = document.getElementById('simaFile');
+            const simaStatus = document.getElementById('simaStatus');
+            const dropArea = document.getElementById('dropArea');
+
+            // Leaflet初期化関数
+            function initLeaflet() {
+                if(leafletMap) return; // 既に作成済みなら何もしない
+                
+                // 地理院地図 (標準)
+                const gsiTile = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+                    attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+                });
+                
+                // 地理院地図 (写真)
+                const gsiPhoto = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg', {
+                    attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+                });
+
+                leafletMap = L.map('simaLeafletMap', {
+                    center: [39.3905, 141.1186], // 花巻市周辺
+                    zoom: 15,
+                    layers: [gsiTile]
+                });
+
+                const baseMaps = {
+                    "標準地図": gsiTile,
+                    "航空写真": gsiPhoto
+                };
+                L.control.layers(baseMaps).addTo(leafletMap);
+                
+                simaLayerGroup = L.layerGroup().addTo(leafletMap);
+                window.leafletMap = leafletMap; // グローバル参照用
+            }
+
+            if (simaFile && dropArea) {
+                // 平面直角座標系 第10系（岩手）定義
+                if(typeof proj4 !== 'undefined') {
+                    proj4.defs("EPSG:6678", "+proj=tmerc +lat_0=40 +lon_0=140.8333333333333 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs");
                 }
 
-                // 印刷機能
-                if (printMapBtn) {
-                    printMapBtn.onclick = function() {
-                        const printWindow = window.open('', '_blank');
-                        const mapSrc = mapFrame.src;
+                // ドラッグ＆ドロップ処理
+                dropArea.addEventListener('dragover', function(e) {
+                    e.stopPropagation(); e.preventDefault();
+                    this.style.background = '#eef4fb'; this.style.borderColor = '#0f2350';
+                }, false);
+                dropArea.addEventListener('dragleave', function(e) {
+                    e.stopPropagation(); e.preventDefault();
+                    this.style.background = '#fafafa'; this.style.borderColor = '#ccc';
+                }, false);
+                dropArea.addEventListener('drop', function(e) {
+                    e.stopPropagation(); e.preventDefault();
+                    this.style.background = '#fafafa'; this.style.borderColor = '#ccc';
+                    const files = e.dataTransfer.files;
+                    if(files.length > 0) { simaFile.files = files; readSima(files[0]); }
+                }, false);
+
+                simaFile.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) readSima(file);
+                });
+
+                function readSima(file) {
+                    currentMode = "sima";
+                    simaStatus.textContent = "読み込み中...";
+                    initLeaflet(); // マップ初期化
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        const text = evt.target.result;
+                        const lines = text.split(/\r\n|\n/);
+                        const points = [];
+                        let minX = 999999999, maxX = -999999999;
+                        let minY = 999999999, maxY = -999999999;
+
+                        // SIMAデータの行解析 (B01,点名,X,Y... または 単純CSV)
+                        // カンマ区切りの行から、数値(X,Y)を探す
+                        lines.forEach(line => {
+                            // 空行やコメント行をスキップする簡易ロジック
+                            // カンマまたはスペースで分割
+                            const parts = line.replace(/,/g, ' ').trim().split(/\s+/);
+                            
+                            // 座標値らしきものを探す
+                            // 日本の座標系: X(北), Y(東) ともに絶対値が数千〜数十万の範囲
+                            let x = null, y = null;
+                            
+                            // 通常のSIMA (データ行) は [コード, 名称, X, Y] の順が多いが、
+                            // ソフトによって異なるため、数値ペアを探す戦略
+                            for(let i=0; i<parts.length-1; i++) {
+                                const val1 = parseFloat(parts[i]);
+                                const val2 = parseFloat(parts[i+1]);
+                                
+                                if(!isNaN(val1) && !isNaN(val2) && 
+                                   Math.abs(val1) > 1000 && Math.abs(val2) > 1000) {
+                                    x = val1; y = val2;
+                                    break;
+                                }
+                            }
+
+                            if (x !== null && y !== null) {
+                                // 座標変換 (EPSG:6678 -> WGS84)
+                                // Proj4入力は [East(Y), North(X)]
+                                try {
+                                    const wgs84 = proj4("EPSG:6678", "WGS84", [y, x]); 
+                                    const lat = wgs84[1];
+                                    const lon = wgs84[0];
+                                    
+                                    // 範囲計算用
+                                    points.push([lat, lon]);
+                                } catch(e) { console.error(e); }
+                            }
+                        });
+
+                        if (points.length === 0) {
+                            simaStatus.textContent = "有効な座標データが見つかりませんでした。";
+                            return;
+                        }
+
+                        // 地図に描画
+                        simaLayerGroup.clearLayers(); // 前のデータを消す
                         
+                        // ポリゴン（面）として描画
+                        const polygon = L.polygon(points, {color: 'red', weight: 3, fillOpacity: 0.2}).addTo(simaLayerGroup);
+                        
+                        // ポイント（点）として描画
+                        points.forEach(p => {
+                            L.circleMarker(p, {radius: 4, color: 'blue', fillOpacity: 1}).addTo(simaLayerGroup);
+                        });
+
+                        // 範囲に合わせてズーム
+                        leafletMap.fitBounds(polygon.getBounds());
+                        
+                        simaStatus.textContent = `描画完了: ${points.length}点`;
+                        currentQueryOrCoord = ""; // SIMA時は所在ラベルなし
+                        printMapBtn.style.display = 'inline-block';
+                    };
+                    reader.readAsText(file, "Shift_JIS");
+                }
+            }
+
+            // 印刷・PDF保存 (Google Map / Leaflet 両対応)
+            if (printMapBtn) {
+                printMapBtn.onclick = function() {
+                    const printWindow = window.open('', '_blank');
+                    
+                    // A. 地番検索 (Google Maps) の場合
+                    if (currentMode === "chiban") {
+                        const mapSrc = mapFrame.src;
                         printWindow.document.write(`
                             <html>
                             <head>
@@ -921,7 +962,7 @@
                                 </style>
                             </head>
                             <body>
-                                <div class="no-print">※ブラウザのメニューから「印刷」または「PDFとして保存」を選択してください。</div>
+                                <div class="no-print">※「印刷」または「PDFとして保存」を選択してください。</div>
                                 <div class="print-wrapper">
                                     <div class="overlay-box">
                                         <h1>位置図</h1>
@@ -933,9 +974,22 @@
                             </body>
                             </html>
                         `);
-                        printWindow.document.close();
-                    };
-                }
+                    } 
+                    // B. SIMA (Leaflet) の場合 -> Canvas画像として転送
+                    else {
+                        // Leafletの現在の状態を画像化するには html2canvas 等が必要だが、
+                        // 簡易的に「印刷用ウィンドウでもう一度Leafletを描画する」のが最も綺麗で確実。
+                        // ただし、座標データを渡す必要がある。
+                        // ここでは簡易実装として「現在の画面を印刷してください」と促すアラートにするか、
+                        // または「現在のウィンドウで印刷ダイアログを呼ぶ」のが現実的。
+                        
+                        // 今回は「現在のウィンドウで印刷」を採用（最もレイアウト崩れが少ない）
+                        alert("ブラウザの印刷機能(Ctrl+P)を使って印刷してください。\n用紙サイズをA4に設定すると綺麗に出力されます。");
+                        window.print();
+                        printWindow.close(); // 開いた窓は閉じる
+                    }
+                    printWindow.document.close();
+                };
             }
 
             // ============================================
@@ -948,7 +1002,7 @@
 
                 if (tsuboInput && m2Input && joInput) {
                     const TSUB_TO_M2 = 3.30578;
-                    const JO_TO_M2 = 1.6562; // 中京間基準
+                    const JO_TO_M2 = 1.6562;
 
                     tsuboInput.addEventListener('input', function() {
                         const val = parseFloat(this.value);
@@ -978,7 +1032,7 @@
             }
 
             // ============================================
-            // 3. 相続関係説明図ジェネレーター
+            // 3. 相続関係説明図
             // ============================================
             {
                 const addHeirBtn = document.getElementById('addHeirBtn');
