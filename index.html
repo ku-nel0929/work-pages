@@ -44,8 +44,8 @@
     }
     </script>
 
-    <title>相続関係説明図作成・農地転用・測量 | 植村 土地家屋調査士・行政書士事務所</title>
-    <meta name="description" content="岩手県花巻市で農地転用許可申請（3条/4条/5条）、土地の測量、分筆登記をお考えなら当事務所へ。Webで簡単に相続関係説明図が作れるツールも公開中。相続登記義務化に伴う手続きをワンストップで解決します。">
+    <title>位置図作成・相続関係図・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
+    <meta name="description" content="岩手県花巻市で農地転用許可申請（3条/4条/5条）、土地の測量、分筆登記をお考えなら当事務所へ。Webで簡単に位置図や相続関係説明図が作れるツールも公開中。">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -358,6 +358,25 @@
             height: auto;
         }
 
+        /* --- 位置図マップ用 --- */
+        .map-result-container {
+            position: relative;
+            padding-bottom: 75%; /* 4:3 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            background: #eee;
+            margin-top: 15px;
+            border: 1px solid #ccc;
+        }
+        .map-result-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
         @media (max-width: 600px) {
             .family-input-row { gap: 5px; }
             .heir-rel { flex-basis: 35%; }
@@ -497,6 +516,35 @@
     </div>
 
     <div class="tool-section">
+        <h2 class="section-title">【便利ツール】現場位置図検索 (地番対応)</h2>
+        <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
+            地番を入力してGoogleマップで位置を確認できます。<br>
+            <small style="color:#d9534f;">※Googleマップは地番の正確な位置に対応していない場合があり、近隣が表示されることがあります。</small>
+        </p>
+        
+        <div class="tool-box">
+            <div class="tool-header">地番で地図を検索</div>
+            <div class="tool-input-group">
+                <input type="text" id="mapCity" class="form-input" placeholder="市町村 (例: 花巻市)" value="花巻市" style="flex:1;">
+                <input type="text" id="mapTown" class="form-input" placeholder="町名・大字 (例: 花城町)" style="flex:1;">
+                <input type="text" id="mapLot" class="form-input" placeholder="地番 (例: 12-6)" style="flex:1;">
+            </div>
+            <div style="text-align:center; margin-bottom:10px;">
+                <button type="button" id="showMapBtn" class="tool-btn">地図を表示</button>
+            </div>
+            
+            <div class="map-result-container">
+                <iframe id="mapFrame" src="" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div style="text-align:center; margin-top:10px;">
+                <button type="button" id="openLargeMapBtn" class="tool-btn" style="background-color:#c5a059; display:none;">
+                    大きな地図で開く・印刷
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="tool-section">
         <h2 class="section-title">【無料ツール】相続関係説明図メーカー</h2>
         <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
             被相続人と相続人の情報を入力すると、簡易的な相続関係説明図を自動作成し、画像として保存できます。<br>
@@ -603,9 +651,44 @@
         document.addEventListener('DOMContentLoaded', function() {
             
             // ============================================
-            // 1. 相続関係説明図ジェネレーター
+            // 1. 位置図マップ検索（地番対応）
             // ============================================
-            // ブロックで囲んで変数の干渉を防ぐ
+            {
+                const showMapBtn = document.getElementById('showMapBtn');
+                const openLargeMapBtn = document.getElementById('openLargeMapBtn');
+                const mapFrame = document.getElementById('mapFrame');
+                
+                if (showMapBtn) {
+                    showMapBtn.addEventListener('click', function() {
+                        const city = document.getElementById('mapCity').value;
+                        const town = document.getElementById('mapTown').value;
+                        const lot = document.getElementById('mapLot').value;
+                        
+                        if (!city || !town) {
+                            alert("市町村と町名を入力してください");
+                            return;
+                        }
+                        
+                        // 検索クエリの作成
+                        const query = `${city} ${town} ${lot}`;
+                        const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; // t=m(標準地図), z=17(ズーム)
+                        
+                        // Iframe更新
+                        mapFrame.src = embedUrl;
+                        
+                        // 大きな地図ボタンの更新
+                        const largeMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+                        openLargeMapBtn.style.display = 'inline-block';
+                        openLargeMapBtn.onclick = function() {
+                            window.open(largeMapUrl, '_blank');
+                        };
+                    });
+                }
+            }
+
+            // ============================================
+            // 2. 相続関係説明図ジェネレーター
+            // ============================================
             {
                 const addHeirBtn = document.getElementById('addHeirBtn');
                 const heirsContainer = document.getElementById('heirsContainer');
@@ -639,7 +722,6 @@
                     });
 
                     genMapBtn.addEventListener('click', function() {
-                        // データ取得
                         const decedent = {
                             name: document.getElementById('decedentName').value || "被相続人",
                             date: document.getElementById('decedentDate').value || "",
@@ -692,7 +774,6 @@
                         if (spouse) {
                             let spouseX = decedentX + boxW + 60;
                             drawBox(ctx, spouseX, decedentY, boxW, boxH, `${spouse.rel} ${spouse.name}`, "", spouse.addr);
-                            
                             ctx.beginPath();
                             ctx.moveTo(decedentX + boxW, decedentY + boxH/2 - 3);
                             ctx.lineTo(spouseX, decedentY + boxH/2 - 3);
@@ -724,16 +805,13 @@
                             children.forEach((child, index) => {
                                 let cx = startChildX + (boxW + gapX) * index;
                                 let cy = childLevelY;
-
                                 ctx.beginPath();
                                 ctx.moveTo(cx + boxW/2, childLevelY - 20);
                                 ctx.lineTo(cx + boxW/2, cy);
                                 ctx.stroke();
-
                                 drawBox(ctx, cx, cy, boxW, boxH, `${child.rel} ${child.name}`, "", child.addr);
                             });
                         }
-                        
                         ctx.font = "12px sans-serif";
                         ctx.fillStyle = "#666";
                         ctx.fillText("作成：植村 土地家屋調査士・行政書士事務所", canvas.width - 250, canvas.height - 20);
@@ -763,7 +841,7 @@
             }
 
             // ============================================
-            // 2. 年齢・和暦変換
+            // 3. 年齢・和暦変換
             // ============================================
             {
                 const eraSelect = document.getElementById('eraSelect');
@@ -781,14 +859,13 @@
                         { char: "卯 (うさぎ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
                         { char: "辰 (たつ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z" },
                         { char: "巳 (へび)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z" },
-                        { char: "午 (うま)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z" },
+                        { char: "午 (うま)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
                         { char: "未 (ひつじ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z" }
                     ];
 
                     const calculateEra = function() {
                         const era = eraSelect.value;
                         const inputVal = parseInt(yearInput.value);
-                        
                         if (!inputVal || isNaN(inputVal)) {
                             document.getElementById('resAD').textContent = "---年";
                             document.getElementById('resEra').textContent = "---";
@@ -796,7 +873,6 @@
                             document.getElementById('resZodiac').innerHTML = "---";
                             return;
                         }
-
                         let adYear = 0;
                         if (era === 'AD') adYear = inputVal;
                         else if (era === 'Reiwa') adYear = inputVal + 2018;
@@ -835,7 +911,7 @@
             }
 
             // ============================================
-            // 3. 郵便番号 ↔ 住所 検索
+            // 4. 郵便番号 ↔ 住所 検索
             // ============================================
             {
                 // ① Zip -> Addr
@@ -863,6 +939,10 @@
                                     zipResult.textContent = "該当なし";
                                     zipResult.style.color = "red";
                                 }
+                            })
+                            .catch(err => {
+                                zipResult.textContent = "エラーが発生しました";
+                                zipResult.style.color = "red";
                             });
                     };
                     zipSearchBtn.addEventListener('click', searchAddress);
