@@ -361,7 +361,7 @@
         /* --- 位置図マップ用 --- */
         .map-result-container {
             position: relative;
-            padding-bottom: 75%; /* 4:3 Aspect Ratio */
+            padding-bottom: 75%; /* 4:3 */
             height: 0;
             overflow: hidden;
             background: #eee;
@@ -516,7 +516,7 @@
     </div>
 
     <div class="tool-section">
-        <h2 class="section-title">【便利ツール】現場位置図検索 (地番対応)</h2>
+        <h2 class="section-title">【便利ツール】現場位置図検索</h2>
         <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
             地番を入力してGoogleマップで位置を確認できます。<br>
             <small style="color:#d9534f;">※Googleマップは地番の正確な位置に対応していない場合があり、近隣が表示されることがあります。</small>
@@ -536,9 +536,10 @@
             <div class="map-result-container">
                 <iframe id="mapFrame" src="" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
-            <div style="text-align:center; margin-top:10px;">
-                <button type="button" id="openLargeMapBtn" class="tool-btn" style="background-color:#c5a059; display:none;">
-                    大きな地図で開く・印刷
+            
+            <div style="text-align:center; margin-top:15px;">
+                <button type="button" id="printMapBtn" class="tool-btn" style="background-color:#c5a059; display:none;">
+                    <i class="fa-solid fa-print"></i> 位置図作成 (PDF保存・印刷)
                 </button>
             </div>
         </div>
@@ -651,11 +652,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             
             // ============================================
-            // 1. 位置図マップ検索（地番対応）
+            // 1. 位置図マップ検索（地番対応 ＆ 位置図印刷）
             // ============================================
             {
                 const showMapBtn = document.getElementById('showMapBtn');
-                const openLargeMapBtn = document.getElementById('openLargeMapBtn');
+                const printMapBtn = document.getElementById('printMapBtn'); // 印刷ボタン
                 const mapFrame = document.getElementById('mapFrame');
                 
                 if (showMapBtn) {
@@ -669,18 +670,61 @@
                             return;
                         }
                         
-                        // 検索クエリの作成
                         const query = `${city} ${town} ${lot}`;
-                        const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; // t=m(標準地図), z=17(ズーム)
+                        const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; 
                         
-                        // Iframe更新
                         mapFrame.src = embedUrl;
                         
-                        // 大きな地図ボタンの更新
-                        const largeMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-                        openLargeMapBtn.style.display = 'inline-block';
-                        openLargeMapBtn.onclick = function() {
-                            window.open(largeMapUrl, '_blank');
+                        // 印刷ボタンを表示
+                        printMapBtn.style.display = 'inline-block';
+                        
+                        // 印刷ボタンの動作設定
+                        printMapBtn.onclick = function() {
+                            // 新しいウィンドウを開く
+                            const printWindow = window.open('', '_blank');
+                            
+                            // 印刷用HTMLの作成
+                            printWindow.document.write(`
+                                <html>
+                                <head>
+                                    <title>位置図 - ${query}</title>
+                                    <style>
+                                        @page { size: A4 portrait; margin: 20mm; }
+                                        body { font-family: "Helvetica Neue", Arial, sans-serif; text-align: center; margin: 0; padding: 20px; }
+                                        h1 { font-size: 24px; margin-bottom: 10px; border-bottom: 2px solid #333; display: inline-block; padding-bottom: 5px; }
+                                        h2 { font-size: 18px; margin-bottom: 20px; font-weight: normal; }
+                                        .map-container { 
+                                            width: 100%; 
+                                            height: 240mm; /* A4縦の比率に合わせる */
+                                            border: 1px solid #ccc; 
+                                        }
+                                        iframe { width: 100%; height: 100%; border: 0; }
+                                        .no-print { margin-top: 20px; font-size: 12px; color: #666; }
+                                        @media print {
+                                            .no-print { display: none; }
+                                        }
+                                    </style>
+                                </head>
+                                <body>
+                                    <h1>位置図</h1>
+                                    <h2>所在：${query}</h2>
+                                    <div class="map-container">
+                                        <iframe src="${embedUrl}"></iframe>
+                                    </div>
+                                    <div class="no-print">
+                                        ※ブラウザのメニューから「印刷」または「PDFとして保存」を選択してください。<br>
+                                        (自動的に印刷ダイアログが開かない場合は Ctrl+P を押してください)
+                                    </div>
+                                    <script>
+                                        // 地図の読み込みを待ってから印刷ダイアログを開く
+                                        setTimeout(function() {
+                                            window.print();
+                                        }, 2000); 
+                                    <\/script>
+                                </body>
+                                </html>
+                            `);
+                            printWindow.document.close();
                         };
                     });
                 }
