@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <meta name="google-site-verification" content="YdkYdalhqx1MHFQb7aFVKFsD7n2bUpgKDN--q0rWI9E" />
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.9.0/proj4.js"></script>
     
     <script type="application/ld+json">
@@ -42,12 +42,12 @@
         "closes": "18:00"
       },
       "priceRange": "相談無料",
-      "description": "岩手県花巻市の農地転用許可申請、土地の測量・分筆登記、相続手続きなら植村事務所へ。SIMAデータからの位置特定や便利ツールも無料公開中。"
+      "description": "岩手県花巻市の農地転用許可申請、土地の測量・分筆登記、相続手続きなら植村事務所へ。SIMAデータ読込による位置特定や、登録免許税計算などの便利ツールも無料公開中。"
     }
     </script>
 
     <title>位置図作成・SIMA読込・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
-    <meta name="description" content="岩手県花巻市で農地転用許可申請、土地の測量、分筆登記をお考えなら当事務所へ。SIMAデータを読み込んで位置図を作成するツールなど、業務に役立つ機能を無料公開中。">
+    <meta name="description" content="岩手県花巻市で農地転用許可申請、土地の測量、分筆登記をお考えなら当事務所へ。SIMAファイルを読み込んで位置図を作成するツールや、登録免許税計算ツールなどを無料公開中。">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -295,6 +295,8 @@
             white-space: nowrap;
         }
         .tool-btn:hover { opacity: 0.9; }
+        .active-btn { background-color: #0f2350 !important; }
+        .inactive-btn { background-color: #6c757d !important; opacity: 0.8; }
         
         /* 結果表示エリア */
         .tool-result {
@@ -378,8 +380,7 @@
             height: 100%;
             border: 0;
         }
-        
-        /* ファイル入力エリア */
+        /* ファイルドロップエリア */
         .file-upload-area {
             border: 2px dashed #ccc;
             padding: 20px;
@@ -388,6 +389,7 @@
             background: #fafafa;
             margin-bottom: 15px;
             cursor: pointer;
+            transition: 0.3s;
         }
         .file-upload-area:hover { background: #f0f0f0; border-color: var(--admin-color); }
 
@@ -530,7 +532,7 @@
     </div>
 
     <div class="tool-section">
-        <h2 class="section-title">【便利ツール】現場位置図検索 (地番・SIMA対応)</h2>
+        <h2 class="section-title">【便利ツール】現場位置図検索</h2>
         <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
             地番検索、またはSIMAファイル(座標データ)から地図を表示します。<br>
             <small style="color:#d9534f;">※地番検索は正確な位置が出ない場合があります。SIMA読込は世界測地系(第10系)に対応。</small>
@@ -538,8 +540,8 @@
         
         <div class="tool-box">
             <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;">
-                <button type="button" class="tool-btn" onclick="switchMapMode('chiban')" style="background-color:#0f2350;">地番から検索</button>
-                <button type="button" class="tool-btn" onclick="switchMapMode('sima')" style="background-color:#6c757d;">SIMAから特定</button>
+                <button type="button" class="tool-btn active-btn" id="tabChiban" onclick="switchMapMode('chiban')">地番から検索</button>
+                <button type="button" class="tool-btn inactive-btn" id="tabSima" onclick="switchMapMode('sima')">SIMAから特定</button>
             </div>
 
             <div id="modeChiban">
@@ -556,10 +558,10 @@
             <div id="modeSima" style="display:none;">
                 <div class="file-upload-area" onclick="document.getElementById('simaFile').click()">
                     <i class="fa-solid fa-file-arrow-up" style="font-size:2rem; color:#aaa;"></i><br>
-                    <span style="font-size:0.9rem;">SIMAファイル(.sim)を選択またはドロップ</span>
+                    <span style="font-size:0.9rem; color:#666;">SIMAファイル(.sim)を選択またはドロップ</span>
                     <input type="file" id="simaFile" accept=".sim,.sima,.txt" style="display:none;">
                 </div>
-                <div id="simaStatus" style="text-align:center; font-size:0.9rem; color:#666; margin-bottom:10px;"></div>
+                <div id="simaStatus" style="text-align:center; font-size:0.9rem; color:#0f2350; font-weight:bold; margin-bottom:10px;"></div>
             </div>
             
             <div class="map-result-container">
@@ -576,9 +578,6 @@
 
     <div class="tool-section">
         <h2 class="section-title">【便利ツール】坪 ⇔ 平米(㎡) ⇔ 畳 換算</h2>
-        <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
-            どれか1つを入力すると、自動的に他の単位に変換します。
-        </p>
         <div class="tool-box">
             <div class="family-input-row">
                 <span class="tool-label" style="min-width:60px;">坪数</span>
@@ -592,17 +591,12 @@
                 <span class="tool-label" style="min-width:60px;">畳数</span>
                 <input type="number" id="joInput" class="form-input" placeholder="畳 (中京間)" style="flex:1;">
             </div>
-            <p style="font-size:0.8rem; color:#666; text-align:right; margin-top:5px;">
-                ※1坪 = 3.30578㎡、1畳 = 1.6562㎡ で計算
-            </p>
+            <p style="font-size:0.8rem; color:#666; text-align:right; margin-top:5px;">※1坪 = 3.30578㎡、1畳 = 1.6562㎡</p>
         </div>
     </div>
 
     <div class="tool-section" style="margin-top:-20px;">
         <h2 class="section-title">【便利ツール】登録免許税 (概算) 計算</h2>
-        <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
-            固定資産税評価額を入力して、登記の種類を選択してください。
-        </p>
         <div class="tool-box">
             <div class="family-input-row">
                 <span class="tool-label" style="min-width:80px;">評価額</span>
@@ -616,9 +610,6 @@
             <div id="taxResult" style="background:#f9f9f9; padding:15px; border-radius:4px; border:1px solid #ddd; margin-top:15px; text-align:center;">
                 <span style="font-size:0.9rem;">ここに計算結果が表示されます</span>
             </div>
-            <p style="font-size:0.8rem; color:#d9534f; margin-top:5px;">
-                ※あくまで概算です。軽減税率の適用や端数処理により実際と異なる場合があります。
-            </p>
         </div>
     </div>
 
@@ -719,7 +710,7 @@
     </div>
     
     <script>
-        // ▼▼▼ 登録免許税計算ロジック ▼▼▼
+        // --- 登録免許税計算ロジック ---
         function calcTax(rate, typeName) {
             const valStr = document.getElementById('taxValue').value;
             const val = parseInt(valStr);
@@ -741,24 +732,29 @@
             `;
         }
 
-        // ▼▼▼ マップモード切替 ▼▼▼
+        // --- マップモード切替 ---
         function switchMapMode(mode) {
             document.getElementById('modeChiban').style.display = (mode === 'chiban') ? 'block' : 'none';
             document.getElementById('modeSima').style.display = (mode === 'sima') ? 'block' : 'none';
             
-            // ボタンの色切り替え
-            const btns = document.querySelectorAll('.tool-box button');
-            // 簡易的な切り替えスタイル適用
+            const btnChiban = document.getElementById('tabChiban');
+            const btnSima = document.getElementById('tabSima');
+            
             if(mode === 'chiban') {
-                btns[0].style.backgroundColor = '#0f2350';
-                btns[1].style.backgroundColor = '#6c757d';
+                btnChiban.classList.add('active-btn');
+                btnChiban.classList.remove('inactive-btn');
+                btnSima.classList.add('inactive-btn');
+                btnSima.classList.remove('active-btn');
             } else {
-                btns[0].style.backgroundColor = '#6c757d';
-                btns[1].style.backgroundColor = '#0f2350';
+                btnSima.classList.add('active-btn');
+                btnSima.classList.remove('inactive-btn');
+                btnChiban.classList.add('inactive-btn');
+                btnChiban.classList.remove('active-btn');
             }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            
             // ============================================
             // 1. 位置図マップ検索（地番検索 & SIMA読込）
             // ============================================
@@ -768,7 +764,6 @@
                 const mapFrame = document.getElementById('mapFrame');
                 const simaFile = document.getElementById('simaFile');
                 const simaStatus = document.getElementById('simaStatus');
-                
                 let currentQueryOrCoord = ""; // 印刷用ラベル
 
                 // A. 地番検索
@@ -782,7 +777,6 @@
                             alert("市町村と町名を入力してください");
                             return;
                         }
-                        
                         const query = `${city} ${town} ${lot}`;
                         currentQueryOrCoord = query;
                         const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; 
@@ -794,7 +788,7 @@
 
                 // B. SIMAファイル読込 (第10系 -> WGS84)
                 if (simaFile) {
-                    // 平面直角座標系 第10系（岩手など）の定義
+                    // 平面直角座標系 第10系（岩手）定義
                     proj4.defs("EPSG:6678", "+proj=tmerc +lat_0=40 +lon_0=140.8333333333333 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs");
 
                     simaFile.addEventListener('change', function(e) {
@@ -811,18 +805,13 @@
                             let minY = 999999999, maxY = -999999999;
                             let found = false;
 
-                            // SIMAの座標データ行を探す（簡易解析）
-                            // 行の例: " 12345.678 12345.678" (スペース区切りやカンマ区切り)
+                            // 座標行抽出 (簡易解析)
                             lines.forEach(line => {
-                                // データ行っぽいものを抽出（数字、スペースorカンマ、数字）
                                 const match = line.match(/^[\s,]*(-?\d+\.\d+)[\s,]+(-?\d+\.\d+)/);
                                 if (match) {
-                                    // SIMAは通常 X(北), Y(東) の順だが、ファイルによって異なる場合も。
-                                    // 日本の測量座標系は Xが縦(北)、Yが横(東)。
                                     const x = parseFloat(match[1]); // North
                                     const y = parseFloat(match[2]); // East
-                                    
-                                    // 異常値除外 (日本の座標範囲外なら無視)
+                                    // 異常値除外
                                     if(Math.abs(x) < 1000000 && Math.abs(y) < 1000000) {
                                         if (x < minX) minX = x;
                                         if (x > maxX) maxX = x;
@@ -844,7 +833,7 @@
 
                             // 座標変換 (EPSG:6678 -> WGS84)
                             try {
-                                const wgs84 = proj4("EPSG:6678", "WGS84", [centerY, centerX]); // Proj4は [x(East), y(North)] の順
+                                const wgs84 = proj4("EPSG:6678", "WGS84", [centerY, centerX]); // Proj4: [x(East), y(North)]
                                 const lat = wgs84[1];
                                 const lon = wgs84[0];
 
@@ -860,7 +849,7 @@
                                 console.error(err);
                             }
                         };
-                        reader.readAsText(file, "Shift_JIS"); // SIMAは通常Shift_JIS
+                        reader.readAsText(file, "Shift_JIS");
                     });
                 }
 
@@ -905,7 +894,7 @@
             }
 
             // ============================================
-            // 2. 坪・平米・畳 換算ロジック
+            // 2. 坪・平米・畳 換算
             // ============================================
             {
                 const tsuboInput = document.getElementById('tsuboInput');
@@ -914,7 +903,7 @@
 
                 if (tsuboInput && m2Input && joInput) {
                     const TSUB_TO_M2 = 3.30578;
-                    const JO_TO_M2 = 1.6562; // 中京間基準
+                    const JO_TO_M2 = 1.6562;
 
                     tsuboInput.addEventListener('input', function() {
                         const val = parseFloat(this.value);
@@ -944,7 +933,7 @@
             }
 
             // ============================================
-            // 3. 相続関係説明図ジェネレーター
+            // 3. 相続関係説明図
             // ============================================
             {
                 const addHeirBtn = document.getElementById('addHeirBtn');
