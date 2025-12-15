@@ -525,7 +525,7 @@
         <div class="tool-box">
             <div class="tool-header">地番で地図を検索</div>
             <div class="tool-input-group">
-                <input type="text" id="mapCity" class="form-input" placeholder="市町村 (例: 花巻市)" value="花巻市" style="flex:1;">
+                <input type="text" id="mapCity" class="form-input" placeholder="市町村 (例: 花巻市)" value="" style="flex:1;">
                 <input type="text" id="mapTown" class="form-input" placeholder="町名・大字 (例: 花城町)" style="flex:1;">
                 <input type="text" id="mapLot" class="form-input" placeholder="地番 (例: 12-6)" style="flex:1;">
             </div>
@@ -652,11 +652,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             
             // ============================================
-            // 1. 位置図マップ検索（地番対応 ＆ 位置図印刷）
+            // 1. 位置図マップ検索（地番対応 ＆ 位置図印刷・統合レイアウト）
             // ============================================
             {
                 const showMapBtn = document.getElementById('showMapBtn');
-                const printMapBtn = document.getElementById('printMapBtn'); // 印刷ボタン
+                const printMapBtn = document.getElementById('printMapBtn');
                 const mapFrame = document.getElementById('mapFrame');
                 
                 if (showMapBtn) {
@@ -670,56 +670,90 @@
                             return;
                         }
                         
+                        // 検索クエリ
                         const query = `${city} ${town} ${lot}`;
                         const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; 
                         
                         mapFrame.src = embedUrl;
-                        
-                        // 印刷ボタンを表示
                         printMapBtn.style.display = 'inline-block';
                         
-                        // 印刷ボタンの動作設定
+                        // 印刷ボタンの動作（マップ内にタイトルを重ねて出力）
                         printMapBtn.onclick = function() {
-                            // 新しいウィンドウを開く
                             const printWindow = window.open('', '_blank');
                             
-                            // 印刷用HTMLの作成
                             printWindow.document.write(`
                                 <html>
                                 <head>
                                     <title>位置図 - ${query}</title>
                                     <style>
-                                        @page { size: A4 portrait; margin: 20mm; }
-                                        body { font-family: "Helvetica Neue", Arial, sans-serif; text-align: center; margin: 0; padding: 20px; }
-                                        h1 { font-size: 24px; margin-bottom: 10px; border-bottom: 2px solid #333; display: inline-block; padding-bottom: 5px; }
-                                        h2 { font-size: 18px; margin-bottom: 20px; font-weight: normal; }
-                                        .map-container { 
-                                            width: 100%; 
-                                            height: 240mm; /* A4縦の比率に合わせる */
-                                            border: 1px solid #ccc; 
+                                        @page { size: A4 portrait; margin: 10mm; } /* 余白を狭く設定 */
+                                        body { 
+                                            font-family: "Helvetica Neue", Arial, sans-serif; 
+                                            margin: 0; 
+                                            padding: 0;
+                                            height: 100vh;
+                                            box-sizing: border-box;
                                         }
-                                        iframe { width: 100%; height: 100%; border: 0; }
-                                        .no-print { margin-top: 20px; font-size: 12px; color: #666; }
-                                        @media print {
-                                            .no-print { display: none; }
+                                        /* 印刷用コンテナ */
+                                        .print-wrapper {
+                                            position: relative;
+                                            width: 100%;
+                                            height: 98%; /* ほぼ全面 */
+                                            border: 2px solid #000;
+                                            box-sizing: border-box;
+                                            overflow: hidden;
                                         }
+                                        /* 地図を全面に */
+                                        iframe {
+                                            width: 100%;
+                                            height: 100%;
+                                            border: 0;
+                                        }
+                                        /* 地図の上に重ねるタイトルボックス（左上に配置してGoogle表示を隠す） */
+                                        .overlay-box {
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            background: #fff;
+                                            border-bottom: 2px solid #000;
+                                            border-right: 2px solid #000;
+                                            padding: 15px 20px;
+                                            min-width: 300px;
+                                            z-index: 1000;
+                                        }
+                                        .overlay-box h1 {
+                                            font-size: 28px;
+                                            margin: 0 0 10px 0;
+                                            text-align: left;
+                                            border-bottom: 1px solid #333;
+                                            padding-bottom: 5px;
+                                        }
+                                        .overlay-box p {
+                                            font-size: 18px;
+                                            margin: 0;
+                                            text-align: left;
+                                            font-weight: bold;
+                                        }
+                                        .no-print { margin: 10px; font-size: 12px; color: #666; text-align: center; }
+                                        @media print { .no-print { display: none; } }
                                     </style>
                                 </head>
                                 <body>
-                                    <h1>位置図</h1>
-                                    <h2>所在：${query}</h2>
-                                    <div class="map-container">
+                                    <div class="no-print">
+                                        ※ブラウザのメニューから「印刷」または「PDFとして保存」を選択してください。
+                                    </div>
+                                    <div class="print-wrapper">
+                                        <div class="overlay-box">
+                                            <h1>位置図</h1>
+                                            <p>所在：${query}</p>
+                                        </div>
                                         <iframe src="${embedUrl}"></iframe>
                                     </div>
-                                    <div class="no-print">
-                                        ※ブラウザのメニューから「印刷」または「PDFとして保存」を選択してください。<br>
-                                        (自動的に印刷ダイアログが開かない場合は Ctrl+P を押してください)
-                                    </div>
                                     <script>
-                                        // 地図の読み込みを待ってから印刷ダイアログを開く
+                                        // 地図読み込み待ち
                                         setTimeout(function() {
                                             window.print();
-                                        }, 2000); 
+                                        }, 1500); 
                                     <\/script>
                                 </body>
                                 </html>
@@ -903,7 +937,7 @@
                         { char: "卯 (うさぎ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
                         { char: "辰 (たつ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z" },
                         { char: "巳 (へび)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z" },
-                        { char: "午 (うま)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
+                        { char: "午 (うま)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z" },
                         { char: "未 (ひつじ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z" }
                     ];
 
