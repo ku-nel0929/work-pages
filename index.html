@@ -327,7 +327,7 @@
             vertical-align: middle;
         }
 
-        /* --- 相続図作成ツール用スタイル (スマホ対応修正版) --- */
+        /* --- 相続図作成ツール用スタイル (スマホ対応) --- */
         .family-input-row {
             display: flex;
             gap: 10px;
@@ -335,13 +335,13 @@
             border-bottom: 1px solid #eee;
             padding-bottom: 10px;
             align-items: center;
-            flex-wrap: wrap; /* 重要：折り返しを許可 */
+            flex-wrap: wrap;
         }
         .family-input-row input, .family-input-row select {
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            min-width: 0; /* Flexboxでの最小幅バグ防止 */
+            min-width: 0;
         }
         .btn-add { background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
         .btn-del { background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
@@ -358,25 +358,12 @@
             height: auto;
         }
 
-        /* ▼▼▼ スマホ用レイアウト調整（600px以下） ▼▼▼ */
         @media (max-width: 600px) {
-            .family-input-row {
-                gap: 5px; /* 隙間を詰める */
-            }
-            .heir-rel {
-                flex-basis: 35%; /* 幅35% */
-            }
-            .heir-name, #decedentName, #decedentDate {
-                flex: 1; /* 残りの幅を埋める */
-            }
-            .heir-addr, #decedentAddress {
-                flex-basis: 100% !important; 
-                margin-top: 5px;
-                width: 100%;
-            }
-            .btn-del {
-                margin-left: auto; /* 右寄せ */
-            }
+            .family-input-row { gap: 5px; }
+            .heir-rel { flex-basis: 35%; }
+            .heir-name, #decedentName, #decedentDate { flex: 1; }
+            .heir-addr, #decedentAddress { flex-basis: 100% !important; margin-top: 5px; width: 100%; }
+            .btn-del { margin-left: auto; }
         }
 
         /* --- 事務所情報 --- */
@@ -489,7 +476,23 @@
         </article>
         <article class="column-article">
             <h3 class="column-title"><i class="fa-solid fa-book-open"></i> 農地転用許可・届出（3条・4条・5条）について</h3>
-            <p class="column-text">農地を宅地にするには「農地転用許可」が必要です。無許可で転用すると原状回復命令が出される場合があります。</p>
+            <p class="column-text">
+                花巻市で農地（田んぼや畑）に家を建てたり、駐車場にするには、農業委員会への<strong>「農地転用許可」</strong>が必要です。無許可で転用すると、工事の中止や原状回復命令が出される場合があります。<br>
+                当事務所は、農地転用の手続きから、転用後の「地目変更登記」までを一貫してサポートできます。
+            </p>
+            <table class="nou-table">
+                <tr><th>種類</th><th>内容</th><th>主なケース</th></tr>
+                <tr><td><strong>3条許可</strong></td><td>権利移動</td><td>農地を農地のまま売買・貸借する場合</td></tr>
+                <tr><td><strong>4条許可</strong></td><td>転用</td><td>自分の農地を宅地や駐車場にする場合</td></tr>
+                <tr><td><strong>5条許可</strong></td><td>転用＋権利移動</td><td>農地を買って（借りて）宅地にする場合</td></tr>
+            </table>
+        </article>
+        <article class="column-article">
+            <h3 class="column-title"><i class="fa-solid fa-map-location-dot"></i> 境界確定測量と境界トラブル</h3>
+            <p class="column-text">
+                土地を売却したり、ブロック塀を設置する際、「境界杭が見当たらない」ことは大きなトラブルの原因になります。<br>
+                正しい境界を確定させるためには、土地家屋調査士による<strong>「境界確定測量」</strong>が必要です。
+            </p>
         </article>
     </div>
 
@@ -598,215 +601,299 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            /* =========================================
-               1. 相続関係説明図ジェネレーター ロジック
-               ========================================= */
-            const addHeirBtn = document.getElementById('addHeirBtn');
-            const heirsContainer = document.getElementById('heirsContainer');
-            const genMapBtn = document.getElementById('genMapBtn');
-            const downloadMapBtn = document.getElementById('downloadMapBtn');
-            const canvasContainer = document.getElementById('canvasContainer');
-            const canvas = document.getElementById('familyCanvas');
-            const ctx = canvas.getContext('2d');
-
-            addHeirBtn.addEventListener('click', function() {
-                const div = document.createElement('div');
-                div.className = 'family-input-row';
-                div.innerHTML = `
-                    <select class="heir-rel" style="width:90px;">
-                        <option value="長男">長男</option>
-                        <option value="二男">二男</option>
-                        <option value="三男">三男</option>
-                        <option value="長女">長女</option>
-                        <option value="二女">二女</option>
-                        <option value="三女">三女</option>
-                        <option value="養子">養子</option>
-                        <option value="子">子</option>
-                    </select>
-                    <input type="text" class="heir-name" placeholder="氏名" style="flex:1;">
-                    <input type="text" class="heir-addr" placeholder="住所" style="flex:2;">
-                    <button type="button" class="btn-del" onclick="this.parentElement.remove()">×</button>
-                `;
-                heirsContainer.appendChild(div);
-            });
-
-            genMapBtn.addEventListener('click', function() {
-                const decedent = {
-                    name: document.getElementById('decedentName').value || "被相続人",
-                    date: document.getElementById('decedentDate').value || "",
-                    addr: document.getElementById('decedentAddress').value || ""
-                };
-
-                const heirRows = document.querySelectorAll('#heirsContainer .family-input-row');
-                let spouse = null;
-                let children = [];
-
-                heirRows.forEach(row => {
-                    const rel = row.querySelector('.heir-rel').value;
-                    const name = row.querySelector('.heir-name').value;
-                    const addr = row.querySelector('.heir-addr').value;
-                    if(name) {
-                        if(rel === '配偶者') {
-                            spouse = { name, addr, rel };
-                        } else {
-                            children.push({ name, addr, rel });
-                        }
-                    }
-                });
-
-                canvasContainer.style.display = 'block';
-                downloadMapBtn.style.display = 'inline-block';
+            
+            // ============================================
+            // 1. 相続関係説明図ジェネレーター
+            // ============================================
+            // ブロックで囲んで変数の干渉を防ぐ
+            {
+                const addHeirBtn = document.getElementById('addHeirBtn');
+                const heirsContainer = document.getElementById('heirsContainer');
+                const genMapBtn = document.getElementById('genMapBtn');
+                const downloadMapBtn = document.getElementById('downloadMapBtn');
+                const canvasContainer = document.getElementById('canvasContainer');
+                const canvas = document.getElementById('familyCanvas');
                 
-                ctx.fillStyle = "#ffffff";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.strokeStyle = "#000";
-                ctx.lineWidth = 2;
-                ctx.font = "16px sans-serif";
-                ctx.textAlign = "left";
-                ctx.textBaseline = "middle";
+                if (addHeirBtn && canvas) {
+                    const ctx = canvas.getContext('2d');
 
-                ctx.fillStyle = "#000";
-                ctx.font = "bold 20px sans-serif";
-                ctx.fillText("相続関係説明図", 30, 40);
+                    addHeirBtn.addEventListener('click', function() {
+                        const div = document.createElement('div');
+                        div.className = 'family-input-row';
+                        div.innerHTML = `
+                            <select class="heir-rel" style="width:90px;">
+                                <option value="長男">長男</option>
+                                <option value="二男">二男</option>
+                                <option value="三男">三男</option>
+                                <option value="長女">長女</option>
+                                <option value="二女">二女</option>
+                                <option value="三女">三女</option>
+                                <option value="養子">養子</option>
+                                <option value="子">子</option>
+                            </select>
+                            <input type="text" class="heir-name" placeholder="氏名" style="flex:1;">
+                            <input type="text" class="heir-addr" placeholder="住所" style="flex:2;">
+                            <button type="button" class="btn-del" onclick="this.parentElement.remove()">×</button>
+                        `;
+                        heirsContainer.appendChild(div);
+                    });
 
-                const boxW = 160;
-                const boxH = 80;
-                const gapX = 40;
-                const startY = 100;
-                const centerX = canvas.width / 2;
+                    genMapBtn.addEventListener('click', function() {
+                        // データ取得
+                        const decedent = {
+                            name: document.getElementById('decedentName').value || "被相続人",
+                            date: document.getElementById('decedentDate').value || "",
+                            addr: document.getElementById('decedentAddress').value || ""
+                        };
 
-                let decedentX = spouse ? centerX - (boxW / 2) - 30 : centerX - (boxW / 2);
-                let decedentY = startY;
+                        const heirRows = document.querySelectorAll('#heirsContainer .family-input-row');
+                        let spouse = null;
+                        let children = [];
 
-                drawBox(decedentX, decedentY, boxW, boxH, `被相続人 ${decedent.name}`, decedent.date, decedent.addr);
+                        heirRows.forEach(row => {
+                            const rel = row.querySelector('.heir-rel').value;
+                            const name = row.querySelector('.heir-name').value;
+                            const addr = row.querySelector('.heir-addr').value;
+                            if(name) {
+                                if(rel === '配偶者') {
+                                    spouse = { name, addr, rel };
+                                } else {
+                                    children.push({ name, addr, rel });
+                                }
+                            }
+                        });
 
-                if (spouse) {
-                    let spouseX = decedentX + boxW + 60;
-                    drawBox(spouseX, decedentY, boxW, boxH, `${spouse.rel} ${spouse.name}`, "", spouse.addr);
-                    
-                    ctx.beginPath();
-                    ctx.moveTo(decedentX + boxW, decedentY + boxH/2 - 3);
-                    ctx.lineTo(spouseX, decedentY + boxH/2 - 3);
-                    ctx.moveTo(decedentX + boxW, decedentY + boxH/2 + 3);
-                    ctx.lineTo(spouseX, decedentY + boxH/2 + 3);
-                    ctx.stroke();
-                }
+                        canvasContainer.style.display = 'block';
+                        downloadMapBtn.style.display = 'inline-block';
+                        
+                        ctx.fillStyle = "#ffffff";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        ctx.strokeStyle = "#000";
+                        ctx.lineWidth = 2;
+                        ctx.font = "16px sans-serif";
+                        ctx.textAlign = "left";
+                        ctx.textBaseline = "middle";
 
-                if (children.length > 0) {
-                    let parentLineCenterX;
-                    if (spouse) parentLineCenterX = decedentX + boxW + 30;
-                    else parentLineCenterX = decedentX + boxW / 2;
+                        ctx.fillStyle = "#000";
+                        ctx.font = "bold 20px sans-serif";
+                        ctx.fillText("相続関係説明図", 30, 40);
 
-                    const childLevelY = decedentY + boxH + 60;
-                    ctx.beginPath();
-                    ctx.moveTo(parentLineCenterX, decedentY + boxH/2 + 3);
-                    if(!spouse) ctx.moveTo(parentLineCenterX, decedentY + boxH); 
-                    ctx.lineTo(parentLineCenterX, childLevelY - 20);
-                    ctx.stroke();
+                        const boxW = 160;
+                        const boxH = 80;
+                        const gapX = 40;
+                        const startY = 100;
+                        const centerX = canvas.width / 2;
 
-                    const totalChildrenW = (boxW * children.length) + (gapX * (children.length - 1));
-                    let startChildX = parentLineCenterX - (totalChildrenW / 2);
+                        let decedentX = spouse ? centerX - (boxW / 2) - 30 : centerX - (boxW / 2);
+                        let decedentY = startY;
 
-                    ctx.beginPath();
-                    ctx.moveTo(startChildX + boxW/2, childLevelY - 20);
-                    ctx.lineTo(startChildX + totalChildrenW - boxW/2, childLevelY - 20);
-                    ctx.stroke();
+                        drawBox(ctx, decedentX, decedentY, boxW, boxH, `被相続人 ${decedent.name}`, decedent.date, decedent.addr);
 
-                    children.forEach((child, index) => {
-                        let cx = startChildX + (boxW + gapX) * index;
-                        let cy = childLevelY;
+                        if (spouse) {
+                            let spouseX = decedentX + boxW + 60;
+                            drawBox(ctx, spouseX, decedentY, boxW, boxH, `${spouse.rel} ${spouse.name}`, "", spouse.addr);
+                            
+                            ctx.beginPath();
+                            ctx.moveTo(decedentX + boxW, decedentY + boxH/2 - 3);
+                            ctx.lineTo(spouseX, decedentY + boxH/2 - 3);
+                            ctx.moveTo(decedentX + boxW, decedentY + boxH/2 + 3);
+                            ctx.lineTo(spouseX, decedentY + boxH/2 + 3);
+                            ctx.stroke();
+                        }
 
-                        ctx.beginPath();
-                        ctx.moveTo(cx + boxW/2, childLevelY - 20);
-                        ctx.lineTo(cx + boxW/2, cy);
-                        ctx.stroke();
+                        if (children.length > 0) {
+                            let parentLineCenterX;
+                            if (spouse) parentLineCenterX = decedentX + boxW + 30;
+                            else parentLineCenterX = decedentX + boxW / 2;
 
-                        drawBox(cx, cy, boxW, boxH, `${child.rel} ${child.name}`, "", child.addr);
+                            const childLevelY = decedentY + boxH + 60;
+                            ctx.beginPath();
+                            ctx.moveTo(parentLineCenterX, decedentY + boxH/2 + 3);
+                            if(!spouse) ctx.moveTo(parentLineCenterX, decedentY + boxH); 
+                            ctx.lineTo(parentLineCenterX, childLevelY - 20);
+                            ctx.stroke();
+
+                            const totalChildrenW = (boxW * children.length) + (gapX * (children.length - 1));
+                            let startChildX = parentLineCenterX - (totalChildrenW / 2);
+
+                            ctx.beginPath();
+                            ctx.moveTo(startChildX + boxW/2, childLevelY - 20);
+                            ctx.lineTo(startChildX + totalChildrenW - boxW/2, childLevelY - 20);
+                            ctx.stroke();
+
+                            children.forEach((child, index) => {
+                                let cx = startChildX + (boxW + gapX) * index;
+                                let cy = childLevelY;
+
+                                ctx.beginPath();
+                                ctx.moveTo(cx + boxW/2, childLevelY - 20);
+                                ctx.lineTo(cx + boxW/2, cy);
+                                ctx.stroke();
+
+                                drawBox(ctx, cx, cy, boxW, boxH, `${child.rel} ${child.name}`, "", child.addr);
+                            });
+                        }
+                        
+                        ctx.font = "12px sans-serif";
+                        ctx.fillStyle = "#666";
+                        ctx.fillText("作成：植村 土地家屋調査士・行政書士事務所", canvas.width - 250, canvas.height - 20);
+                    });
+
+                    downloadMapBtn.addEventListener('click', function() {
+                        const link = document.createElement('a');
+                        link.download = 'sozoku-kankei-zu.png';
+                        link.href = canvas.toDataURL();
+                        link.click();
                     });
                 }
                 
-                ctx.font = "12px sans-serif";
-                ctx.fillStyle = "#666";
-                ctx.fillText("作成：植村 土地家屋調査士・行政書士事務所", canvas.width - 250, canvas.height - 20);
-            });
-
-            function drawBox(x, y, w, h, line1, line2, line3) {
-                ctx.fillStyle = "#fff";
-                ctx.strokeStyle = "#000";
-                ctx.lineWidth = 1;
-                ctx.fillRect(x, y, w, h);
-                ctx.strokeRect(x, y, w, h);
-                ctx.fillStyle = "#000";
-                ctx.font = "bold 14px sans-serif";
-                ctx.fillText(line1, x + 10, y + 25);
-                ctx.font = "12px sans-serif";
-                if(line2) ctx.fillText(line2, x + 10, y + 45);
-                if(line3) ctx.fillText(line3, x + 10, y + 65);
+                function drawBox(ctx, x, y, w, h, line1, line2, line3) {
+                    ctx.fillStyle = "#fff";
+                    ctx.strokeStyle = "#000";
+                    ctx.lineWidth = 1;
+                    ctx.fillRect(x, y, w, h);
+                    ctx.strokeRect(x, y, w, h);
+                    ctx.fillStyle = "#000";
+                    ctx.font = "bold 14px sans-serif";
+                    ctx.fillText(line1, x + 10, y + 25);
+                    ctx.font = "12px sans-serif";
+                    if(line2) ctx.fillText(line2, x + 10, y + 45);
+                    if(line3) ctx.fillText(line3, x + 10, y + 65);
+                }
             }
 
-            downloadMapBtn.addEventListener('click', function() {
-                const link = document.createElement('a');
-                link.download = 'sozoku-kankei-zu.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            });
+            // ============================================
+            // 2. 年齢・和暦変換
+            // ============================================
+            {
+                const eraSelect = document.getElementById('eraSelect');
+                const yearInput = document.getElementById('yearInput');
+                
+                if (eraSelect && yearInput) {
+                    const zodiacData = [
+                        { char: "申 (さる)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z" },
+                        { char: "酉 (とり)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" },
+                        { char: "戌 (いぬ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z" },
+                        { char: "亥 (いのしし)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z" },
+                        { char: "子 (ねずみ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" },
+                        { char: "丑 (うし)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z" },
+                        { char: "寅 (とら)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z" },
+                        { char: "卯 (うさぎ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
+                        { char: "辰 (たつ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z" },
+                        { char: "巳 (へび)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z" },
+                        { char: "午 (うま)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z" },
+                        { char: "未 (ひつじ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z" }
+                    ];
 
-            /* =========================================
-               2. 年齢・和暦・干支変換 ロジック
-               ========================================= */
-            const eraSelect = document.getElementById('eraSelect');
-            const yearInput = document.getElementById('yearInput');
-            const zodiacData = [
-                { char: "申 (さる)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z" },
-                { char: "酉 (とり)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" },
-                { char: "戌 (いぬ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z" },
-                { char: "亥 (いのしし)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z" },
-                { char: "子 (ねずみ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" },
-                { char: "丑 (うし)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z" },
-                { char: "寅 (とら)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z" },
-                { char: "卯 (うさぎ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
-                { char: "辰 (たつ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z" },
-                { char: "巳 (へび)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z" },
-                { char: "午 (うま)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
-                { char: "未 (ひつじ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z" }
-            ];
+                    const calculateEra = function() {
+                        const era = eraSelect.value;
+                        const inputVal = parseInt(yearInput.value);
+                        
+                        if (!inputVal || isNaN(inputVal)) {
+                            document.getElementById('resAD').textContent = "---年";
+                            document.getElementById('resEra').textContent = "---";
+                            document.getElementById('resAge').textContent = "---歳";
+                            document.getElementById('resZodiac').innerHTML = "---";
+                            return;
+                        }
 
-            function calculateEra() {
-                const era = eraSelect.value;
-                const inputVal = parseInt(yearInput.value);
-                if (!inputVal || isNaN(inputVal)) {
-                    document.getElementById('resAD').textContent = "---年";
-                    document.getElementById('resEra').textContent = "---";
-                    document.getElementById('resAge').textContent = "---歳";
-                    document.getElementById('resZodiac').innerHTML = "---";
-                    return;
+                        let adYear = 0;
+                        if (era === 'AD') adYear = inputVal;
+                        else if (era === 'Reiwa') adYear = inputVal + 2018;
+                        else if (era === 'Heisei') adYear = inputVal + 1988;
+                        else if (era === 'Showa') adYear = inputVal + 1925;
+                        else if (era === 'Taisho') adYear = inputVal + 1911;
+                        else if (era === 'Meiji') adYear = inputVal + 1867;
+
+                        let eraString = "";
+                        if (adYear >= 2019) eraString = "令和 " + (adYear - 2018) + "年";
+                        else if (adYear >= 1989) eraString = "平成 " + (adYear - 1988) + "年";
+                        else if (adYear >= 1926) eraString = "昭和 " + (adYear - 1925) + "年";
+                        else if (adYear >= 1912) eraString = "大正 " + (adYear - 1911) + "年";
+                        else if (adYear >= 1868) eraString = "明治 " + (adYear - 1867) + "年";
+                        else eraString = "明治以前";
+                        eraString = eraString.replace(" 1年", " 元年");
+
+                        const currentYear = new Date().getFullYear();
+                        const age = currentYear - adYear;
+                        let ageString = age + "歳";
+                        if (age < 0) ageString = "生まれていません";
+
+                        const zodiacIndex = adYear % 12;
+                        const zodiacInfo = zodiacData[zodiacIndex];
+                        const zodiacHtml = `${zodiacInfo.char}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zodiacInfo.path}" /></svg>`;
+
+                        document.getElementById('resAD').textContent = adYear + "年";
+                        document.getElementById('resEra').textContent = eraString;
+                        document.getElementById('resAge').textContent = ageString;
+                        document.getElementById('resZodiac').innerHTML = zodiacHtml;
+                    };
+
+                    eraSelect.addEventListener('change', calculateEra);
+                    yearInput.addEventListener('input', calculateEra);
                 }
-                let adYear = 0;
-                if (era === 'AD') adYear = inputVal;
-                else if (era === 'Reiwa') adYear = inputVal + 2018;
-                else if (era === 'Heisei') adYear = inputVal + 1988;
-                else if (era === 'Showa') adYear = inputVal + 1925;
-                else if (era === 'Taisho') adYear = inputVal + 1911;
-                else if (era === 'Meiji') adYear = inputVal + 1867;
+            }
 
-                let eraString = "";
-                if (adYear >= 2019) eraString = "令和 " + (adYear - 2018) + "年";
-                else if (adYear >= 1989) eraString = "平成 " + (adYear - 1988) + "年";
-                else if (adYear >= 1926) eraString = "昭和 " + (adYear - 1925) + "年";
-                else if (adYear >= 1912) eraString = "大正 " + (adYear - 1911) + "年";
-                else if (adYear >= 1868) eraString = "明治 " + (adYear - 1867) + "年";
-                else eraString = "明治以前";
-                eraString = eraString.replace(" 1年", " 元年");
+            // ============================================
+            // 3. 郵便番号 ↔ 住所 検索
+            // ============================================
+            {
+                // ① Zip -> Addr
+                const zipInput = document.getElementById('zipInput');
+                const zipSearchBtn = document.getElementById('zipSearchBtn');
+                const zipResult = document.getElementById('zipResult');
 
-                const currentYear = new Date().getFullYear();
-                const age = currentYear - adYear;
-                let ageString = age + "歳";
-                if (age < 0) ageString = "生まれていません";
+                if (zipSearchBtn) {
+                    const searchAddress = function() {
+                        let zip = zipInput.value.replace(/-/g, '');
+                        if (!zip || zip.length !== 7) {
+                            zipResult.textContent = "※ 7桁の郵便番号を入力してください";
+                            zipResult.style.color = "red";
+                            return;
+                        }
+                        zipResult.textContent = "検索中...";
+                        fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zip}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 200 && data.results) {
+                                    const result = data.results[0];
+                                    zipResult.innerHTML = `<strong>${result.address1} ${result.address2} ${result.address3}</strong><br><small>(${result.kana1} ${result.kana2} ${result.kana3})</small>`;
+                                    zipResult.style.color = "#0f2350";
+                                } else {
+                                    zipResult.textContent = "該当なし";
+                                    zipResult.style.color = "red";
+                                }
+                            });
+                    };
+                    zipSearchBtn.addEventListener('click', searchAddress);
+                    zipInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') searchAddress();
+                    });
+                }
 
-                const zodiacIndex = adYear % 12;
-                const zodiacInfo = zodiacData[zodiacIndex];
-                const zodiacHtml = `${zodiacInfo.char}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zodiacInfo.path}" /></svg>`;
+                // ② Addr -> Zip (Google検索)
+                const addrInput = document.getElementById('addrInput');
+                const addrSearchBtn = document.getElementById('addrSearchBtn');
 
-                document.getElementById('resAD').textContent = adYear + "年";
-                document.getElementById('resEra').textContent = eraString;
-                document
+                if (addrSearchBtn) {
+                    addrSearchBtn.addEventListener('click', function() {
+                        const addr = addrInput.value;
+                        if (!addr) return;
+                        const url = `https://www.google.com/search?q=${encodeURIComponent(addr)}+郵便番号`;
+                        window.open(url, '_blank');
+                    });
+                    addrInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') addrSearchBtn.click();
+                    });
+                }
+            }
+        });
+    </script>
+</div>
+
+<footer>
+    <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
+</footer>
+
+</body>
+</html>
