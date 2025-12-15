@@ -6,6 +6,8 @@
     
     <meta name="google-site-verification" content="YdkYdalhqx1MHFQb7aFVKFsD7n2bUpgKDN--q0rWI9E" />
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.9.0/proj4.js"></script>
+    
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -40,12 +42,12 @@
         "closes": "18:00"
       },
       "priceRange": "相談無料",
-      "description": "岩手県花巻市の農地転用許可申請、土地の測量・分筆登記、相続手続きなら植村事務所へ。坪平米換算や登録免許税計算など便利なツールも無料公開中。"
+      "description": "岩手県花巻市の農地転用許可申請、土地の測量・分筆登記、相続手続きなら植村事務所へ。SIMAデータからの位置特定や便利ツールも無料公開中。"
     }
     </script>
 
-    <title>坪平米換算・位置図作成・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
-    <meta name="description" content="岩手県花巻市で農地転用許可申請、土地の測量、分筆登記をお考えなら当事務所へ。Webで簡単に使える「坪・平米換算」「登録免許税計算」「位置図作成」ツールを無料公開中。">
+    <title>位置図作成・SIMA読込・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
+    <meta name="description" content="岩手県花巻市で農地転用許可申請、土地の測量、分筆登記をお考えなら当事務所へ。SIMAデータを読み込んで位置図を作成するツールなど、業務に役立つ機能を無料公開中。">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -361,7 +363,7 @@
         /* --- 位置図マップ用 --- */
         .map-result-container {
             position: relative;
-            padding-bottom: 75%;
+            padding-bottom: 75%; /* 4:3 */
             height: 0;
             overflow: hidden;
             background: #eee;
@@ -376,6 +378,18 @@
             height: 100%;
             border: 0;
         }
+        
+        /* ファイル入力エリア */
+        .file-upload-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            background: #fafafa;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .file-upload-area:hover { background: #f0f0f0; border-color: var(--admin-color); }
 
         @media (max-width: 600px) {
             .family-input-row { gap: 5px; }
@@ -516,21 +530,36 @@
     </div>
 
     <div class="tool-section">
-        <h2 class="section-title">【便利ツール】現場位置図検索</h2>
+        <h2 class="section-title">【便利ツール】現場位置図検索 (地番・SIMA対応)</h2>
         <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
-            地番を入力してGoogleマップで位置を確認できます。<br>
-            <small style="color:#d9534f;">※Googleマップは地番の正確な位置に対応していない場合があり、近隣が表示されることがあります。</small>
+            地番検索、またはSIMAファイル(座標データ)から地図を表示します。<br>
+            <small style="color:#d9534f;">※地番検索は正確な位置が出ない場合があります。SIMA読込は世界測地系(第10系)に対応。</small>
         </p>
         
         <div class="tool-box">
-            <div class="tool-header">地番で地図を検索</div>
-            <div class="tool-input-group">
-                <input type="text" id="mapCity" class="form-input" placeholder="市町村 (例: 花巻市)" value="" style="flex:1;">
-                <input type="text" id="mapTown" class="form-input" placeholder="町名・大字 (例: 花城町)" style="flex:1;">
-                <input type="text" id="mapLot" class="form-input" placeholder="地番 (例: 12-6)" style="flex:1;">
+            <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;">
+                <button type="button" class="tool-btn" onclick="switchMapMode('chiban')" style="background-color:#0f2350;">地番から検索</button>
+                <button type="button" class="tool-btn" onclick="switchMapMode('sima')" style="background-color:#6c757d;">SIMAから特定</button>
             </div>
-            <div style="text-align:center; margin-bottom:10px;">
-                <button type="button" id="showMapBtn" class="tool-btn">地図を表示</button>
+
+            <div id="modeChiban">
+                <div class="tool-input-group">
+                    <input type="text" id="mapCity" class="form-input" placeholder="市町村 (例: 花巻市)" value="" style="flex:1;">
+                    <input type="text" id="mapTown" class="form-input" placeholder="町名・大字 (例: 花城町)" style="flex:1;">
+                    <input type="text" id="mapLot" class="form-input" placeholder="地番 (例: 12-6)" style="flex:1;">
+                </div>
+                <div style="text-align:center; margin-bottom:10px;">
+                    <button type="button" id="showMapBtn" class="tool-btn">地図を表示</button>
+                </div>
+            </div>
+
+            <div id="modeSima" style="display:none;">
+                <div class="file-upload-area" onclick="document.getElementById('simaFile').click()">
+                    <i class="fa-solid fa-file-arrow-up" style="font-size:2rem; color:#aaa;"></i><br>
+                    <span style="font-size:0.9rem;">SIMAファイル(.sim)を選択またはドロップ</span>
+                    <input type="file" id="simaFile" accept=".sim,.sima,.txt" style="display:none;">
+                </div>
+                <div id="simaStatus" style="text-align:center; font-size:0.9rem; color:#666; margin-bottom:10px;"></div>
             </div>
             
             <div class="map-result-container">
@@ -690,7 +719,7 @@
     </div>
     
     <script>
-        // ▼▼▼ 登録免許税計算ロジック（グローバル関数として定義） ▼▼▼
+        // ▼▼▼ 登録免許税計算ロジック ▼▼▼
         function calcTax(rate, typeName) {
             const valStr = document.getElementById('taxValue').value;
             const val = parseInt(valStr);
@@ -700,17 +729,9 @@
                 resBox.innerHTML = '<span style="color:red;">評価額を正しく入力してください</span>';
                 return;
             }
-            
-            // 課税標準額は1000円未満切り捨て
             const baseAmount = Math.floor(val / 1000) * 1000;
-            
-            // 税額計算
             let tax = Math.floor(baseAmount * rate);
-            
-            // 税額は100円未満切り捨て
             tax = Math.floor(tax / 100) * 100;
-            
-            // 最低税額1000円
             if (tax < 1000) tax = 1000;
             
             resBox.innerHTML = `
@@ -720,16 +741,37 @@
             `;
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        // ▼▼▼ マップモード切替 ▼▼▼
+        function switchMapMode(mode) {
+            document.getElementById('modeChiban').style.display = (mode === 'chiban') ? 'block' : 'none';
+            document.getElementById('modeSima').style.display = (mode === 'sima') ? 'block' : 'none';
             
+            // ボタンの色切り替え
+            const btns = document.querySelectorAll('.tool-box button');
+            // 簡易的な切り替えスタイル適用
+            if(mode === 'chiban') {
+                btns[0].style.backgroundColor = '#0f2350';
+                btns[1].style.backgroundColor = '#6c757d';
+            } else {
+                btns[0].style.backgroundColor = '#6c757d';
+                btns[1].style.backgroundColor = '#0f2350';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
             // ============================================
-            // 1. 位置図マップ検索
+            // 1. 位置図マップ検索（地番検索 & SIMA読込）
             // ============================================
             {
                 const showMapBtn = document.getElementById('showMapBtn');
                 const printMapBtn = document.getElementById('printMapBtn');
                 const mapFrame = document.getElementById('mapFrame');
+                const simaFile = document.getElementById('simaFile');
+                const simaStatus = document.getElementById('simaStatus');
                 
+                let currentQueryOrCoord = ""; // 印刷用ラベル
+
+                // A. 地番検索
                 if (showMapBtn) {
                     showMapBtn.addEventListener('click', function() {
                         const city = document.getElementById('mapCity').value;
@@ -742,42 +784,123 @@
                         }
                         
                         const query = `${city} ${town} ${lot}`;
+                        currentQueryOrCoord = query;
                         const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; 
                         
                         mapFrame.src = embedUrl;
                         printMapBtn.style.display = 'inline-block';
-                        
-                        printMapBtn.onclick = function() {
-                            const printWindow = window.open('', '_blank');
-                            printWindow.document.write(`
-                                <html>
-                                <head>
-                                    <title>位置図 - ${query}</title>
-                                    <style>
-                                        @page { size: A4 portrait; margin: 10mm; } 
-                                        body { font-family: "Helvetica Neue", Arial, sans-serif; margin: 0; padding: 0; height: 100vh; box-sizing: border-box; }
-                                        .print-wrapper { position: relative; width: 100%; height: 98%; border: 2px solid #000; box-sizing: border-box; overflow: hidden; }
-                                        iframe { width: 100%; height: 100%; border: 0; }
-                                        .overlay-box { position: absolute; top: 0; left: 0; background: #fff; border-bottom: 2px solid #000; border-right: 2px solid #000; padding: 15px 20px; min-width: 300px; z-index: 1000; }
-                                        .overlay-box h1 { font-size: 28px; margin: 0 0 10px 0; text-align: left; border-bottom: 1px solid #333; padding-bottom: 5px; }
-                                        .overlay-box p { font-size: 18px; margin: 0; text-align: left; font-weight: bold; }
-                                        .no-print { margin: 10px; font-size: 12px; color: #666; text-align: center; }
-                                        @media print { .no-print { display: none; } }
-                                    </style>
-                                </head>
-                                <body>
-                                    <div class="no-print">※ブラウザのメニューから「印刷」または「PDFとして保存」を選択してください。</div>
-                                    <div class="print-wrapper">
-                                        <div class="overlay-box"><h1>位置図</h1><p>所在：${query}</p></div>
-                                        <iframe src="${embedUrl}"></iframe>
-                                    </div>
-                                    <script>setTimeout(function() { window.print(); }, 1500);<\/script>
-                                </body>
-                                </html>
-                            `);
-                            printWindow.document.close();
-                        };
                     });
+                }
+
+                // B. SIMAファイル読込 (第10系 -> WGS84)
+                if (simaFile) {
+                    // 平面直角座標系 第10系（岩手など）の定義
+                    proj4.defs("EPSG:6678", "+proj=tmerc +lat_0=40 +lon_0=140.8333333333333 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs");
+
+                    simaFile.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (!file) return;
+
+                        simaStatus.textContent = "読み込み中...";
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(evt) {
+                            const text = evt.target.result;
+                            const lines = text.split(/\r\n|\n/);
+                            let minX = 999999999, maxX = -999999999;
+                            let minY = 999999999, maxY = -999999999;
+                            let found = false;
+
+                            // SIMAの座標データ行を探す（簡易解析）
+                            // 行の例: " 12345.678 12345.678" (スペース区切りやカンマ区切り)
+                            lines.forEach(line => {
+                                // データ行っぽいものを抽出（数字、スペースorカンマ、数字）
+                                const match = line.match(/^[\s,]*(-?\d+\.\d+)[\s,]+(-?\d+\.\d+)/);
+                                if (match) {
+                                    // SIMAは通常 X(北), Y(東) の順だが、ファイルによって異なる場合も。
+                                    // 日本の測量座標系は Xが縦(北)、Yが横(東)。
+                                    const x = parseFloat(match[1]); // North
+                                    const y = parseFloat(match[2]); // East
+                                    
+                                    // 異常値除外 (日本の座標範囲外なら無視)
+                                    if(Math.abs(x) < 1000000 && Math.abs(y) < 1000000) {
+                                        if (x < minX) minX = x;
+                                        if (x > maxX) maxX = x;
+                                        if (y < minY) minY = y;
+                                        if (y > maxY) maxY = y;
+                                        found = true;
+                                    }
+                                }
+                            });
+
+                            if (!found) {
+                                simaStatus.textContent = "座標データが見つかりませんでした。";
+                                return;
+                            }
+
+                            // 重心を計算
+                            const centerX = (minX + maxX) / 2;
+                            const centerY = (minY + maxY) / 2;
+
+                            // 座標変換 (EPSG:6678 -> WGS84)
+                            try {
+                                const wgs84 = proj4("EPSG:6678", "WGS84", [centerY, centerX]); // Proj4は [x(East), y(North)] の順
+                                const lat = wgs84[1];
+                                const lon = wgs84[0];
+
+                                simaStatus.textContent = `特定完了: 北緯${lat.toFixed(5)}, 東経${lon.toFixed(5)}`;
+                                currentQueryOrCoord = `座標読込 (${lat.toFixed(4)}, ${lon.toFixed(4)})`;
+                                
+                                const embedUrl = `https://maps.google.co.jp/maps?q=${lat},${lon}&output=embed&t=m&z=17`;
+                                mapFrame.src = embedUrl;
+                                printMapBtn.style.display = 'inline-block';
+
+                            } catch (err) {
+                                simaStatus.textContent = "座標変換に失敗しました。";
+                                console.error(err);
+                            }
+                        };
+                        reader.readAsText(file, "Shift_JIS"); // SIMAは通常Shift_JIS
+                    });
+                }
+
+                // 印刷機能
+                if (printMapBtn) {
+                    printMapBtn.onclick = function() {
+                        const printWindow = window.open('', '_blank');
+                        const mapSrc = mapFrame.src;
+                        
+                        printWindow.document.write(`
+                            <html>
+                            <head>
+                                <title>位置図</title>
+                                <style>
+                                    @page { size: A4 portrait; margin: 10mm; } 
+                                    body { font-family: "Helvetica Neue", Arial, sans-serif; margin: 0; padding: 0; height: 100vh; box-sizing: border-box; }
+                                    .print-wrapper { position: relative; width: 100%; height: 98%; border: 2px solid #000; box-sizing: border-box; overflow: hidden; }
+                                    iframe { width: 100%; height: 100%; border: 0; }
+                                    .overlay-box { position: absolute; top: 0; left: 0; background: #fff; border-bottom: 2px solid #000; border-right: 2px solid #000; padding: 15px 20px; min-width: 300px; z-index: 1000; }
+                                    .overlay-box h1 { font-size: 28px; margin: 0 0 10px 0; text-align: left; border-bottom: 1px solid #333; padding-bottom: 5px; }
+                                    .overlay-box p { font-size: 18px; margin: 0; text-align: left; font-weight: bold; }
+                                    .no-print { margin: 10px; font-size: 12px; color: #666; text-align: center; }
+                                    @media print { .no-print { display: none; } }
+                                </style>
+                            </head>
+                            <body>
+                                <div class="no-print">※ブラウザのメニューから「印刷」または「PDFとして保存」を選択してください。</div>
+                                <div class="print-wrapper">
+                                    <div class="overlay-box">
+                                        <h1>位置図</h1>
+                                        <p>所在：${currentQueryOrCoord}</p>
+                                    </div>
+                                    <iframe src="${mapSrc}"></iframe>
+                                </div>
+                                <script>setTimeout(function() { window.print(); }, 1500);<\/script>
+                            </body>
+                            </html>
+                        `);
+                        printWindow.document.close();
+                    };
                 }
             }
 
@@ -793,7 +916,6 @@
                     const TSUB_TO_M2 = 3.30578;
                     const JO_TO_M2 = 1.6562; // 中京間基準
 
-                    // 坪入力時
                     tsuboInput.addEventListener('input', function() {
                         const val = parseFloat(this.value);
                         if (!isNaN(val)) {
@@ -802,7 +924,6 @@
                         } else { m2Input.value = ''; joInput.value = ''; }
                     });
 
-                    // 平米入力時
                     m2Input.addEventListener('input', function() {
                         const val = parseFloat(this.value);
                         if (!isNaN(val)) {
@@ -811,7 +932,6 @@
                         } else { tsuboInput.value = ''; joInput.value = ''; }
                     });
 
-                    // 畳入力時
                     joInput.addEventListener('input', function() {
                         const val = parseFloat(this.value);
                         if (!isNaN(val)) {
@@ -1051,6 +1171,7 @@
             // 5. 郵便番号 ↔ 住所 検索
             // ============================================
             {
+                // ① Zip -> Addr
                 const zipInput = document.getElementById('zipInput');
                 const zipSearchBtn = document.getElementById('zipSearchBtn');
                 const zipResult = document.getElementById('zipResult');
@@ -1087,6 +1208,7 @@
                     });
                 }
 
+                // ② Addr -> Zip (Google検索)
                 const addrInput = document.getElementById('addrInput');
                 const addrSearchBtn = document.getElementById('addrSearchBtn');
 
