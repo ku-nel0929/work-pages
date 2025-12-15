@@ -44,8 +44,8 @@
     }
     </script>
 
-    <title>位置図作成・法務局地図データ・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
-    <meta name="description" content="岩手県花巻市で農地転用許可申請、土地の測量、分筆登記をお考えなら当事務所へ。Webで簡単に位置図、相続関係説明図が作れるツールや、法務局地図データ（SIM）へのアクセス支援も提供。">
+    <title>位置図・シマデータ取得・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
+    <meta name="description" content="岩手県花巻市で農地転用許可申請、土地の測量、分筆登記をお考えなら当事務所へ。Webで簡単に位置図、相続関係説明図が作れるツールや、法務局地図データ（SIMA）取得支援も提供。">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -327,7 +327,7 @@
             vertical-align: middle;
         }
 
-        /* --- 相続図作成ツール用スタイル (スマホ対応) --- */
+        /* --- 相続図作成ツール用スタイル --- */
         .family-input-row {
             display: flex;
             gap: 10px;
@@ -361,7 +361,7 @@
         /* --- 位置図マップ用 --- */
         .map-result-container {
             position: relative;
-            padding-bottom: 75%; /* 4:3 */
+            padding-bottom: 75%;
             height: 0;
             overflow: hidden;
             background: #eee;
@@ -546,43 +546,34 @@
     </div>
 
     <div class="tool-section">
-        <h2 class="section-title">【便利ツール】法務局地図データ (SIM) 活用</h2>
+        <h2 class="section-title">【便利ツール】シマデータ(SIMA) ダウンロード</h2>
         <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
-            法務局の公開地図データを活用するためのリンク集です。<br>
-            <small>※データは膨大なため、専用サイトでの閲覧・ダウンロードを推奨します。</small>
+            高機能WebGIS「Open-hinata3」を使用して、法務局地図データ（SIMA形式）を簡単にダウンロードできます。
         </p>
         
-        <div class="tool-box">
-            <div class="tool-header">データを探す・見る</div>
+        <div class="tool-box" style="background:#fff; border:2px solid #28a745;">
+            <div class="tool-header" style="color:#28a745; border-bottom:1px dashed #28a745;">
+                <i class="fa-solid fa-download"></i> SIMAデータの取得手順
+            </div>
             
-            <div style="display:flex; flex-direction:column; gap:15px;">
-                <div style="border:1px solid #ddd; padding:15px; border-radius:5px; background:#f9f9f9;">
-                    <h3 style="font-size:1.1rem; color:#0f2350; margin-bottom:5px;">
-                        <i class="fa-solid fa-database"></i> 地図データのダウンロード
-                    </h3>
-                    <p style="font-size:0.9rem; color:#666;">
-                        G空間情報センターから「法務省登記所備付地図データ」をダウンロードできます。<br>
-                        （ログイン不要・無料）
-                    </p>
-                    <a href="https://www.geospatial.jp/ckan/dataset/houmuxml" target="_blank" class="tool-btn" style="display:block; text-align:center; text-decoration:none; margin-top:10px;">
-                        G空間情報センターへ移動 <i class="fa-solid fa-up-right-from-square"></i>
-                    </a>
-                </div>
+            <div style="padding:10px; font-size:0.95rem; line-height:1.8;">
+                <ol style="padding-left:20px; margin:0;">
+                    <li>下のボックスに住所を入力し、<strong>「コピー」</strong>ボタンを押します。</li>
+                    <li><strong>「地図ツールを開く」</strong>ボタンを押して、Open-hinata3を起動します。</li>
+                    <li>開いた地図画面の左上にある<strong>虫眼鏡アイコン（検索）</strong>に、コピーした住所を貼り付けて検索します。</li>
+                    <li>表示された地図上の土地をクリックし、出てきたメニューから<strong>「SIMA保存」</strong>を押すとダウンロード完了です。</li>
+                </ol>
+            </div>
 
-                <div style="border:1px solid #ddd; padding:15px; border-radius:5px; background:#f9f9f9;">
-                    <h3 style="font-size:1.1rem; color:#0f2350; margin-bottom:5px;">
-                        <i class="fa-solid fa-map"></i> 地図データをブラウザで見る
-                    </h3>
-                    <p style="font-size:0.9rem; color:#666;">
-                        「MAPPLE 法務局地図ビューア」を使うと、XMLデータをダウンロードせずに地図上で地番を確認できます。
-                    </p>
-                    <div class="tool-input-group" style="margin-top:10px;">
-                        <input type="text" id="simAddress" class="form-input" placeholder="住所を入力 (例: 花巻市花城町12-6)" style="flex:2;">
-                        <button type="button" id="openMappleBtn" class="tool-btn" style="background-color:#28a745;">
-                            地図ビューアで開く
-                        </button>
-                    </div>
-                </div>
+            <div class="tool-input-group" style="margin-top:20px; border-top:1px solid #eee; padding-top:15px;">
+                <input type="text" id="simCopyAddr" class="form-input" placeholder="検索したい住所 (例: 花巻市花城町12-6)" style="flex:2;">
+                <button type="button" id="copyAddrBtn" class="tool-btn" style="background-color:#6c757d;">コピー</button>
+            </div>
+            
+            <div style="text-align:center; margin-top:15px;">
+                <a href="https://kenzkenz.xsrv.jp/open-hinata3/?s=pf5YYhr" target="_blank" class="tool-btn" style="background-color:#28a745; font-size:1.1rem; padding:15px 30px; text-decoration:none; display:inline-block;">
+                    <i class="fa-solid fa-map-location-dot"></i> 地図ツールを開く (Open-hinata3)
+                </a>
             </div>
         </div>
     </div>
@@ -689,7 +680,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             
             // ============================================
-            // 1. 位置図マップ検索
+            // 1. 位置図マップ検索（地番対応 ＆ 位置図印刷・統合レイアウト）
             // ============================================
             {
                 const showMapBtn = document.getElementById('showMapBtn');
@@ -713,16 +704,14 @@
                         mapFrame.src = embedUrl;
                         printMapBtn.style.display = 'inline-block';
                         
-                        // 印刷・PDF保存
                         printMapBtn.onclick = function() {
                             const printWindow = window.open('', '_blank');
-                            
                             printWindow.document.write(`
                                 <html>
                                 <head>
                                     <title>位置図 - ${query}</title>
                                     <style>
-                                        @page { size: A4 portrait; margin: 10mm; }
+                                        @page { size: A4 portrait; margin: 10mm; } 
                                         body { 
                                             font-family: "Helvetica Neue", Arial, sans-serif; 
                                             margin: 0; 
@@ -738,11 +727,7 @@
                                             box-sizing: border-box;
                                             overflow: hidden;
                                         }
-                                        iframe {
-                                            width: 100%;
-                                            height: 100%;
-                                            border: 0;
-                                        }
+                                        iframe { width: 100%; height: 100%; border: 0; }
                                         .overlay-box {
                                             position: absolute;
                                             top: 0;
@@ -783,9 +768,7 @@
                                         <iframe src="${embedUrl}"></iframe>
                                     </div>
                                     <script>
-                                        setTimeout(function() {
-                                            window.print();
-                                        }, 1500); 
+                                        setTimeout(function() { window.print(); }, 1500); 
                                     <\/script>
                                 </body>
                                 </html>
@@ -797,25 +780,23 @@
             }
 
             // ============================================
-            // 2. SIMデータ活用支援（MAPPLEリンク）
+            // 2. シマデータ活用（住所コピー機能）
             // ============================================
             {
-                const openMappleBtn = document.getElementById('openMappleBtn');
-                const simAddress = document.getElementById('simAddress');
+                const copyAddrBtn = document.getElementById('copyAddrBtn');
+                const simCopyAddr = document.getElementById('simCopyAddr');
 
-                if (openMappleBtn) {
-                    openMappleBtn.addEventListener('click', function() {
-                        const address = simAddress.value;
-                        if (!address) {
-                            alert("住所を入力してください");
-                            return;
-                        }
-                        // MAPPLEは住所検索機能がないため、Google検索で経由させるか、トップへ誘導が現実的だが
-                        // ここでは公式ビューアへのリンクを開く
-                        const url = "https://mapple-moj.jp/";
-                        // ユーザーに住所をコピーさせるアラート
-                        alert("「MAPPLE 法務局地図ビューア」を開きます。\n入力した住所を検索バーに貼り付けて検索してください。");
-                        window.open(url, '_blank');
+                if (copyAddrBtn) {
+                    copyAddrBtn.addEventListener('click', function() {
+                        const text = simCopyAddr.value;
+                        if (!text) return;
+                        navigator.clipboard.writeText(text).then(function() {
+                            const originalText = copyAddrBtn.textContent;
+                            copyAddrBtn.textContent = "コピーしました！";
+                            setTimeout(() => { copyAddrBtn.textContent = originalText; }, 2000);
+                        }, function(err) {
+                            alert('コピーに失敗しました');
+                        });
                     });
                 }
             }
@@ -993,7 +974,7 @@
                         { char: "卯 (うさぎ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
                         { char: "辰 (たつ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z" },
                         { char: "巳 (へび)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z" },
-                        { char: "午 (うま)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z" },
+                        { char: "午 (うま)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
                         { char: "未 (ひつじ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z" }
                     ];
 
