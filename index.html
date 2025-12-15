@@ -40,12 +40,12 @@
         "closes": "18:00"
       },
       "priceRange": "相談無料",
-      "description": "岩手県花巻市の農地転用許可申請、土地の測量・分筆登記、相続手続きなら植村事務所へ。相続登記義務化に伴う遺産分割協議書作成から、農地法許可申請までワンストップで対応します。"
+      "description": "岩手県花巻市の農地転用許可申請、土地の測量・分筆登記、相続手続きなら植村事務所へ。坪平米換算や登録免許税計算など便利なツールも無料公開中。"
     }
     </script>
 
-    <title>位置図・シマデータ取得・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
-    <meta name="description" content="岩手県花巻市で農地転用許可申請、土地の測量、分筆登記をお考えなら当事務所へ。Webで簡単に位置図、相続関係説明図が作れるツールや、法務局地図データ（SIMA）取得支援も提供。">
+    <title>坪平米換算・位置図作成・農地転用 | 植村 土地家屋調査士・行政書士事務所</title>
+    <meta name="description" content="岩手県花巻市で農地転用許可申請、土地の測量、分筆登記をお考えなら当事務所へ。Webで簡単に使える「坪・平米換算」「登録免許税計算」「位置図作成」ツールを無料公開中。">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -327,7 +327,7 @@
             vertical-align: middle;
         }
 
-        /* --- 相続図作成ツール用スタイル --- */
+        /* --- 相続図作成ツール用スタイル (スマホ対応) --- */
         .family-input-row {
             display: flex;
             gap: 10px;
@@ -546,35 +546,50 @@
     </div>
 
     <div class="tool-section">
-        <h2 class="section-title">【便利ツール】シマデータ(SIMA) ダウンロード</h2>
+        <h2 class="section-title">【便利ツール】坪 ⇔ 平米(㎡) ⇔ 畳 換算</h2>
         <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
-            高機能WebGIS「Open-hinata3」を使用して、法務局地図データ（SIMA形式）を簡単にダウンロードできます。
+            どれか1つを入力すると、自動的に他の単位に変換します。
         </p>
-        
-        <div class="tool-box" style="background:#fff; border:2px solid #28a745;">
-            <div class="tool-header" style="color:#28a745; border-bottom:1px dashed #28a745;">
-                <i class="fa-solid fa-download"></i> SIMAデータの取得手順
+        <div class="tool-box">
+            <div class="family-input-row">
+                <span class="tool-label" style="min-width:60px;">坪数</span>
+                <input type="number" id="tsuboInput" class="form-input" placeholder="坪" style="flex:1;">
             </div>
-            
-            <div style="padding:10px; font-size:0.95rem; line-height:1.8;">
-                <ol style="padding-left:20px; margin:0;">
-                    <li>下のボックスに住所を入力し、<strong>「コピー」</strong>ボタンを押します。</li>
-                    <li><strong>「地図ツールを開く」</strong>ボタンを押して、Open-hinata3を起動します。</li>
-                    <li>開いた地図画面の左上にある<strong>虫眼鏡アイコン（検索）</strong>に、コピーした住所を貼り付けて検索します。</li>
-                    <li>表示された地図上の土地をクリックし、出てきたメニューから<strong>「SIMA保存」</strong>を押すとダウンロード完了です。</li>
-                </ol>
+            <div class="family-input-row">
+                <span class="tool-label" style="min-width:60px;">平米</span>
+                <input type="number" id="m2Input" class="form-input" placeholder="㎡" style="flex:1;">
             </div>
+            <div class="family-input-row">
+                <span class="tool-label" style="min-width:60px;">畳数</span>
+                <input type="number" id="joInput" class="form-input" placeholder="畳 (中京間)" style="flex:1;">
+            </div>
+            <p style="font-size:0.8rem; color:#666; text-align:right; margin-top:5px;">
+                ※1坪 = 3.30578㎡、1畳 = 1.6562㎡ で計算
+            </p>
+        </div>
+    </div>
 
-            <div class="tool-input-group" style="margin-top:20px; border-top:1px solid #eee; padding-top:15px;">
-                <input type="text" id="simCopyAddr" class="form-input" placeholder="検索したい住所 (例: 花巻市花城町12-6)" style="flex:2;">
-                <button type="button" id="copyAddrBtn" class="tool-btn" style="background-color:#6c757d;">コピー</button>
+    <div class="tool-section" style="margin-top:-20px;">
+        <h2 class="section-title">【便利ツール】登録免許税 (概算) 計算</h2>
+        <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
+            固定資産税評価額を入力して、登記の種類を選択してください。
+        </p>
+        <div class="tool-box">
+            <div class="family-input-row">
+                <span class="tool-label" style="min-width:80px;">評価額</span>
+                <input type="number" id="taxValue" class="form-input" placeholder="円 (例: 10000000)" style="flex:1;">
             </div>
-            
-            <div style="text-align:center; margin-top:15px;">
-                <a href="https://kenzkenz.xsrv.jp/open-hinata3/?s=pf5YYhr" target="_blank" class="tool-btn" style="background-color:#28a745; font-size:1.1rem; padding:15px 30px; text-decoration:none; display:inline-block;">
-                    <i class="fa-solid fa-map-location-dot"></i> 地図ツールを開く (Open-hinata3)
-                </a>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; justify-content:center;">
+                <button type="button" class="tool-btn" onclick="calcTax(0.004, '所有権保存 (新築等)')">保存 (0.4%)</button>
+                <button type="button" class="tool-btn" onclick="calcTax(0.02, '所有権移転 (売買等)')">移転 (2.0%)</button>
+                <button type="button" class="tool-btn" onclick="calcTax(0.004, '抵当権設定 (債権額)')">抵当権 (0.4%)</button>
             </div>
+            <div id="taxResult" style="background:#f9f9f9; padding:15px; border-radius:4px; border:1px solid #ddd; margin-top:15px; text-align:center;">
+                <span style="font-size:0.9rem;">ここに計算結果が表示されます</span>
+            </div>
+            <p style="font-size:0.8rem; color:#d9534f; margin-top:5px;">
+                ※あくまで概算です。軽減税率の適用や端数処理により実際と異なる場合があります。
+            </p>
         </div>
     </div>
 
@@ -656,7 +671,6 @@
 
     <div class="tool-section" style="margin-top:-20px;">
         <h2 class="section-title">【便利ツール】郵便番号 ↔ 住所 検索</h2>
-        
         <div class="tool-box">
             <div class="tool-header">郵便番号 <i class="fa-solid fa-arrow-right"></i> 住所</div>
             <div class="tool-input-group">
@@ -665,7 +679,6 @@
             </div>
             <div id="zipResult" style="padding:10px;"></div>
         </div>
-
         <div class="tool-box">
             <div class="tool-header">住所 <i class="fa-solid fa-arrow-right"></i> 郵便番号</div>
             <p style="font-size:0.9rem; margin-bottom:10px;">住所を入力してボタンを押すと、Google検索で郵便番号を表示します。</p>
@@ -677,10 +690,40 @@
     </div>
     
     <script>
+        // ▼▼▼ 登録免許税計算ロジック（グローバル関数として定義） ▼▼▼
+        function calcTax(rate, typeName) {
+            const valStr = document.getElementById('taxValue').value;
+            const val = parseInt(valStr);
+            const resBox = document.getElementById('taxResult');
+            
+            if (!val || val <= 0) {
+                resBox.innerHTML = '<span style="color:red;">評価額を正しく入力してください</span>';
+                return;
+            }
+            
+            // 課税標準額は1000円未満切り捨て
+            const baseAmount = Math.floor(val / 1000) * 1000;
+            
+            // 税額計算
+            let tax = Math.floor(baseAmount * rate);
+            
+            // 税額は100円未満切り捨て
+            tax = Math.floor(tax / 100) * 100;
+            
+            // 最低税額1000円
+            if (tax < 1000) tax = 1000;
+            
+            resBox.innerHTML = `
+                <div style="font-weight:bold; color:#0f2350; margin-bottom:5px;">${typeName}</div>
+                <div style="font-size:1.4rem; color:#c5a059;">約 ${tax.toLocaleString()} 円</div>
+                <div style="font-size:0.8rem; color:#666; margin-top:5px;">(課税標準: ${baseAmount.toLocaleString()}円 × ${rate*100}%)</div>
+            `;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             
             // ============================================
-            // 1. 位置図マップ検索（地番対応 ＆ 位置図印刷・統合レイアウト）
+            // 1. 位置図マップ検索
             // ============================================
             {
                 const showMapBtn = document.getElementById('showMapBtn');
@@ -712,64 +755,23 @@
                                     <title>位置図 - ${query}</title>
                                     <style>
                                         @page { size: A4 portrait; margin: 10mm; } 
-                                        body { 
-                                            font-family: "Helvetica Neue", Arial, sans-serif; 
-                                            margin: 0; 
-                                            padding: 0;
-                                            height: 100vh;
-                                            box-sizing: border-box;
-                                        }
-                                        .print-wrapper {
-                                            position: relative;
-                                            width: 100%;
-                                            height: 98%;
-                                            border: 2px solid #000;
-                                            box-sizing: border-box;
-                                            overflow: hidden;
-                                        }
+                                        body { font-family: "Helvetica Neue", Arial, sans-serif; margin: 0; padding: 0; height: 100vh; box-sizing: border-box; }
+                                        .print-wrapper { position: relative; width: 100%; height: 98%; border: 2px solid #000; box-sizing: border-box; overflow: hidden; }
                                         iframe { width: 100%; height: 100%; border: 0; }
-                                        .overlay-box {
-                                            position: absolute;
-                                            top: 0;
-                                            left: 0;
-                                            background: #fff;
-                                            border-bottom: 2px solid #000;
-                                            border-right: 2px solid #000;
-                                            padding: 15px 20px;
-                                            min-width: 300px;
-                                            z-index: 1000;
-                                        }
-                                        .overlay-box h1 {
-                                            font-size: 28px;
-                                            margin: 0 0 10px 0;
-                                            text-align: left;
-                                            border-bottom: 1px solid #333;
-                                            padding-bottom: 5px;
-                                        }
-                                        .overlay-box p {
-                                            font-size: 18px;
-                                            margin: 0;
-                                            text-align: left;
-                                            font-weight: bold;
-                                        }
+                                        .overlay-box { position: absolute; top: 0; left: 0; background: #fff; border-bottom: 2px solid #000; border-right: 2px solid #000; padding: 15px 20px; min-width: 300px; z-index: 1000; }
+                                        .overlay-box h1 { font-size: 28px; margin: 0 0 10px 0; text-align: left; border-bottom: 1px solid #333; padding-bottom: 5px; }
+                                        .overlay-box p { font-size: 18px; margin: 0; text-align: left; font-weight: bold; }
                                         .no-print { margin: 10px; font-size: 12px; color: #666; text-align: center; }
                                         @media print { .no-print { display: none; } }
                                     </style>
                                 </head>
                                 <body>
-                                    <div class="no-print">
-                                        ※ブラウザのメニューから「印刷」または「PDFとして保存」を選択してください。
-                                    </div>
+                                    <div class="no-print">※ブラウザのメニューから「印刷」または「PDFとして保存」を選択してください。</div>
                                     <div class="print-wrapper">
-                                        <div class="overlay-box">
-                                            <h1>位置図</h1>
-                                            <p>所在：${query}</p>
-                                        </div>
+                                        <div class="overlay-box"><h1>位置図</h1><p>所在：${query}</p></div>
                                         <iframe src="${embedUrl}"></iframe>
                                     </div>
-                                    <script>
-                                        setTimeout(function() { window.print(); }, 1500); 
-                                    <\/script>
+                                    <script>setTimeout(function() { window.print(); }, 1500);<\/script>
                                 </body>
                                 </html>
                             `);
@@ -780,23 +782,43 @@
             }
 
             // ============================================
-            // 2. シマデータ活用（住所コピー機能）
+            // 2. 坪・平米・畳 換算ロジック
             // ============================================
             {
-                const copyAddrBtn = document.getElementById('copyAddrBtn');
-                const simCopyAddr = document.getElementById('simCopyAddr');
+                const tsuboInput = document.getElementById('tsuboInput');
+                const m2Input = document.getElementById('m2Input');
+                const joInput = document.getElementById('joInput');
 
-                if (copyAddrBtn) {
-                    copyAddrBtn.addEventListener('click', function() {
-                        const text = simCopyAddr.value;
-                        if (!text) return;
-                        navigator.clipboard.writeText(text).then(function() {
-                            const originalText = copyAddrBtn.textContent;
-                            copyAddrBtn.textContent = "コピーしました！";
-                            setTimeout(() => { copyAddrBtn.textContent = originalText; }, 2000);
-                        }, function(err) {
-                            alert('コピーに失敗しました');
-                        });
+                if (tsuboInput && m2Input && joInput) {
+                    const TSUB_TO_M2 = 3.30578;
+                    const JO_TO_M2 = 1.6562; // 中京間基準
+
+                    // 坪入力時
+                    tsuboInput.addEventListener('input', function() {
+                        const val = parseFloat(this.value);
+                        if (!isNaN(val)) {
+                            m2Input.value = (val * TSUB_TO_M2).toFixed(2);
+                            joInput.value = ((val * TSUB_TO_M2) / JO_TO_M2).toFixed(2);
+                        } else { m2Input.value = ''; joInput.value = ''; }
+                    });
+
+                    // 平米入力時
+                    m2Input.addEventListener('input', function() {
+                        const val = parseFloat(this.value);
+                        if (!isNaN(val)) {
+                            tsuboInput.value = (val / TSUB_TO_M2).toFixed(2);
+                            joInput.value = (val / JO_TO_M2).toFixed(2);
+                        } else { tsuboInput.value = ''; joInput.value = ''; }
+                    });
+
+                    // 畳入力時
+                    joInput.addEventListener('input', function() {
+                        const val = parseFloat(this.value);
+                        if (!isNaN(val)) {
+                            const m2 = val * JO_TO_M2;
+                            m2Input.value = m2.toFixed(2);
+                            tsuboInput.value = (m2 / TSUB_TO_M2).toFixed(2);
+                        } else { tsuboInput.value = ''; m2Input.value = ''; }
                     });
                 }
             }
@@ -974,7 +996,7 @@
                         { char: "卯 (うさぎ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
                         { char: "辰 (たつ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z" },
                         { char: "巳 (へび)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z" },
-                        { char: "午 (うま)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z" },
+                        { char: "午 (うま)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z" },
                         { char: "未 (ひつじ)", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z" }
                     ];
 
@@ -1029,7 +1051,6 @@
             // 5. 郵便番号 ↔ 住所 検索
             // ============================================
             {
-                // ① Zip -> Addr
                 const zipInput = document.getElementById('zipInput');
                 const zipSearchBtn = document.getElementById('zipSearchBtn');
                 const zipResult = document.getElementById('zipResult');
@@ -1066,7 +1087,6 @@
                     });
                 }
 
-                // ② Addr -> Zip (Google検索)
                 const addrInput = document.getElementById('addrInput');
                 const addrSearchBtn = document.getElementById('addrSearchBtn');
 
