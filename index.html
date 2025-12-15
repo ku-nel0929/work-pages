@@ -331,7 +331,7 @@
             vertical-align: middle;
         }
 
-        /* --- 相続図作成ツール用スタイル (スマホ対応) --- */
+        /* --- 相続図作成ツール用スタイル --- */
         .family-input-row {
             display: flex;
             gap: 10px;
@@ -365,7 +365,7 @@
         /* --- 位置図マップ用 --- */
         .map-result-container {
             position: relative;
-            padding-bottom: 75%; /* 4:3 */
+            padding-bottom: 75%;
             height: 0;
             overflow: hidden;
             background: #eee;
@@ -380,18 +380,19 @@
             height: 100%;
             border: 0;
         }
+        
         /* ファイルドロップエリア */
         .file-upload-area {
-            border: 2px dashed #ccc;
-            padding: 20px;
+            border: 3px dashed #ccc;
+            padding: 30px;
             text-align: center;
-            border-radius: 5px;
+            border-radius: 8px;
             background: #fafafa;
             margin-bottom: 15px;
             cursor: pointer;
             transition: 0.3s;
         }
-        .file-upload-area:hover { background: #f0f0f0; border-color: var(--admin-color); }
+        .file-upload-area:hover { background: #eef4fb; border-color: var(--admin-color); }
 
         @media (max-width: 600px) {
             .family-input-row { gap: 5px; }
@@ -556,9 +557,10 @@
             </div>
 
             <div id="modeSima" style="display:none;">
-                <div class="file-upload-area" onclick="document.getElementById('simaFile').click()">
-                    <i class="fa-solid fa-file-arrow-up" style="font-size:2rem; color:#aaa;"></i><br>
-                    <span style="font-size:0.9rem; color:#666;">SIMAファイル(.sim)を選択またはドロップ</span>
+                <div class="file-upload-area" id="dropArea" onclick="document.getElementById('simaFile').click()">
+                    <i class="fa-solid fa-file-arrow-up" style="font-size:2rem; color:#aaa; margin-bottom:10px;"></i><br>
+                    <span style="font-size:0.95rem; font-weight:bold; color:#0f2350;">ここにSIMAファイルをドロップ</span><br>
+                    <span style="font-size:0.85rem; color:#666;">またはクリックしてファイルを選択</span>
                     <input type="file" id="simaFile" accept=".sim,.sima,.txt" style="display:none;">
                 </div>
                 <div id="simaStatus" style="text-align:center; font-size:0.9rem; color:#0f2350; font-weight:bold; margin-bottom:10px;"></div>
@@ -764,6 +766,8 @@
                 const mapFrame = document.getElementById('mapFrame');
                 const simaFile = document.getElementById('simaFile');
                 const simaStatus = document.getElementById('simaStatus');
+                const dropArea = document.getElementById('dropArea');
+                
                 let currentQueryOrCoord = ""; // 印刷用ラベル
 
                 // A. 地番検索
@@ -777,6 +781,7 @@
                             alert("市町村と町名を入力してください");
                             return;
                         }
+                        
                         const query = `${city} ${town} ${lot}`;
                         currentQueryOrCoord = query;
                         const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; 
@@ -787,57 +792,97 @@
                 }
 
                 // B. SIMAファイル読込 (第10系 -> WGS84)
-                if (simaFile) {
-                    // 平面直角座標系 第10系（岩手）定義
-                    proj4.defs("EPSG:6678", "+proj=tmerc +lat_0=40 +lon_0=140.8333333333333 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs");
+                if (simaFile && dropArea) {
+                    // ドラッグ＆ドロップイベント
+                    dropArea.addEventListener('dragover', function(e) {
+                        e.stopPropagation(); e.preventDefault();
+                        this.style.background = '#eef4fb';
+                        this.style.borderColor = '#0f2350';
+                    }, false);
+                    dropArea.addEventListener('dragleave', function(e) {
+                        e.stopPropagation(); e.preventDefault();
+                        this.style.background = '#fafafa';
+                        this.style.borderColor = '#ccc';
+                    }, false);
+                    dropArea.addEventListener('drop', function(e) {
+                        e.stopPropagation(); e.preventDefault();
+                        this.style.background = '#fafafa';
+                        this.style.borderColor = '#ccc';
+                        const files = e.dataTransfer.files;
+                        if(files.length > 0) {
+                            simaFile.files = files; // inputにセット
+                            readSima(files[0]);
+                        }
+                    }, false);
 
                     simaFile.addEventListener('change', function(e) {
                         const file = e.target.files[0];
                         if (!file) return;
+                        readSima(file);
+                    });
 
+                    function readSima(file) {
                         simaStatus.textContent = "読み込み中...";
-                        const reader = new FileReader();
                         
+                        // 平面直角座標系 第10系（岩手など）の定義
+                        if(typeof proj4 !== 'undefined') {
+                            proj4.defs("EPSG:6678", "+proj=tmerc +lat_0=40 +lon_0=140.8333333333333 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs");
+                        } else {
+                            simaStatus.textContent = "エラー: 座標変換ライブラリがロードされていません";
+                            return;
+                        }
+
+                        const reader = new FileReader();
                         reader.onload = function(evt) {
                             const text = evt.target.result;
                             const lines = text.split(/\r\n|\n/);
                             let minX = 999999999, maxX = -999999999;
                             let minY = 999999999, maxY = -999999999;
-                            let found = false;
+                            let count = 0;
 
-                            // 座標行抽出 (簡易解析)
                             lines.forEach(line => {
-                                const match = line.match(/^[\s,]*(-?\d+\.\d+)[\s,]+(-?\d+\.\d+)/);
-                                if (match) {
-                                    const x = parseFloat(match[1]); // North
-                                    const y = parseFloat(match[2]); // East
-                                    // 異常値除外
-                                    if(Math.abs(x) < 1000000 && Math.abs(y) < 1000000) {
-                                        if (x < minX) minX = x;
-                                        if (x > maxX) maxX = x;
-                                        if (y < minY) minY = y;
-                                        if (y > maxY) maxY = y;
-                                        found = true;
+                                // カンマ区切りで分割
+                                const parts = line.split(',');
+                                // 配列走査して座標らしきペアを探す (X, Y)
+                                // 日本の座標: X(北)は約-150000〜+150000, Y(東)は約-100000〜+100000
+                                // 2つの連続する数値を探す
+                                for(let i=0; i < parts.length - 1; i++) {
+                                    const val1 = parseFloat(parts[i]);
+                                    const val2 = parseFloat(parts[i+1]);
+                                    
+                                    // 座標らしき数値判定 (1000 < abs < 1000000)
+                                    if(!isNaN(val1) && !isNaN(val2) && 
+                                       Math.abs(val1) > 1000 && Math.abs(val1) < 1000000 &&
+                                       Math.abs(val2) > 1000 && Math.abs(val2) < 1000000) {
+                                        
+                                        // 座標として採用 (X=val1, Y=val2)
+                                        if (val1 < minX) minX = val1;
+                                        if (val1 > maxX) maxX = val1;
+                                        if (val2 < minY) minY = val2;
+                                        if (val2 > maxY) maxY = val2;
+                                        count++;
+                                        break; // 1行に1ペア見つけたら次へ
                                     }
                                 }
                             });
 
-                            if (!found) {
-                                simaStatus.textContent = "座標データが見つかりませんでした。";
+                            if (count === 0) {
+                                simaStatus.textContent = "有効な座標データが見つかりませんでした。";
                                 return;
                             }
 
-                            // 重心を計算
+                            // 重心を計算 (X=North, Y=East)
                             const centerX = (minX + maxX) / 2;
                             const centerY = (minY + maxY) / 2;
 
-                            // 座標変換 (EPSG:6678 -> WGS84)
                             try {
-                                const wgs84 = proj4("EPSG:6678", "WGS84", [centerY, centerX]); // Proj4: [x(East), y(North)]
+                                // Proj4: [Easting, Northing] -> [Longitude, Latitude]
+                                // 日本の測量系(X,Y) -> Proj4入力(Y,X)
+                                const wgs84 = proj4("EPSG:6678", "WGS84", [centerY, centerX]); 
                                 const lat = wgs84[1];
                                 const lon = wgs84[0];
 
-                                simaStatus.textContent = `特定完了: 北緯${lat.toFixed(5)}, 東経${lon.toFixed(5)}`;
+                                simaStatus.textContent = `特定完了 (${count}点): 北緯${lat.toFixed(5)}, 東経${lon.toFixed(5)}`;
                                 currentQueryOrCoord = `座標読込 (${lat.toFixed(4)}, ${lon.toFixed(4)})`;
                                 
                                 const embedUrl = `https://maps.google.co.jp/maps?q=${lat},${lon}&output=embed&t=m&z=17`;
@@ -850,7 +895,7 @@
                             }
                         };
                         reader.readAsText(file, "Shift_JIS");
-                    });
+                    }
                 }
 
                 // 印刷機能
@@ -894,7 +939,7 @@
             }
 
             // ============================================
-            // 2. 坪・平米・畳 換算
+            // 2. 坪・平米・畳 換算ロジック
             // ============================================
             {
                 const tsuboInput = document.getElementById('tsuboInput');
@@ -903,7 +948,7 @@
 
                 if (tsuboInput && m2Input && joInput) {
                     const TSUB_TO_M2 = 3.30578;
-                    const JO_TO_M2 = 1.6562;
+                    const JO_TO_M2 = 1.6562; // 中京間基準
 
                     tsuboInput.addEventListener('input', function() {
                         const val = parseFloat(this.value);
@@ -933,7 +978,7 @@
             }
 
             // ============================================
-            // 3. 相続関係説明図
+            // 3. 相続関係説明図ジェネレーター
             // ============================================
             {
                 const addHeirBtn = document.getElementById('addHeirBtn');
