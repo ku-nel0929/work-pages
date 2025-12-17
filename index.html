@@ -15,7 +15,6 @@
       "@context": "https://schema.org",
       "@type": "LegalService",
       "name": "植村 土地家屋調査士・行政書士事務所",
-      // ▼▼▼ 画像ファイル名を PNG に変更しました ▼▼▼
       "image": "https://ku-nel0929.github.io/work-pages/hanamaki-snow-office.png",
       "url": "https://ku-nel0929.github.io/work-pages/",
       "telephone": "080-7231-9467",
@@ -48,9 +47,8 @@
             --admin-color: #3b6c9b;   /* 青 */
             --text-color: #333;
             --white: #ffffff;
-            --bg-body: #e0e0e0;       /* 画面全体の背景（グレー） */
+            --bg-body: #f0f0f0;       /* 背景色 */
             --bg-form: #f9fbfd;
-            --content-width: 1000px;  /* 全ての幅をここで統一 */
         }
         
         body {
@@ -59,41 +57,31 @@
             padding: 0;
             color: var(--text-color);
             line-height: 1.6;
-            background-color: var(--bg-body); /* 左右の余白はグレーになる */
+            background-color: var(--bg-body);
             width: 100%;
         }
 
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; height: auto; }
         
-        /* ▼▼▼ レイアウト統一用 ▼▼▼ */
-        /* ヘッダー、メイン画像、中身、フッター全てに同じ幅制限と中央寄せを適用 */
-        header, .hero, .main-wrapper, footer {
-            width: 100%;
-            max-width: var(--content-width); /* 1000px以上広がらない */
-            margin: 0 auto;                  /* 画面中央に配置 */
-            box-sizing: border-box;
-        }
-
-        /* --- ヘッダー --- */
+        /* --- ヘッダー (全幅に戻しました) --- */
         header {
+            width: 100%;
             background-color: var(--primary-color);
             color: var(--white);
             padding: 15px 0;
             text-align: center;
+            margin: 0;
         }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
-        /* --- メインビジュアル（クリスマス雪景色Ver.） --- */
+        /* --- メインビジュアル (全幅に戻しました) --- */
         .hero {
+            width: 100%;
             position: relative;
-            /* 画像が読み込まれるまでの背景色を夜のネイビーに変更 */
             background-color: #0f2350;
-            
-            /* ▼▼▼ 画像ファイル名を PNG に変更しました ▼▼▼ */
+            /* 画像ファイル */
             background-image: url('hanamaki-snow-office.png');
-            /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
-            
             background-size: cover;
             background-position: center;
             height: 400px;
@@ -102,21 +90,21 @@
             justify-content: center;
             text-align: center;
             color: var(--white);
-            /* 雪景色に対して文字が読みやすいよう影を少し強く */
             text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+            margin: 0;
         }
         .hero::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            /* 雪景色なので、少し青みがかった暗いフィルターをかけて文字を際立たせる */
             background: rgba(15, 35, 80, 0.4);
         }
         .hero-content {
             position: relative;
             z-index: 2;
             padding: 0 20px;
-            width: 100%;
+            max-width: 1000px; /* 文字は中央に寄せる */
+            margin: 0 auto;
         }
         .hero-content h1 { font-size: 2.2rem; font-weight: bold; line-height: 1.4; margin: 0; }
 
@@ -125,19 +113,20 @@
             .hero-content h1 { font-size: 1.5rem; }
         }
 
-        /* --- メインコンテンツ枠 --- */
+        /* --- メインコンテンツ枠 (中央寄せ) --- */
         .main-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
             background-color: var(--white);
             padding-top: 50px; 
             padding-bottom: 60px;
         }
-        /* コンテンツ内部の左右余白用 */
         .main-content-inner {
             padding: 0 20px;
         }
 
         /* --- 業務選択ボタン --- */
-        .main-actions { margin-bottom: 40px; }
+        .main-actions { margin-bottom: 40px; padding: 0 20px; }
         .action-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
         .action-box { flex: 1; min-width: 280px; padding: 30px 20px; border-radius: 8px; text-align: center; color: var(--white); box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s; }
         .action-box:hover { transform: translateY(-3px); }
@@ -147,7 +136,7 @@
         .phone-area { background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 30px; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
 
         /* --- フォーム --- */
-        .contact-section { padding: 40px 0; }
+        .contact-section { padding: 40px 20px; }
         .section-title { text-align: center; color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 30px; }
         .contact-form { max-width: 800px; margin: 0 auto; background-color: var(--bg-form); padding: 30px; border-radius: 8px; border: 1px solid #ddd; }
         .form-group { margin-bottom: 20px; }
@@ -160,50 +149,16 @@
         .optional { background: #999; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
 
         /* メール案内ボックス */
-        .mail-info-box {
-            background: #fff;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-        }
-        .mail-address {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            display: block;
-            margin: 10px 0;
-            word-break: break-all;
-        }
-        .mail-btn-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .copy-btn {
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
+        .mail-info-box { background: #fff; border: 2px solid #ddd; border-radius: 8px; padding: 15px; text-align: center; }
+        .mail-address { font-size: 1.1rem; font-weight: bold; color: var(--primary-color); display: block; margin: 10px 0; word-break: break-all; }
+        .mail-btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .copy-btn { background-color: #6c757d; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
         .copy-btn:hover { opacity: 0.9; }
-        .launch-btn {
-            background-color: var(--admin-color);
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            display: inline-block;
-        }
+        .launch-btn { background-color: var(--admin-color); color: white; text-decoration: none; padding: 8px 15px; border-radius: 4px; font-size: 0.9rem; display: inline-block; }
         .launch-btn:hover { opacity: 0.9; }
 
         /* --- コラム --- */
-        .column-section { padding: 40px 0; max-width: 900px; margin: 0 auto; }
+        .column-section { padding: 40px 20px; max-width: 900px; margin: 0 auto; }
         .column-article { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
         .column-title { color: var(--primary-color); font-size: 1.4rem; margin-bottom: 10px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
         .column-text { font-size: 0.95rem; line-height: 1.8; color: #444; }
@@ -249,7 +204,6 @@
             body { background: white !important; height: 100vh; margin: 0 !important; padding: 0 !important; width: 100% !important; }
             body > * { display: none !important; }
             .main-wrapper { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; max-width: none !important; }
-            .main-content-inner { display: block !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
             
             header, footer, .hero, .main-actions, .contact-section, .column-section, .office-info,
             .tool-section > h2, .tool-section > p, 
@@ -277,13 +231,15 @@
         .office-info { text-align: center; margin-top: 50px; padding: 20px; background: #f9f9f9; }
         .map-container { width: 100%; height: 350px; margin-top: 20px; background: #eee; }
         
-        /* --- フッター --- */
+        /* --- フッター (全幅に戻しました) --- */
         footer {
+            width: 100%;
             background-color: var(--primary-color);
             color: #aaa;
             text-align: center;
             padding: 20px 0;
             font-size: 0.8rem;
+            margin: 0;
         }
     </style>
 </head>
@@ -300,230 +256,227 @@
 </section>
 
 <div class="main-wrapper">
-    <div class="main-content-inner">
-        <div class="main-actions">
-            <div class="action-grid">
-                <div class="action-box box-survey">
-                    <a href="business-guide.png" target="_blank" style="text-decoration:none; color:white;">
-                        <span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">
-                            土地家屋調査士業務 <i class="fa-regular fa-image" style="font-size:0.8em;"></i>
-                        </span>
-                    </a>
-                    <a href="tel:08072319467">
-                        <div class="phone-area">
-                            <i class="fa-solid fa-mobile-screen"></i>
-                            <span class="phone-number">080-7231-9467</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="action-box box-admin">
-                    <a href="admin-guide.png" target="_blank" style="text-decoration:none; color:white;">
-                        <span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">
-                            行政書士業務 <i class="fa-regular fa-image" style="font-size:0.8em;"></i>
-                        </span>
-                    </a>
-                    <a href="tel:07066256247">
-                        <div class="phone-area">
-                            <i class="fa-solid fa-mobile-screen"></i>
-                            <span class="phone-number">070-6625-6247</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="contact-section">
-            <h2 class="section-title">お問い合わせ・ご相談</h2>
-            <form action="https://formspree.io/f/mdkqdjlz" method="POST" class="contact-form" autocomplete="off">
-                <div class="form-group">
-                    <label class="form-label">お名前 <span class="required">必須</span></label>
-                    <input type="text" name="お名前" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">メールアドレス <span class="required">必須</span></label>
-                    <input type="email" name="email" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">お電話番号 <span class="optional">任意</span></label>
-                    <input type="tel" name="電話番号" class="form-input">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">資料・図面の送付について</label>
-                    <div class="mail-info-box">
-                        <p style="font-size:0.9rem; margin:0 0 10px 0;">
-                            図面や写真などの資料がある場合は、以下のメールアドレスへ直接お送りください。
-                        </p>
-                        <span id="copyTarget" class="mail-address">info@uemura-office12-6.com</span>
-                        
-                        <div class="mail-btn-group">
-                            <button type="button" class="copy-btn" id="emailCopyBtn">
-                                <i class="fa-regular fa-copy"></i> アドレスをコピー
-                            </button>
-                            <a href="mailto:info@uemura-office12-6.com" class="launch-btn">
-                                <i class="fa-solid fa-envelope"></i> メールソフトで起動
-                            </a>
-                        </div>
+    <div class="main-actions">
+        <div class="action-grid">
+            <div class="action-box box-survey">
+                <a href="business-guide.png" target="_blank" style="text-decoration:none; color:white;">
+                    <span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">
+                        土地家屋調査士業務 <i class="fa-regular fa-image" style="font-size:0.8em;"></i>
+                    </span>
+                </a>
+                <a href="tel:08072319467">
+                    <div class="phone-area">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                        <span class="phone-number">080-7231-9467</span>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">ご相談内容 <span class="required">必須</span></label>
-                    <textarea name="詳細" class="form-textarea" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">送信する</button>
-            </form>
-        </div>
-
-        <div class="column-section">
-            <h2 class="section-title">お役立ち情報</h2>
-            <article class="column-article">
-                <h3 class="column-title" style="color:#d9534f;"><i class="fa-solid fa-triangle-exclamation"></i> 【重要】相続登記義務化</h3>
-                <p class="column-text">2024年4月より相続登記が義務化されました。放置すると過料の対象となる可能性があります。</p>
-            </article>
-            <article class="column-article">
-                <h3 class="column-title"><i class="fa-solid fa-book-open"></i> 農地転用許可・届出（3条・4条・5条）について</h3>
-                <p class="column-text">花巻市で農地を宅地にするには「農地転用許可」が必要です。</p>
-            </article>
-            <article class="column-article">
-                <h3 class="column-title"><i class="fa-solid fa-map-location-dot"></i> 境界確定測量</h3>
-                <p class="column-text">土地の境界トラブル防止には「境界確定測量」が必要です。</p>
-            </article>
-        </div>
-
-        <div class="tool-section">
-            <h2 class="section-title">【便利ツール】現場位置図検索</h2>
-            <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
-                地番検索、またはSIMAファイル(座標データ)から地図を表示します。<br>
-                <small style="color:#d9534f;">※地番検索は正確な位置が出ない場合があります。SIMA読込は世界測地系(第10系)に対応。</small>
-            </p>
-            
-            <div class="tool-box" id="mapToolBox">
-                <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;">
-                    <button type="button" class="tool-btn active-btn" id="tabChiban" onclick="switchMapMode('chiban')">地番から検索</button>
-                    <button type="button" class="tool-btn inactive-btn" id="tabSima" onclick="switchMapMode('sima')">SIMAから特定</button>
-                </div>
-
-                <div id="modeChiban">
-                    <div class="tool-input-group">
-                        <input type="text" id="mapCity" class="form-input" placeholder="市町村 (例: 花巻市)" value="花巻市" style="flex:1;">
-                        <input type="text" id="mapTown" class="form-input" placeholder="町名・大字" style="flex:1;">
-                        <input type="text" id="mapLot" class="form-input" placeholder="地番" style="flex:1;">
+                </a>
+            </div>
+            <div class="action-box box-admin">
+                <a href="admin-guide.png" target="_blank" style="text-decoration:none; color:white;">
+                    <span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">
+                        行政書士業務 <i class="fa-regular fa-image" style="font-size:0.8em;"></i>
+                    </span>
+                </a>
+                <a href="tel:07066256247">
+                    <div class="phone-area">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                        <span class="phone-number">070-6625-6247</span>
                     </div>
-                    <div style="text-align:center; margin-bottom:10px;">
-                        <button type="button" id="showMapBtn" class="tool-btn">地図を表示</button>
-                    </div>
-                </div>
-
-                <div id="modeSima" style="display:none;">
-                    <div class="file-upload-area" id="dropArea" onclick="document.getElementById('simaFile').click()">
-                        <i class="fa-solid fa-file-arrow-up" style="font-size:2rem; color:#aaa; margin-bottom:10px;"></i><br>
-                        <span style="font-size:0.95rem; font-weight:bold; color:#0f2350;">SIMAファイルをドロップ</span><br>
-                        <span style="font-size:0.85rem; color:#666;">またはクリックして選択</span>
-                        <input type="file" id="simaFile" accept=".sim,.sima,.txt" style="display:none;">
-                    </div>
-                    <div id="simaStatus" style="text-align:center; font-size:0.9rem; color:#0f2350; font-weight:bold; margin-bottom:10px;"></div>
-                </div>
-                
-                <div id="printHeader">
-                    <h1>位置図</h1>
-                    <p>所在：<span id="printLocation"></span></p>
-                </div>
-
-                <div id="mapContainer">
-                    <iframe id="googleMapFrame" src="https://maps.google.co.jp/maps?q=花巻市&output=embed&t=m&z=13" frameborder="0" allowfullscreen></iframe>
-                    <div id="simaLeafletMap"></div>
-                </div>
-                
-                <div style="text-align:center; margin-top:15px;">
-                    <button type="button" id="printMapBtn" class="tool-btn" style="background-color:#c5a059;">
-                        <i class="fa-solid fa-print"></i> 位置図作成 (PDF保存・印刷)
-                    </button>
-                </div>
+                </a>
             </div>
         </div>
-
-        <div class="tool-section">
-            <h2 class="section-title">【便利ツール】坪 ⇔ 平米(㎡) ⇔ 畳 換算</h2>
-            <div class="tool-box">
-                <div class="family-input-row"><span class="tool-label">坪数</span><input type="number" id="tsuboInput" class="form-input"></div>
-                <div class="family-input-row"><span class="tool-label">平米</span><input type="number" id="m2Input" class="form-input"></div>
-                <div class="family-input-row"><span class="tool-label">畳数</span><input type="number" id="joInput" class="form-input"></div>
-            </div>
-        </div>
-
-        <div class="tool-section" style="margin-top:-20px;">
-            <h2 class="section-title">【便利ツール】登録免許税 (概算) 計算</h2>
-            <div class="tool-box">
-                <div class="family-input-row"><span class="tool-label">評価額</span><input type="number" id="taxValue" class="form-input" placeholder="円"></div>
-                <div style="display:flex; gap:10px; margin-top:10px; justify-content:center;">
-                    <button class="tool-btn" onclick="calcTax(0.004, '所有権保存')">保存 (0.4%)</button>
-                    <button class="tool-btn" onclick="calcTax(0.02, '所有権移転')">移転 (2.0%)</button>
-                    <button class="tool-btn" onclick="calcTax(0.004, '抵当権設定')">抵当権 (0.4%)</button>
-                </div>
-                <div id="taxResult" style="background:#f9f9f9; padding:10px; margin-top:15px; text-align:center;">---</div>
-            </div>
-        </div>
-
-        <div class="tool-section">
-            <h2 class="section-title">【無料ツール】相続関係説明図メーカー</h2>
-            <div class="tool-box">
-                <div class="tool-header">被相続人</div>
-                <div class="family-input-row"><input type="text" id="decedentName" placeholder="氏名" style="flex:2;"><input type="text" id="decedentDate" placeholder="死亡日" style="flex:2;"></div>
-                <div class="family-input-row"><input type="text" id="decedentAddress" placeholder="住所" style="flex:4;"></div>
-                <div class="tool-header" style="margin-top:20px;">相続人</div>
-                <div id="heirsContainer">
-                    <div class="family-input-row"><select class="heir-rel" disabled><option>配偶者</option></select><input type="text" class="heir-name" placeholder="氏名"><input type="text" class="heir-addr" placeholder="住所"></div>
-                </div>
-                <div style="text-align:right; margin:10px 0;"><button class="btn-add" id="addHeirBtn">＋追加</button></div>
-                <div style="text-align:center;"><button class="tool-btn" id="genMapBtn">作成</button> <button class="tool-btn" id="downloadMapBtn" style="display:none; background-color:#c5a059;">保存</button></div>
-            </div>
-            <div id="canvasContainer" style="display:none;"><canvas id="familyCanvas" width="800" height="600"></canvas></div>
-        </div>
-
-        <div class="tool-section">
-            <h2 class="section-title">【便利ツール】西暦・和暦・年齢・干支 変換</h2>
-            <div class="tool-box">
-                <div class="tool-input-group">
-                    <select id="eraSelect" class="form-select"><option value="AD">西暦</option><option value="Reiwa">令和</option><option value="Heisei">平成</option><option value="Showa">昭和</option></select>
-                    <input type="number" id="yearInput" class="form-input" placeholder="年">
-                </div>
-                <div class="tool-result">
-                    <div class="tool-result-item"><span class="tool-label">西暦</span><span id="resAD">---</span></div>
-                    <div class="tool-result-item"><span class="tool-label">和暦</span><span id="resEra">---</span></div>
-                    <div class="tool-result-item"><span class="tool-label">年齢</span><span id="resAge">---</span></div>
-                    <div class="tool-result-item"><span class="tool-label">干支</span><span id="resZodiac">---</span></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="tool-section" style="margin-top:-20px;">
-            <h2 class="section-title">【便利ツール】郵便番号 ↔ 住所 検索</h2>
-            <div class="tool-box">
-                <div class="tool-header">郵便番号 <i class="fa-solid fa-arrow-right"></i> 住所</div>
-                <div class="tool-input-group"><input type="text" id="zipInput" class="form-input"><button id="zipSearchBtn" class="tool-btn">検索</button></div>
-                <div id="zipResult" style="padding:10px;"></div>
-            </div>
-            <div class="tool-box">
-                <div class="tool-header">住所 <i class="fa-solid fa-arrow-right"></i> 郵便番号</div>
-                <div class="tool-input-group"><input type="text" id="addrInput" class="form-input"><button id="addrSearchBtn" class="tool-btn" style="background-color:#4285F4;">検索</button></div>
-            </div>
-        </div>
-
-        <div class="office-info">
-            <h3>植村 土地家屋調査士・行政書士事務所</h3>
-            <p>〒025-0075 岩手県花巻市花城町12番6号</p>
-            <div class="map-container">
-                <iframe src="https://maps.google.co.jp/maps?output=embed&q=岩手県花巻市花城町12-6" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-        </div>
-    </div></div><footer>
-    <div class="inner-width">
-        <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
     </div>
-</footer>
 
-<script>
+    <div class="contact-section">
+        <h2 class="section-title">お問い合わせ・ご相談</h2>
+        <form action="https://formspree.io/f/mdkqdjlz" method="POST" class="contact-form" autocomplete="off">
+            <div class="form-group">
+                <label class="form-label">お名前 <span class="required">必須</span></label>
+                <input type="text" name="お名前" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">メールアドレス <span class="required">必須</span></label>
+                <input type="email" name="email" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">お電話番号 <span class="optional">任意</span></label>
+                <input type="tel" name="電話番号" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">資料・図面の送付について</label>
+                <div class="mail-info-box">
+                    <p style="font-size:0.9rem; margin:0 0 10px 0;">
+                        図面や写真などの資料がある場合は、以下のメールアドレスへ直接お送りください。
+                    </p>
+                    <span id="copyTarget" class="mail-address">info@uemura-office12-6.com</span>
+                    <div class="mail-btn-group">
+                        <button type="button" class="copy-btn" id="emailCopyBtn">
+                            <i class="fa-regular fa-copy"></i> アドレスをコピー
+                        </button>
+                        <a href="mailto:info@uemura-office12-6.com" class="launch-btn">
+                            <i class="fa-solid fa-envelope"></i> メールソフトで起動
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">ご相談内容 <span class="required">必須</span></label>
+                <textarea name="詳細" class="form-textarea" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">送信する</button>
+        </form>
+    </div>
+
+    <div class="column-section">
+        <h2 class="section-title">お役立ち情報</h2>
+        <article class="column-article">
+            <h3 class="column-title" style="color:#d9534f;"><i class="fa-solid fa-triangle-exclamation"></i> 【重要】相続登記義務化</h3>
+            <p class="column-text">2024年4月より相続登記が義務化されました。放置すると過料の対象となる可能性があります。</p>
+        </article>
+        <article class="column-article">
+            <h3 class="column-title"><i class="fa-solid fa-book-open"></i> 農地転用許可・届出（3条・4条・5条）について</h3>
+            <p class="column-text">花巻市で農地を宅地にするには「農地転用許可」が必要です。</p>
+        </article>
+        <article class="column-article">
+            <h3 class="column-title"><i class="fa-solid fa-map-location-dot"></i> 境界確定測量</h3>
+            <p class="column-text">土地の境界トラブル防止には「境界確定測量」が必要です。</p>
+        </article>
+    </div>
+
+    <div class="tool-section">
+        <h2 class="section-title">【便利ツール】現場位置図検索</h2>
+        <p style="text-align:center; font-size:0.9rem; margin-bottom:20px;">
+            地番検索、またはSIMAファイル(座標データ)から地図を表示します。<br>
+            <small style="color:#d9534f;">※地番検索は正確な位置が出ない場合があります。SIMA読込は世界測地系(第10系)に対応。</small>
+        </p>
+        
+        <div class="tool-box" id="mapToolBox">
+            <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;">
+                <button type="button" class="tool-btn active-btn" id="tabChiban" onclick="switchMapMode('chiban')">地番から検索</button>
+                <button type="button" class="tool-btn inactive-btn" id="tabSima" onclick="switchMapMode('sima')">SIMAから特定</button>
+            </div>
+
+            <div id="modeChiban">
+                <div class="tool-input-group">
+                    <input type="text" id="mapCity" class="form-input" placeholder="市町村 (例: 花巻市)" value="花巻市" style="flex:1;">
+                    <input type="text" id="mapTown" class="form-input" placeholder="町名・大字" style="flex:1;">
+                    <input type="text" id="mapLot" class="form-input" placeholder="地番" style="flex:1;">
+                </div>
+                <div style="text-align:center; margin-bottom:10px;">
+                    <button type="button" id="showMapBtn" class="tool-btn">地図を表示</button>
+                </div>
+            </div>
+
+            <div id="modeSima" style="display:none;">
+                <div class="file-upload-area" id="dropArea" onclick="document.getElementById('simaFile').click()">
+                    <i class="fa-solid fa-file-arrow-up" style="font-size:2rem; color:#aaa; margin-bottom:10px;"></i><br>
+                    <span style="font-size:0.95rem; font-weight:bold; color:#0f2350;">SIMAファイルをドロップ</span><br>
+                    <span style="font-size:0.85rem; color:#666;">またはクリックして選択</span>
+                    <input type="file" id="simaFile" accept=".sim,.sima,.txt" style="display:none;">
+                </div>
+                <div id="simaStatus" style="text-align:center; font-size:0.9rem; color:#0f2350; font-weight:bold; margin-bottom:10px;"></div>
+            </div>
+            
+            <div id="printHeader">
+                <h1>位置図</h1>
+                <p>所在：<span id="printLocation"></span></p>
+            </div>
+
+            <div id="mapContainer">
+                <iframe id="googleMapFrame" src="https://maps.google.co.jp/maps?q=花巻市&output=embed&t=m&z=13" frameborder="0" allowfullscreen></iframe>
+                <div id="simaLeafletMap" style="display:none; width:100%; height:100%;"></div>
+            </div>
+            
+            <div style="text-align:center; margin-top:15px;">
+                <button type="button" id="printMapBtn" class="tool-btn" style="background-color:#c5a059;">
+                    <i class="fa-solid fa-print"></i> 位置図作成 (PDF保存・印刷)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="tool-section">
+        <h2 class="section-title">【便利ツール】坪 ⇔ 平米(㎡) ⇔ 畳 換算</h2>
+        <div class="tool-box">
+            <div class="family-input-row"><span class="tool-label">坪数</span><input type="number" id="tsuboInput" class="form-input"></div>
+            <div class="family-input-row"><span class="tool-label">平米</span><input type="number" id="m2Input" class="form-input"></div>
+            <div class="family-input-row"><span class="tool-label">畳数</span><input type="number" id="joInput" class="form-input"></div>
+        </div>
+    </div>
+
+    <div class="tool-section" style="margin-top:-20px;">
+        <h2 class="section-title">【便利ツール】登録免許税 (概算) 計算</h2>
+        <div class="tool-box">
+            <div class="family-input-row"><span class="tool-label">評価額</span><input type="number" id="taxValue" class="form-input" placeholder="円"></div>
+            <div style="display:flex; gap:10px; margin-top:10px; justify-content:center;">
+                <button class="tool-btn" onclick="calcTax(0.004, '所有権保存')">保存 (0.4%)</button>
+                <button class="tool-btn" onclick="calcTax(0.02, '所有権移転')">移転 (2.0%)</button>
+                <button class="tool-btn" onclick="calcTax(0.004, '抵当権設定')">抵当権 (0.4%)</button>
+            </div>
+            <div id="taxResult" style="background:#f9f9f9; padding:10px; margin-top:15px; text-align:center;">---</div>
+        </div>
+    </div>
+
+    <div class="tool-section">
+        <h2 class="section-title">【無料ツール】相続関係説明図メーカー</h2>
+        <div class="tool-box">
+            <div class="tool-header">被相続人</div>
+            <div class="family-input-row"><input type="text" id="decedentName" placeholder="氏名" style="flex:2;"><input type="text" id="decedentDate" placeholder="死亡日" style="flex:2;"></div>
+            <div class="family-input-row"><input type="text" id="decedentAddress" placeholder="住所" style="flex:4;"></div>
+            <div class="tool-header" style="margin-top:20px;">相続人</div>
+            <div id="heirsContainer">
+                <div class="family-input-row"><select class="heir-rel" disabled><option>配偶者</option></select><input type="text" class="heir-name" placeholder="氏名"><input type="text" class="heir-addr" placeholder="住所"></div>
+            </div>
+            <div style="text-align:right; margin:10px 0;"><button class="btn-add" id="addHeirBtn">＋追加</button></div>
+            <div style="text-align:center;"><button class="tool-btn" id="genMapBtn">作成</button> <button class="tool-btn" id="downloadMapBtn" style="display:none; background-color:#c5a059;">保存</button></div>
+        </div>
+        <div id="canvasContainer" style="display:none;"><canvas id="familyCanvas" width="800" height="600"></canvas></div>
+    </div>
+
+    <div class="tool-section">
+        <h2 class="section-title">【便利ツール】西暦・和暦・年齢・干支 変換</h2>
+        <div class="tool-box">
+            <div class="tool-input-group">
+                <select id="eraSelect" class="form-select"><option value="AD">西暦</option><option value="Reiwa">令和</option><option value="Heisei">平成</option><option value="Showa">昭和</option></select>
+                <input type="number" id="yearInput" class="form-input" placeholder="年">
+            </div>
+            <div class="tool-result">
+                <div class="tool-result-item"><span class="tool-label">西暦</span><span id="resAD">---</span></div>
+                <div class="tool-result-item"><span class="tool-label">和暦</span><span id="resEra">---</span></div>
+                <div class="tool-result-item"><span class="tool-label">年齢</span><span id="resAge">---</span></div>
+                <div class="tool-result-item"><span class="tool-label">干支</span><span id="resZodiac">---</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tool-section" style="margin-top:-20px;">
+        <h2 class="section-title">【便利ツール】郵便番号 ↔ 住所 検索</h2>
+        <div class="tool-box">
+            <div class="tool-header">郵便番号 <i class="fa-solid fa-arrow-right"></i> 住所</div>
+            <div class="tool-input-group"><input type="text" id="zipInput" class="form-input"><button id="zipSearchBtn" class="tool-btn">検索</button></div>
+            <div id="zipResult" style="padding:10px;"></div>
+        </div>
+        <div class="tool-box">
+            <div class="tool-header">住所 <i class="fa-solid fa-arrow-right"></i> 郵便番号</div>
+            <div class="tool-input-group"><input type="text" id="addrInput" class="form-input"><button id="addrSearchBtn" class="tool-btn" style="background-color:#4285F4;">検索</button></div>
+        </div>
+    </div>
+    
+    <div class="office-info">
+        <h3>植村 土地家屋調査士・行政書士事務所</h3>
+        <p>〒025-0075 岩手県花巻市花城町12番6号</p>
+        <div class="map-container">
+            <iframe src="https://maps.google.co.jp/maps?output=embed&q=岩手県花巻市花城町12-6" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
+    </footer>
+
+</div><script>
 // --- メールアドレスコピー ---
 document.addEventListener('DOMContentLoaded', function() {
     const copyBtn = document.getElementById('emailCopyBtn');
