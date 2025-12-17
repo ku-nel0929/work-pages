@@ -15,7 +15,7 @@
       "@context": "https://schema.org",
       "@type": "LegalService",
       "name": "植村 土地家屋調査士・行政書士事務所",
-      "image": "https://ku-nel0929.github.io/work-pages/hanamaki-snow-office.png",
+      "image": "https://ku-nel0929.github.io/work-pages/sokkia-bg.png",
       "url": "https://ku-nel0929.github.io/work-pages/",
       "telephone": "080-7231-9467",
       "address": {
@@ -47,7 +47,7 @@
             --admin-color: #3b6c9b;   /* 青 */
             --text-color: #333;
             --white: #ffffff;
-            --bg-body: #e0e0e0;       /* 背景色 */
+            --bg-body: #e0e0e0;       /* 画面全体の背景（グレー） */
             --bg-form: #f9fbfd;
             --content-width: 1000px;  /* コンテンツ幅統一 */
         }
@@ -65,13 +65,14 @@
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; height: auto; }
         
-        /* ▼▼▼ レイアウト統一用の共通クラス ▼▼▼ */
-        .inner-width {
+        /* ▼▼▼ レイアウト統一用のラッパー ▼▼▼ */
+        .site-container {
             max-width: var(--content-width);
-            margin: 0 auto;
-            padding: 0 20px;
-            box-sizing: border-box;
             width: 100%;
+            margin: 0 auto; /* 中央揃え */
+            background-color: var(--white); /* コンテンツ背景は白 */
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); /* 少し影をつけて浮き立たせる */
+            overflow: hidden; /* はみ出し防止 */
         }
 
         /* --- ヘッダー --- */
@@ -80,7 +81,7 @@
             background-color: var(--primary-color);
             color: var(--white);
             padding: 15px 0;
-            margin: 0;
+            text-align: center;
         }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
@@ -88,12 +89,10 @@
         .hero {
             width: 100%;
             position: relative;
-            background-color: #0f2350; /* 画像がない時の背景色 */
-            
-            /* ▼▼▼ ここを正しい画像ファイル名に修正しました ▼▼▼ */
-            background-image: url('hanamaki-snow-office.png');
-            /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
-            
+            background-color: #87CEEB;
+            /* ▼▼▼ 画像を元に戻しました ▼▼▼ */
+            background-image: url('sokkia-bg.png');
+            /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
             background-size: cover;
             background-position: center;
             height: 400px;
@@ -103,7 +102,6 @@
             text-align: center;
             color: var(--white);
             text-shadow: 0 2px 8px rgba(0,0,0,0.7);
-            margin: 0;
         }
         .hero::before {
             content: '';
@@ -115,6 +113,8 @@
             position: relative;
             z-index: 2;
             width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
         .hero-content h1 { font-size: 2.2rem; font-weight: bold; line-height: 1.4; margin: 0; }
 
@@ -123,18 +123,9 @@
             .hero-content h1 { font-size: 1.5rem; }
         }
 
-        /* --- メインコンテンツ枠 --- */
+        /* --- コンテンツエリア --- */
         .main-wrapper {
-            background-color: var(--white);
-            padding-top: 50px; 
-            padding-bottom: 60px;
-            width: 100%;
-        }
-        .main-content-inner {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
-            box-sizing: border-box;
+            padding: 50px 20px 60px; /* 上下左右に余白 */
         }
 
         /* --- 業務選択ボタン --- */
@@ -249,8 +240,9 @@
             @page { size: A4 portrait; margin: 5mm; }
             body { background: white !important; height: 100vh; margin: 0 !important; padding: 0 !important; width: 100% !important; }
             body > * { display: none !important; }
-            .main-wrapper { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; max-width: none !important; }
-            .main-content-inner { display: block !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
+            /* 印刷時は site-container の内容のみ表示 */
+            .site-container { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; max-width: none !important; box-shadow: none !important; }
+            .main-wrapper { padding: 0 !important; }
             
             header, footer, .hero, .main-actions, .contact-section, .column-section, .office-info,
             .tool-section > h2, .tool-section > p, 
@@ -286,26 +278,24 @@
             text-align: center;
             padding: 20px 0;
             font-size: 0.8rem;
-            margin: 0;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="inner-width" style="text-align:center;">
+<div class="site-container">
+
+    <header>
         <div class="logo">植村 土地家屋調査士・行政書士事務所</div>
-    </div>
-</header>
+    </header>
 
-<section class="hero">
-    <div class="hero-content inner-width">
-        <h1>家づくり・土地活用。<br>「測量」と「許認可」をワンストップで。</h1>
-    </div>
-</section>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>家づくり・土地活用。<br>「測量」と「許認可」をワンストップで。</h1>
+        </div>
+    </section>
 
-<div class="main-wrapper">
-    <div class="main-content-inner">
+    <div class="main-wrapper">
         <div class="main-actions">
             <div class="action-grid">
                 <div class="action-box box-survey">
@@ -360,7 +350,6 @@
                             図面や写真などの資料がある場合は、以下のメールアドレスへ直接お送りください。
                         </p>
                         <span id="copyTarget" class="mail-address">info@uemura-office12-6.com</span>
-                        
                         <div class="mail-btn-group">
                             <button type="button" class="copy-btn" id="emailCopyBtn">
                                 <i class="fa-regular fa-copy"></i> アドレスをコピー
@@ -437,7 +426,7 @@
 
                 <div id="mapContainer">
                     <iframe id="googleMapFrame" src="https://maps.google.co.jp/maps?q=花巻市&output=embed&t=m&z=13" frameborder="0" allowfullscreen></iframe>
-                    <div id="simaLeafletMap"></div>
+                    <div id="simaLeafletMap" style="display:none; width:100%; height:100%;"></div>
                 </div>
                 
                 <div style="text-align:center; margin-top:15px;">
@@ -522,285 +511,283 @@
                 <iframe src="https://maps.google.co.jp/maps?output=embed&q=岩手県花巻市花城町12-6" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
-    </div></div><footer>
-    <div class="inner-width">
-        <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
-    </div>
-</footer>
 
-<script>
-// --- メールアドレスコピー ---
-document.addEventListener('DOMContentLoaded', function() {
-    const copyBtn = document.getElementById('emailCopyBtn');
-    if(copyBtn) {
-        copyBtn.addEventListener('click', function() {
-            const email = document.getElementById('copyTarget').innerText;
-            navigator.clipboard.writeText(email).then(function() {
-                const originalText = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> コピーしました';
-                setTimeout(() => { copyBtn.innerHTML = originalText; }, 2000);
-            }, function(err) {
-                alert('コピーに失敗しました');
+        <footer>
+            <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
+        </footer>
+
+    </div><script>
+    // --- メールアドレスコピー ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const copyBtn = document.getElementById('emailCopyBtn');
+        if(copyBtn) {
+            copyBtn.addEventListener('click', function() {
+                const email = document.getElementById('copyTarget').innerText;
+                navigator.clipboard.writeText(email).then(function() {
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> コピーしました';
+                    setTimeout(() => { copyBtn.innerHTML = originalText; }, 2000);
+                }, function(err) {
+                    alert('コピーに失敗しました');
+                });
             });
-        });
-    }
-});
-
-// --- 登録免許税計算 ---
-function calcTax(rate, typeName) {
-    const valStr = document.getElementById('taxValue').value;
-    const val = parseInt(valStr);
-    const resBox = document.getElementById('taxResult');
-    if (!val || val <= 0) { resBox.innerHTML = '<span style="color:red;">評価額を正しく入力してください</span>'; return; }
-    const baseAmount = Math.floor(val / 1000) * 1000;
-    let tax = Math.floor(baseAmount * rate);
-    tax = Math.floor(tax / 100) * 100;
-    if (tax < 1000) tax = 1000;
-    resBox.innerHTML = `<strong>${typeName}</strong><br><span style="font-size:1.4rem; color:#c5a059;">約 ${tax.toLocaleString()} 円</span>`;
-}
-
-// --- マップモード切替 ---
-function switchMapMode(mode) {
-    document.getElementById('modeChiban').style.display = (mode === 'chiban') ? 'block' : 'none';
-    document.getElementById('modeSima').style.display = (mode === 'sima') ? 'block' : 'none';
-    
-    // SIMAモード切り替え時にLeafletのサイズを再計算
-    if(mode === 'sima' && window.leafletMap) {
-        setTimeout(() => { window.leafletMap.invalidateSize(); }, 100);
-    }
-
-    const btnChiban = document.getElementById('tabChiban');
-    const btnSima = document.getElementById('tabSima');
-    
-    if(mode === 'chiban') {
-        btnChiban.classList.add('active-btn');
-        btnChiban.classList.remove('inactive-btn');
-        btnSima.classList.add('inactive-btn');
-        btnSima.classList.remove('active-btn');
-    } else {
-        btnSima.classList.add('active-btn');
-        btnSima.classList.remove('inactive-btn');
-        btnChiban.classList.add('inactive-btn');
-        btnChiban.classList.remove('active-btn');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Leaflet & State
-    let leafletMap = null; 
-    let simaLayerGroup = null; 
-    let currentMode = "chiban"; 
-    let currentQueryOrCoord = "";
-
-    const showMapBtn = document.getElementById('showMapBtn');
-    const printMapBtn = document.getElementById('printMapBtn');
-    const googleMapFrame = document.getElementById('googleMapFrame');
-    const simaLeafletMapDiv = document.getElementById('simaLeafletMap');
-    const printLocation = document.getElementById('printLocation');
-
-    // A. 地番検索 (Google Maps)
-    if (showMapBtn) {
-        showMapBtn.addEventListener('click', function() {
-            const city = document.getElementById('mapCity').value;
-            const town = document.getElementById('mapTown').value;
-            const lot = document.getElementById('mapLot').value;
-            if (!city || !town) { alert("市町村と町名を入力してください"); return; }
-            const query = `${city} ${town} ${lot}`;
-            currentQueryOrCoord = query;
-            const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; 
-            googleMapFrame.src = embedUrl;
-        });
-    }
-
-    // B. SIMAファイル読込
-    const simaFile = document.getElementById('simaFile');
-    const simaStatus = document.getElementById('simaStatus');
-    const dropArea = document.getElementById('dropArea');
-
-    function initLeaflet() {
-        if(leafletMap) return;
-        const gsiTile = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', { attribution: "地理院" });
-        const gsiPhoto = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg', { attribution: "地理院" });
-        leafletMap = L.map('simaLeafletMap', { center: [39.3905, 141.1186], zoom: 15, layers: [gsiTile] });
-        L.control.layers({ "標準地図": gsiTile, "航空写真": gsiPhoto }).addTo(leafletMap);
-        simaLayerGroup = L.layerGroup().addTo(leafletMap);
-        window.leafletMap = leafletMap; 
-    }
-
-    if (simaFile && dropArea) {
-        if(typeof proj4 !== 'undefined') {
-            // 第10系
-            proj4.defs("EPSG:6678", "+proj=tmerc +lat_0=40 +lon_0=140.8333333333333 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs");
         }
+    });
 
-        dropArea.addEventListener('dragover', function(e) { e.preventDefault(); this.style.background = '#eef4fb'; }, false);
-        dropArea.addEventListener('dragleave', function(e) { e.preventDefault(); this.style.background = '#fafafa'; }, false);
-        dropArea.addEventListener('drop', function(e) { 
-            e.preventDefault(); 
-            this.style.background = '#fafafa';
-            if(e.dataTransfer.files.length > 0) { 
-                simaFile.files = e.dataTransfer.files; 
-                readSima(e.dataTransfer.files[0]); 
-            }
-        }, false);
-
-        simaFile.addEventListener('change', function(e) {
-            if(e.target.files[0]) readSima(e.target.files[0]);
-        });
-
-        function readSima(file) {
-            simaStatus.textContent = "読み込み中...";
-            switchMapMode('sima');
-            initLeaflet();
-
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const text = evt.target.result;
-                const lines = text.split(/\r\n|\n/);
-                const points = [];
-                
-                // SIMA読込ロジック
-                lines.forEach(line => {
-                    const parts = line.trim().split(/[\s,]+/);
-                    for(let i=0; i<parts.length-1; i++) {
-                        const v1 = parseFloat(parts[i]); 
-                        const v2 = parseFloat(parts[i+1]); 
-                        if(!isNaN(v1) && !isNaN(v2) && Math.abs(v1)>1000 && Math.abs(v2)>1000) {
-                            try {
-                                const wgs = proj4("EPSG:6678", "WGS84", [v2, v1]); 
-                                points.push([wgs[1], wgs[0]]); 
-                            } catch(e){}
-                            break; 
-                        }
-                    }
-                });
-
-                if(points.length === 0) {
-                    simaStatus.textContent = "座標データなし";
-                    alert("座標が見つかりませんでした。");
-                    return;
-                }
-
-                simaLayerGroup.clearLayers();
-                
-                const poly = L.polygon(points, {color: '#FF6666', weight: 3, fillOpacity:0.2}).addTo(simaLayerGroup);
-                points.forEach(p => L.circleMarker(p, {radius:3, color:'blue', className:'sima-marker'}).addTo(simaLayerGroup));
-                
-                leafletMap.fitBounds(poly.getBounds());
-                simaStatus.textContent = `描画完了: ${points.length}点`;
-                currentQueryOrCoord = ""; 
-                
-                setTimeout(() => { leafletMap.invalidateSize(); }, 300);
-            };
-            reader.readAsText(file, "Shift_JIS");
-        }
+    // --- 登録免許税計算 ---
+    function calcTax(rate, typeName) {
+        const valStr = document.getElementById('taxValue').value;
+        const val = parseInt(valStr);
+        const resBox = document.getElementById('taxResult');
+        if (!val || val <= 0) { resBox.innerHTML = '<span style="color:red;">評価額を正しく入力してください</span>'; return; }
+        const baseAmount = Math.floor(val / 1000) * 1000;
+        let tax = Math.floor(baseAmount * rate);
+        tax = Math.floor(tax / 100) * 100;
+        if (tax < 1000) tax = 1000;
+        resBox.innerHTML = `<strong>${typeName}</strong><br><span style="font-size:1.4rem; color:#c5a059;">約 ${tax.toLocaleString()} 円</span>`;
     }
 
-    // 印刷機能
-    if (printMapBtn) {
-        printMapBtn.onclick = function() {
-            printLocation.textContent = currentQueryOrCoord;
-            alert("【印刷のコツ】\n・用紙サイズ：A4\n・向き：縦\n・ヘッダー/フッター：オフ");
-            window.print();
-        };
-    }
-
-    // --- 2.坪平米 ---
-    const tsuboInput=document.getElementById('tsuboInput');
-    const m2Input=document.getElementById('m2Input');
-    const joInput=document.getElementById('joInput');
-    if(tsuboInput){
-        const T=3.30578, J=1.6562;
-        tsuboInput.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){m2Input.value=(v*T).toFixed(2);joInput.value=((v*T)/J).toFixed(2)}else{m2Input.value='';joInput.value=''} });
-        m2Input.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){tsuboInput.value=(v/T).toFixed(2);joInput.value=(v/J).toFixed(2)}else{tsuboInput.value='';joInput.value=''} });
-        joInput.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){m2Input.value=(v*J).toFixed(2);tsuboInput.value=((v*J)/T).toFixed(2)}else{tsuboInput.value='';m2Input.value=''} });
-    }
-
-    // --- 4.相続図 ---
-    const genMapBtn=document.getElementById('genMapBtn');
-    if(genMapBtn){
-        const addBtn=document.getElementById('addHeirBtn'), heirsCont=document.getElementById('heirsContainer'), dlBtn=document.getElementById('downloadMapBtn'), cvsCont=document.getElementById('canvasContainer'), canvas=document.getElementById('familyCanvas'), ctx=canvas.getContext('2d');
-        addBtn.onclick=function(){const d=document.createElement('div');d.className='family-input-row';d.innerHTML=`<select class="heir-rel" style="width:90px;"><option>長男</option><option>二男</option><option>三男</option><option>長女</option><option>二女</option><option>三女</option><option>養子</option><option>子</option></select><input class="heir-name" placeholder="氏名" style="flex:1;"><input class="heir-addr" placeholder="住所" style="flex:2;"><button class="btn-del" onclick="this.parentElement.remove()">×</button>`;heirsCont.appendChild(d)};
-        genMapBtn.onclick=function(){
-            const decName=document.getElementById('decedentName').value||"被相続人", decDate=document.getElementById('decedentDate').value||"", decAddr=document.getElementById('decedentAddress').value||"";
-            const heirs=document.querySelectorAll('#heirsContainer .family-input-row');
-            let sp=null, ch=[];
-            heirs.forEach(r=>{ const rel=r.querySelector('.heir-rel').value, nm=r.querySelector('.heir-name').value, ad=r.querySelector('.heir-addr').value; if(nm){if(rel=='配偶者')sp={n:nm,a:ad,r:rel}; else ch.push({n:nm,a:ad,r:rel});}});
-            
-            cvsCont.style.display='block'; dlBtn.style.display='inline-block';
-            ctx.fillStyle="#fff"; ctx.fillRect(0,0,800,600);
-            ctx.strokeStyle="#000"; ctx.lineWidth=2; ctx.font="16px sans-serif"; ctx.textAlign="left"; ctx.textBaseline="middle";
-            ctx.fillStyle="#000"; ctx.font="bold 20px sans-serif"; ctx.fillText("相続関係説明図",30,40);
-            
-            const drawB=(x,y,l1,l2,l3)=>{ctx.strokeRect(x,y,160,80);ctx.fillText(l1,x+10,y+25);ctx.font="12px sans-serif";if(l2)ctx.fillText(l2,x+10,y+45);if(l3)ctx.fillText(l3,x+10,y+65);ctx.font="bold 14px sans-serif";};
-            
-            let cx=400, sy=100, dx=sp?cx-110:cx-80;
-            drawB(dx,sy,`被相続人 ${decName}`,decDate,decAddr);
-            
-            if(sp){
-                let sx=dx+220; drawB(sx,sy,`${sp.r} ${sp.n}`,"",sp.a);
-                ctx.beginPath(); ctx.moveTo(dx+160,sy+37); ctx.lineTo(sx,sy+37); ctx.moveTo(dx+160,sy+43); ctx.lineTo(sx,sy+43); ctx.stroke();
-            }
-            if(ch.length>0){
-                let pcx=sp?dx+190:dx+80, cy=sy+140;
-                ctx.beginPath(); ctx.moveTo(pcx,sy+(sp?40:80)); ctx.lineTo(pcx,cy-20); ctx.stroke();
-                let tw=(160*ch.length)+(40*(ch.length-1)), scx=pcx-(tw/2);
-                ctx.beginPath(); ctx.moveTo(scx+80,cy-20); ctx.lineTo(scx+tw-80,cy-20); ctx.stroke();
-                ch.forEach((c,i)=>{
-                    let kx=scx+(200*i);
-                    ctx.beginPath(); ctx.moveTo(kx+80,cy-20); ctx.lineTo(kx+80,cy); ctx.stroke();
-                    drawB(kx,cy,`${c.r} ${c.n}`,"",c.a);
-                });
-            }
-            ctx.font="12px sans-serif"; ctx.fillText("作成：植村 土地家屋調査士・行政書士事務所", 550, 580);
-        };
-        dlBtn.onclick=function(){const a=document.createElement('a');a.download='sozoku.png';a.href=canvas.toDataURL();a.click()};
-    }
-
-    // --- 5.年齢 ---
-    const eraSel=document.getElementById('eraSelect'), yrIn=document.getElementById('yearInput');
-    if(eraSel){
-        const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"];
-        const zIcons = [
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"
-        ];
+    // --- マップモード切替 ---
+    function switchMapMode(mode) {
+        document.getElementById('modeChiban').style.display = (mode === 'chiban') ? 'block' : 'none';
+        document.getElementById('modeSima').style.display = (mode === 'sima') ? 'block' : 'none';
         
-        const cE=function(){
-            const v=parseInt(yrIn.value); if(isNaN(v)){document.getElementById('resAge').innerText='---';return;}
-            let ad=v; if(eraSel.value=='Reiwa')ad+=2018; else if(eraSel.value=='Heisei')ad+=1988; else if(eraSel.value=='Showa')ad+=1925; else if(eraSel.value=='Taisho')ad+=1911; else if(eraSel.value=='Meiji')ad+=1867;
-            document.getElementById('resAD').innerText=ad+"年"; document.getElementById('resAge').innerText=(new Date().getFullYear()-ad)+"歳"; 
-            const idx=ad%12; document.getElementById('resZodiac').innerHTML=`${zData[idx]}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zIcons[idx]}"/></svg>`;
-        };
-        eraSel.onchange=cE; yrIn.oninput=cE;
+        // SIMAモード切り替え時にLeafletのサイズを再計算
+        if(mode === 'sima' && window.leafletMap) {
+            setTimeout(() => { window.leafletMap.invalidateSize(); }, 100);
+        }
+
+        const btnChiban = document.getElementById('tabChiban');
+        const btnSima = document.getElementById('tabSima');
+        
+        if(mode === 'chiban') {
+            btnChiban.classList.add('active-btn');
+            btnChiban.classList.remove('inactive-btn');
+            btnSima.classList.add('inactive-btn');
+            btnSima.classList.remove('active-btn');
+        } else {
+            btnSima.classList.add('active-btn');
+            btnSima.classList.remove('inactive-btn');
+            btnChiban.classList.add('inactive-btn');
+            btnChiban.classList.remove('active-btn');
+        }
     }
 
-    // --- 6.郵便番号 ---
-    const zBtn=document.getElementById('zipSearchBtn');
-    if(zBtn){
-        zBtn.onclick=function(){
-            let z=document.getElementById('zipInput').value.replace(/-/g,'');
-            if(z.length!=7)return;
-            fetch('https://zipcloud.ibsnet.co.jp/api/search?zipcode='+z).then(r=>r.json()).then(d=>{
-                document.getElementById('zipResult').innerText = d.results ? d.results[0].address1+d.results[0].address2+d.results[0].address3 : "該当なし";
+    document.addEventListener('DOMContentLoaded', function() {
+        // Leaflet & State
+        let leafletMap = null; 
+        let simaLayerGroup = null; 
+        let currentMode = "chiban"; 
+        let currentQueryOrCoord = "";
+
+        const showMapBtn = document.getElementById('showMapBtn');
+        const printMapBtn = document.getElementById('printMapBtn');
+        const googleMapFrame = document.getElementById('googleMapFrame');
+        const simaLeafletMapDiv = document.getElementById('simaLeafletMap');
+        const printLocation = document.getElementById('printLocation');
+
+        // A. 地番検索 (Google Maps)
+        if (showMapBtn) {
+            showMapBtn.addEventListener('click', function() {
+                const city = document.getElementById('mapCity').value;
+                const town = document.getElementById('mapTown').value;
+                const lot = document.getElementById('mapLot').value;
+                if (!city || !town) { alert("市町村と町名を入力してください"); return; }
+                const query = `${city} ${town} ${lot}`;
+                currentQueryOrCoord = query;
+                const embedUrl = `https://maps.google.co.jp/maps?q=${encodeURIComponent(query)}&output=embed&t=m&z=17`; 
+                googleMapFrame.src = embedUrl;
             });
-        };
-        document.getElementById('addrSearchBtn').onclick=function(){
-            const a=document.getElementById('addrInput').value; if(a)window.open('https://www.google.com/search?q='+encodeURIComponent(a)+'+郵便番号');
-        };
-    }
-});
-</script>
+        }
 
-</body>
+        // B. SIMAファイル読込
+        const simaFile = document.getElementById('simaFile');
+        const simaStatus = document.getElementById('simaStatus');
+        const dropArea = document.getElementById('dropArea');
+
+        function initLeaflet() {
+            if(leafletMap) return;
+            const gsiTile = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', { attribution: "地理院" });
+            const gsiPhoto = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg', { attribution: "地理院" });
+            leafletMap = L.map('simaLeafletMap', { center: [39.3905, 141.1186], zoom: 15, layers: [gsiTile] });
+            L.control.layers({ "標準地図": gsiTile, "航空写真": gsiPhoto }).addTo(leafletMap);
+            simaLayerGroup = L.layerGroup().addTo(leafletMap);
+            window.leafletMap = leafletMap; 
+        }
+
+        if (simaFile && dropArea) {
+            if(typeof proj4 !== 'undefined') {
+                // 第10系
+                proj4.defs("EPSG:6678", "+proj=tmerc +lat_0=40 +lon_0=140.8333333333333 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs");
+            }
+
+            dropArea.addEventListener('dragover', function(e) { e.preventDefault(); this.style.background = '#eef4fb'; }, false);
+            dropArea.addEventListener('dragleave', function(e) { e.preventDefault(); this.style.background = '#fafafa'; }, false);
+            dropArea.addEventListener('drop', function(e) { 
+                e.preventDefault(); 
+                this.style.background = '#fafafa';
+                if(e.dataTransfer.files.length > 0) { 
+                    simaFile.files = e.dataTransfer.files; 
+                    readSima(e.dataTransfer.files[0]); 
+                }
+            }, false);
+
+            simaFile.addEventListener('change', function(e) {
+                if(e.target.files[0]) readSima(e.target.files[0]);
+            });
+
+            function readSima(file) {
+                simaStatus.textContent = "読み込み中...";
+                switchMapMode('sima');
+                initLeaflet();
+
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const text = evt.target.result;
+                    const lines = text.split(/\r\n|\n/);
+                    const points = [];
+                    
+                    // SIMA読込ロジック
+                    lines.forEach(line => {
+                        const parts = line.trim().split(/[\s,]+/);
+                        for(let i=0; i<parts.length-1; i++) {
+                            const v1 = parseFloat(parts[i]); 
+                            const v2 = parseFloat(parts[i+1]); 
+                            if(!isNaN(v1) && !isNaN(v2) && Math.abs(v1)>1000 && Math.abs(v2)>1000) {
+                                try {
+                                    const wgs = proj4("EPSG:6678", "WGS84", [v2, v1]); 
+                                    points.push([wgs[1], wgs[0]]); 
+                                } catch(e){}
+                                break; 
+                            }
+                        }
+                    });
+
+                    if(points.length === 0) {
+                        simaStatus.textContent = "座標データなし";
+                        alert("座標が見つかりませんでした。");
+                        return;
+                    }
+
+                    simaLayerGroup.clearLayers();
+                    
+                    const poly = L.polygon(points, {color: '#FF6666', weight: 3, fillOpacity:0.2}).addTo(simaLayerGroup);
+                    points.forEach(p => L.circleMarker(p, {radius:3, color:'blue', className:'sima-marker'}).addTo(simaLayerGroup));
+                    
+                    leafletMap.fitBounds(poly.getBounds());
+                    simaStatus.textContent = `描画完了: ${points.length}点`;
+                    currentQueryOrCoord = ""; 
+                    
+                    setTimeout(() => { leafletMap.invalidateSize(); }, 300);
+                };
+                reader.readAsText(file, "Shift_JIS");
+            }
+        }
+
+        // 印刷機能
+        if (printMapBtn) {
+            printMapBtn.onclick = function() {
+                printLocation.textContent = currentQueryOrCoord;
+                alert("【印刷のコツ】\n・用紙サイズ：A4\n・向き：縦\n・ヘッダー/フッター：オフ");
+                window.print();
+            };
+        }
+
+        // --- 2.坪平米 ---
+        const tsuboInput=document.getElementById('tsuboInput');
+        const m2Input=document.getElementById('m2Input');
+        const joInput=document.getElementById('joInput');
+        if(tsuboInput){
+            const T=3.30578, J=1.6562;
+            tsuboInput.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){m2Input.value=(v*T).toFixed(2);joInput.value=((v*T)/J).toFixed(2)}else{m2Input.value='';joInput.value=''} });
+            m2Input.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){tsuboInput.value=(v/T).toFixed(2);joInput.value=(v/J).toFixed(2)}else{tsuboInput.value='';joInput.value=''} });
+            joInput.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){m2Input.value=(v*J).toFixed(2);tsuboInput.value=((v*J)/T).toFixed(2)}else{tsuboInput.value='';m2Input.value=''} });
+        }
+
+        // --- 4.相続図 ---
+        const genMapBtn=document.getElementById('genMapBtn');
+        if(genMapBtn){
+            const addBtn=document.getElementById('addHeirBtn'), heirsCont=document.getElementById('heirsContainer'), dlBtn=document.getElementById('downloadMapBtn'), cvsCont=document.getElementById('canvasContainer'), canvas=document.getElementById('familyCanvas'), ctx=canvas.getContext('2d');
+            addBtn.onclick=function(){const d=document.createElement('div');d.className='family-input-row';d.innerHTML=`<select class="heir-rel" style="width:90px;"><option>長男</option><option>二男</option><option>三男</option><option>長女</option><option>二女</option><option>三女</option><option>養子</option><option>子</option></select><input class="heir-name" placeholder="氏名" style="flex:1;"><input class="heir-addr" placeholder="住所" style="flex:2;"><button class="btn-del" onclick="this.parentElement.remove()">×</button>`;heirsCont.appendChild(d)};
+            genMapBtn.onclick=function(){
+                const decName=document.getElementById('decedentName').value||"被相続人", decDate=document.getElementById('decedentDate').value||"", decAddr=document.getElementById('decedentAddress').value||"";
+                const heirs=document.querySelectorAll('#heirsContainer .family-input-row');
+                let sp=null, ch=[];
+                heirs.forEach(r=>{ const rel=r.querySelector('.heir-rel').value, nm=r.querySelector('.heir-name').value, ad=r.querySelector('.heir-addr').value; if(nm){if(rel=='配偶者')sp={n:nm,a:ad,r:rel}; else ch.push({n:nm,a:ad,r:rel});}});
+                
+                cvsCont.style.display='block'; dlBtn.style.display='inline-block';
+                ctx.fillStyle="#fff"; ctx.fillRect(0,0,800,600);
+                ctx.strokeStyle="#000"; ctx.lineWidth=2; ctx.font="16px sans-serif"; ctx.textAlign="left"; ctx.textBaseline="middle";
+                ctx.fillStyle="#000"; ctx.font="bold 20px sans-serif"; ctx.fillText("相続関係説明図",30,40);
+                
+                const drawB=(x,y,l1,l2,l3)=>{ctx.strokeRect(x,y,160,80);ctx.fillText(l1,x+10,y+25);ctx.font="12px sans-serif";if(l2)ctx.fillText(l2,x+10,y+45);if(l3)ctx.fillText(l3,x+10,y+65);ctx.font="bold 14px sans-serif";};
+                
+                let cx=400, sy=100, dx=sp?cx-110:cx-80;
+                drawB(dx,sy,`被相続人 ${decName}`,decDate,decAddr);
+                
+                if(sp){
+                    let sx=dx+220; drawB(sx,sy,`${sp.r} ${sp.n}`,"",sp.a);
+                    ctx.beginPath(); ctx.moveTo(dx+160,sy+37); ctx.lineTo(sx,sy+37); ctx.moveTo(dx+160,sy+43); ctx.lineTo(sx,sy+43); ctx.stroke();
+                }
+                if(ch.length>0){
+                    let pcx=sp?dx+190:dx+80, cy=sy+140;
+                    ctx.beginPath(); ctx.moveTo(pcx,sy+(sp?40:80)); ctx.lineTo(pcx,cy-20); ctx.stroke();
+                    let tw=(160*ch.length)+(40*(ch.length-1)), scx=pcx-(tw/2);
+                    ctx.beginPath(); ctx.moveTo(scx+80,cy-20); ctx.lineTo(scx+tw-80,cy-20); ctx.stroke();
+                    ch.forEach((c,i)=>{
+                        let kx=scx+(200*i);
+                        ctx.beginPath(); ctx.moveTo(kx+80,cy-20); ctx.lineTo(kx+80,cy); ctx.stroke();
+                        drawB(kx,cy,`${c.r} ${c.n}`,"",c.a);
+                    });
+                }
+                ctx.font="12px sans-serif"; ctx.fillText("作成：植村 土地家屋調査士・行政書士事務所", 550, 580);
+            };
+            dlBtn.onclick=function(){const a=document.createElement('a');a.download='sozoku.png';a.href=canvas.toDataURL();a.click()};
+        }
+
+        // --- 5.年齢 ---
+        const eraSel=document.getElementById('eraSelect'), yrIn=document.getElementById('yearInput');
+        if(eraSel){
+            const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"];
+            const zIcons = [
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+            ];
+            
+            const cE=function(){
+                const v=parseInt(yrIn.value); if(isNaN(v)){document.getElementById('resAge').innerText='---';return;}
+                let ad=v; if(eraSel.value=='Reiwa')ad+=2018; else if(eraSel.value=='Heisei')ad+=1988; else if(eraSel.value=='Showa')ad+=1925; else if(eraSel.value=='Taisho')ad+=1911; else if(eraSel.value=='Meiji')ad+=1867;
+                document.getElementById('resAD').innerText=ad+"年"; document.getElementById('resAge').innerText=(new Date().getFullYear()-ad)+"歳"; 
+                const idx=ad%12; document.getElementById('resZodiac').innerHTML=`${zData[idx]}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zIcons[idx]}"/></svg>`;
+            };
+            eraSel.onchange=cE; yrIn.oninput=cE;
+        }
+
+        // --- 6.郵便番号 ---
+        const zBtn=document.getElementById('zipSearchBtn');
+        if(zBtn){
+            zBtn.onclick=function(){
+                let z=document.getElementById('zipInput').value.replace(/-/g,'');
+                if(z.length!=7)return;
+                fetch('https://zipcloud.ibsnet.co.jp/api/search?zipcode='+z).then(r=>r.json()).then(d=>{
+                    document.getElementById('zipResult').innerText = d.results ? d.results[0].address1+d.results[0].address2+d.results[0].address3 : "該当なし";
+                });
+            };
+            document.getElementById('addrSearchBtn').onclick=function(){
+                const a=document.getElementById('addrInput').value; if(a)window.open('https://www.google.com/search?q='+encodeURIComponent(a)+'+郵便番号');
+            };
+        }
+    });
+    </script>
+</div></body>
 </html>
