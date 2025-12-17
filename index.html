@@ -15,7 +15,8 @@
       "@context": "https://schema.org",
       "@type": "LegalService",
       "name": "植村 土地家屋調査士・行政書士事務所",
-      "image": "https://ku-nel0929.github.io/work-pages/sokkia-bg.png",
+      // ▼▼▼ 画像ファイル名を PNG に変更しました ▼▼▼
+      "image": "https://ku-nel0929.github.io/work-pages/hanamaki-snow-office.png",
       "url": "https://ku-nel0929.github.io/work-pages/",
       "telephone": "080-7231-9467",
       "address": {
@@ -65,7 +66,7 @@
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; height: auto; }
         
-        /* ▼▼▼ レイアウト統一の肝（ここを修正しました） ▼▼▼ */
+        /* ▼▼▼ レイアウト統一用 ▼▼▼ */
         /* ヘッダー、メイン画像、中身、フッター全てに同じ幅制限と中央寄せを適用 */
         header, .hero, .main-wrapper, footer {
             width: 100%;
@@ -83,11 +84,16 @@
         }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
-        /* --- メインビジュアル --- */
+        /* --- メインビジュアル（クリスマス雪景色Ver.） --- */
         .hero {
             position: relative;
-            background-color: #87CEEB;
-            background-image: url('sokkia-bg.png');
+            /* 画像が読み込まれるまでの背景色を夜のネイビーに変更 */
+            background-color: #0f2350;
+            
+            /* ▼▼▼ 画像ファイル名を PNG に変更しました ▼▼▼ */
+            background-image: url('hanamaki-snow-office.png');
+            /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+            
             background-size: cover;
             background-position: center;
             height: 400px;
@@ -96,13 +102,15 @@
             justify-content: center;
             text-align: center;
             color: var(--white);
-            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+            /* 雪景色に対して文字が読みやすいよう影を少し強く */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9);
         }
         .hero::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
+            /* 雪景色なので、少し青みがかった暗いフィルターをかけて文字を際立たせる */
+            background: rgba(15, 35, 80, 0.4);
         }
         .hero-content {
             position: relative;
