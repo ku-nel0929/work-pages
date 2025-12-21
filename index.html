@@ -421,12 +421,12 @@
             <h2 class="section-title">【便利ツール】郵便番号 ↔ 住所 検索</h2>
             <div class="tool-box">
                 <div class="tool-header">郵便番号 <i class="fa-solid fa-arrow-right"></i> 住所</div>
-                <div class="tool-input-group"><input type="text" id="zipInput" class="form-input"><button id="zipSearchBtn" class="tool-btn">検索</button></div>
+                <div class="tool-input-group"><input type="text" id="zipInput" class="form-input" placeholder="例: 0250075"><button id="zipSearchBtn" class="tool-btn">検索</button></div>
                 <div id="zipResult" style="padding:10px;"></div>
             </div>
             <div class="tool-box">
                 <div class="tool-header">住所 <i class="fa-solid fa-arrow-right"></i> 郵便番号</div>
-                <div class="tool-input-group"><input type="text" id="addrInput" class="form-input"><button id="addrSearchBtn" class="tool-btn" style="background-color:#4285F4;">検索</button></div>
+                <div class="tool-input-group"><input type="text" id="addrInput" class="form-input" placeholder="例: 花巻市花城町"><button id="addrSearchBtn" class="tool-btn" style="background-color:#4285F4;">検索</button></div>
             </div>
         </div>
 
@@ -443,8 +443,9 @@
         </footer>
 
     </div><script>
-    // --- メールアドレスコピー ---
     document.addEventListener('DOMContentLoaded', function() {
+        
+        // --- メールアドレスコピー ---
         const copyBtn = document.getElementById('emailCopyBtn');
         if(copyBtn) {
             copyBtn.addEventListener('click', function() {
@@ -458,115 +459,142 @@
                 });
             });
         }
-    });
 
-    // --- 登録免許税計算 ---
-    function calcTax(rate, typeName) {
-        const valStr = document.getElementById('taxValue').value;
-        const val = parseInt(valStr);
-        const resBox = document.getElementById('taxResult');
-        if (!val || val <= 0) { resBox.innerHTML = '<span style="color:red;">評価額を正しく入力してください</span>'; return; }
-        const baseAmount = Math.floor(val / 1000) * 1000;
-        let tax = Math.floor(baseAmount * rate);
-        tax = Math.floor(tax / 100) * 100;
-        if (tax < 1000) tax = 1000;
-        resBox.innerHTML = `<strong>${typeName}</strong><br><span style="font-size:1.4rem; color:#c5a059;">約 ${tax.toLocaleString()} 円</span>`;
-    }
-
-    // --- 4.相続図 ---
-    const genMapBtn=document.getElementById('genMapBtn');
-    if(genMapBtn){
-        const addBtn=document.getElementById('addHeirBtn'), heirsCont=document.getElementById('heirsContainer'), dlBtn=document.getElementById('downloadMapBtn'), cvsCont=document.getElementById('canvasContainer'), canvas=document.getElementById('familyCanvas'), ctx=canvas.getContext('2d');
-        addBtn.onclick=function(){const d=document.createElement('div');d.className='family-input-row';d.innerHTML=`<select class="heir-rel" style="width:90px;"><option>長男</option><option>二男</option><option>三男</option><option>長女</option><option>二女</option><option>三女</option><option>養子</option><option>子</option></select><input class="heir-name" placeholder="氏名" style="flex:1;"><input class="heir-addr" placeholder="住所" style="flex:2;"><button class="btn-del" onclick="this.parentElement.remove()">×</button>`;heirsCont.appendChild(d)};
-        genMapBtn.onclick=function(){
-            const decName=document.getElementById('decedentName').value||"被相続人", decDate=document.getElementById('decedentDate').value||"", decAddr=document.getElementById('decedentAddress').value||"";
-            const heirs=document.querySelectorAll('#heirsContainer .family-input-row');
-            let sp=null, ch=[];
-            heirs.forEach(r=>{ const rel=r.querySelector('.heir-rel').value, nm=r.querySelector('.heir-name').value, ad=r.querySelector('.heir-addr').value; if(nm){if(rel=='配偶者')sp={n:nm,a:ad,r:rel}; else ch.push({n:nm,a:ad,r:rel});}});
-            
-            cvsCont.style.display='block'; dlBtn.style.display='inline-block';
-            ctx.fillStyle="#fff"; ctx.fillRect(0,0,800,600);
-            ctx.strokeStyle="#000"; ctx.lineWidth=2; ctx.font="16px sans-serif"; ctx.textAlign="left"; ctx.textBaseline="middle";
-            ctx.fillStyle="#000"; ctx.font="bold 20px sans-serif"; ctx.fillText("相続関係説明図",30,40);
-            
-            const drawB=(x,y,l1,l2,l3)=>{ctx.strokeRect(x,y,160,80);ctx.fillText(l1,x+10,y+25);ctx.font="12px sans-serif";if(l2)ctx.fillText(l2,x+10,y+45);if(l3)ctx.fillText(l3,x+10,y+65);ctx.font="bold 14px sans-serif";};
-            
-            let cx=400, sy=100, dx=sp?cx-110:cx-80;
-            drawB(dx,sy,`被相続人 ${decName}`,decDate,decAddr);
-            
-            if(sp){
-                let sx=dx+220; drawB(sx,sy,`${sp.r} ${sp.n}`,"",sp.a);
-                ctx.beginPath(); ctx.moveTo(dx+160,sy+37); ctx.lineTo(sx,sy+37); ctx.moveTo(dx+160,sy+43); ctx.lineTo(sx,sy+43); ctx.stroke();
-            }
-            if(ch.length>0){
-                let pcx=sp?dx+190:dx+80, cy=sy+140;
-                ctx.beginPath(); ctx.moveTo(pcx,sy+(sp?40:80)); ctx.lineTo(pcx,cy-20); ctx.stroke();
-                let tw=(160*ch.length)+(40*(ch.length-1)), scx=pcx-(tw/2);
-                ctx.beginPath(); ctx.moveTo(scx+80,cy-20); ctx.lineTo(scx+tw-80,cy-20); ctx.stroke();
-                ch.forEach((c,i)=>{
-                    let kx=scx+(200*i);
-                    ctx.beginPath(); ctx.moveTo(kx+80,cy-20); ctx.lineTo(kx+80,cy); ctx.stroke();
-                    drawB(kx,cy,`${c.r} ${c.n}`,"",c.a);
-                });
-            }
-            ctx.font="12px sans-serif"; ctx.fillText("作成：植村 土地家屋調査士・行政書士事務所", 550, 580);
+        // --- 登録免許税計算 ---
+        window.calcTax = function(rate, typeName) {
+            const valStr = document.getElementById('taxValue').value;
+            const val = parseInt(valStr);
+            const resBox = document.getElementById('taxResult');
+            if (!val || val <= 0) { resBox.innerHTML = '<span style="color:red;">評価額を正しく入力してください</span>'; return; }
+            const baseAmount = Math.floor(val / 1000) * 1000;
+            let tax = Math.floor(baseAmount * rate);
+            tax = Math.floor(tax / 100) * 100;
+            if (tax < 1000) tax = 1000;
+            resBox.innerHTML = `<strong>${typeName}</strong><br><span style="font-size:1.4rem; color:#c5a059;">約 ${tax.toLocaleString()} 円</span>`;
         };
-        dlBtn.onclick=function(){const a=document.createElement('a');a.download='sozoku.png';a.href=canvas.toDataURL();a.click()};
-    }
 
-    // --- 5.年齢 ---
-    const eraSel=document.getElementById('eraSelect'), yrIn=document.getElementById('yearInput');
-    if(eraSel){
-        const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"];
-        const zIcons = [
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z",
-            "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"
-        ];
-        
-        const cE=function(){
-            const v=parseInt(yrIn.value); if(isNaN(v)){document.getElementById('resAge').innerText='---';return;}
-            let ad=v; if(eraSel.value=='Reiwa')ad+=2018; else if(eraSel.value=='Heisei')ad+=1988; else if(eraSel.value=='Showa')ad+=1925; else if(eraSel.value=='Taisho')ad+=1911; else if(eraSel.value=='Meiji')ad+=1867;
-            document.getElementById('resAD').innerText=ad+"年"; document.getElementById('resAge').innerText=(new Date().getFullYear()-ad)+"歳"; 
-            const idx=ad%12; document.getElementById('resZodiac').innerHTML=`${zData[idx]}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zIcons[idx]}"/></svg>`;
-        };
-        eraSel.onchange=cE; yrIn.oninput=cE;
-    }
+        // --- 坪平米 ---
+        const tsuboInput=document.getElementById('tsuboInput');
+        const m2Input=document.getElementById('m2Input');
+        const joInput=document.getElementById('joInput');
+        if(tsuboInput){
+            const T=3.30578, J=1.6562;
+            tsuboInput.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){m2Input.value=(v*T).toFixed(2);joInput.value=((v*T)/J).toFixed(2)}else{m2Input.value='';joInput.value=''} });
+            m2Input.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){tsuboInput.value=(v/T).toFixed(2);joInput.value=(v/J).toFixed(2)}else{tsuboInput.value='';joInput.value=''} });
+            joInput.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){m2Input.value=(v*J).toFixed(2);tsuboInput.value=((v*J)/T).toFixed(2)}else{tsuboInput.value='';m2Input.value=''} });
+        }
 
-    // --- 2.坪平米 ---
-    const tsuboInput=document.getElementById('tsuboInput');
-    const m2Input=document.getElementById('m2Input');
-    const joInput=document.getElementById('joInput');
-    if(tsuboInput){
-        const T=3.30578, J=1.6562;
-        tsuboInput.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){m2Input.value=(v*T).toFixed(2);joInput.value=((v*T)/J).toFixed(2)}else{m2Input.value='';joInput.value=''} });
-        m2Input.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){tsuboInput.value=(v/T).toFixed(2);joInput.value=(v/J).toFixed(2)}else{tsuboInput.value='';joInput.value=''} });
-        joInput.addEventListener('input',function(){ const v=parseFloat(this.value); if(!isNaN(v)){m2Input.value=(v*J).toFixed(2);tsuboInput.value=((v*J)/T).toFixed(2)}else{tsuboInput.value='';m2Input.value=''} });
-    }
+        // --- 相続図 ---
+        const genMapBtn=document.getElementById('genMapBtn');
+        if(genMapBtn){
+            const addBtn=document.getElementById('addHeirBtn'), heirsCont=document.getElementById('heirsContainer'), dlBtn=document.getElementById('downloadMapBtn'), cvsCont=document.getElementById('canvasContainer'), canvas=document.getElementById('familyCanvas'), ctx=canvas.getContext('2d');
+            addBtn.onclick=function(){const d=document.createElement('div');d.className='family-input-row';d.innerHTML=`<select class="heir-rel" style="width:90px;"><option>長男</option><option>二男</option><option>三男</option><option>長女</option><option>二女</option><option>三女</option><option>養子</option><option>子</option></select><input class="heir-name" placeholder="氏名" style="flex:1;"><input class="heir-addr" placeholder="住所" style="flex:2;"><button class="btn-del" onclick="this.parentElement.remove()">×</button>`;heirsCont.appendChild(d)};
+            genMapBtn.onclick=function(){
+                const decName=document.getElementById('decedentName').value||"被相続人", decDate=document.getElementById('decedentDate').value||"", decAddr=document.getElementById('decedentAddress').value||"";
+                const heirs=document.querySelectorAll('#heirsContainer .family-input-row');
+                let sp=null, ch=[];
+                heirs.forEach(r=>{ const rel=r.querySelector('.heir-rel').value, nm=r.querySelector('.heir-name').value, ad=r.querySelector('.heir-addr').value; if(nm){if(rel=='配偶者')sp={n:nm,a:ad,r:rel}; else ch.push({n:nm,a:ad,r:rel});}});
+                
+                cvsCont.style.display='block'; dlBtn.style.display='inline-block';
+                ctx.fillStyle="#fff"; ctx.fillRect(0,0,800,600);
+                ctx.strokeStyle="#000"; ctx.lineWidth=2; ctx.font="16px sans-serif"; ctx.textAlign="left"; ctx.textBaseline="middle";
+                ctx.fillStyle="#000"; ctx.font="bold 20px sans-serif"; ctx.fillText("相続関係説明図",30,40);
+                
+                const drawB=(x,y,l1,l2,l3)=>{ctx.strokeRect(x,y,160,80);ctx.fillText(l1,x+10,y+25);ctx.font="12px sans-serif";if(l2)ctx.fillText(l2,x+10,y+45);if(l3)ctx.fillText(l3,x+10,y+65);ctx.font="bold 14px sans-serif";};
+                
+                let cx=400, sy=100, dx=sp?cx-110:cx-80;
+                drawB(dx,sy,`被相続人 ${decName}`,decDate,decAddr);
+                
+                if(sp){
+                    let sx=dx+220; drawB(sx,sy,`${sp.r} ${sp.n}`,"",sp.a);
+                    ctx.beginPath(); ctx.moveTo(dx+160,sy+37); ctx.lineTo(sx,sy+37); ctx.moveTo(dx+160,sy+43); ctx.lineTo(sx,sy+43); ctx.stroke();
+                }
+                if(ch.length>0){
+                    let pcx=sp?dx+190:dx+80, cy=sy+140;
+                    ctx.beginPath(); ctx.moveTo(pcx,sy+(sp?40:80)); ctx.lineTo(pcx,cy-20); ctx.stroke();
+                    let tw=(160*ch.length)+(40*(ch.length-1)), scx=pcx-(tw/2);
+                    ctx.beginPath(); ctx.moveTo(scx+80,cy-20); ctx.lineTo(scx+tw-80,cy-20); ctx.stroke();
+                    ch.forEach((c,i)=>{
+                        let kx=scx+(200*i);
+                        ctx.beginPath(); ctx.moveTo(kx+80,cy-20); ctx.lineTo(kx+80,cy); ctx.stroke();
+                        drawB(kx,cy,`${c.r} ${c.n}`,"",c.a);
+                    });
+                }
+                ctx.font="12px sans-serif"; ctx.fillText("作成：植村 土地家屋調査士・行政書士事務所", 550, 580);
+            };
+            dlBtn.onclick=function(){const a=document.createElement('a');a.download='sozoku.png';a.href=canvas.toDataURL();a.click()};
+        }
 
-    // --- 6.郵便番号 ---
-    const zBtn=document.getElementById('zipSearchBtn');
-    if(zBtn){
-        zBtn.onclick=function(){
-            let z=document.getElementById('zipInput').value.replace(/-/g,'');
-            if(z.length!=7)return;
-            fetch('https://zipcloud.ibsnet.co.jp/api/search?zipcode='+z).then(r=>r.json()).then(d=>{
-                document.getElementById('zipResult').innerText = d.results ? d.results[0].address1+d.results[0].address2+d.results[0].address3 : "該当なし";
-            });
-        };
-        document.getElementById('addrSearchBtn').onclick=function(){
-            const a=document.getElementById('addrInput').value; if(a)window.open('https://www.google.com/search?q='+encodeURIComponent(a)+'+郵便番号');
-        };
-    }
+        // --- 年齢 ---
+        const eraSel=document.getElementById('eraSelect'), yrIn=document.getElementById('yearInput');
+        if(eraSel){
+            const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"];
+            const zIcons = [
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+            ];
+            
+            const cE=function(){
+                const v=parseInt(yrIn.value); if(isNaN(v)){document.getElementById('resAge').innerText='---';return;}
+                let ad=v; if(eraSel.value=='Reiwa')ad+=2018; else if(eraSel.value=='Heisei')ad+=1988; else if(eraSel.value=='Showa')ad+=1925; else if(eraSel.value=='Taisho')ad+=1911; else if(eraSel.value=='Meiji')ad+=1867;
+                document.getElementById('resAD').innerText=ad+"年"; document.getElementById('resAge').innerText=(new Date().getFullYear()-ad)+"歳"; 
+                const idx=ad%12; document.getElementById('resZodiac').innerHTML=`${zData[idx]}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zIcons[idx]}"/></svg>`;
+            };
+            eraSel.onchange=cE; yrIn.oninput=cE;
+        }
+
+        // --- 6.郵便番号 (修正済み) ---
+        const zipBtn = document.getElementById('zipSearchBtn');
+        const zipResult = document.getElementById('zipResult');
+        const zipInput = document.getElementById('zipInput');
+        const addrSearchBtn = document.getElementById('addrSearchBtn');
+        const addrInput = document.getElementById('addrInput');
+
+        if(zipBtn && zipResult && zipInput){
+            zipBtn.onclick = function(){
+                // ハイフン削除
+                const zip = zipInput.value.replace(/[^\d]/g, '');
+                if(zip.length !== 7){
+                    zipResult.innerHTML = '<span style="color:red;">7桁の数字を入力してください</span>';
+                    return;
+                }
+                zipResult.innerText = "検索中...";
+                
+                // API呼び出し
+                fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zip}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.results){
+                            const r = data.results[0];
+                            zipResult.innerHTML = `<strong>${r.address1} ${r.address2} ${r.address3}</strong><br><small>(${r.kana1} ${r.kana2} ${r.kana3})</small>`;
+                        } else {
+                            zipResult.innerHTML = '<span style="color:red;">該当する住所が見つかりません</span>';
+                        }
+                    })
+                    .catch(err => {
+                        zipResult.innerHTML = '<span style="color:red;">検索エラー（通信失敗）</span>';
+                    });
+            };
+        }
+
+        if(addrSearchBtn && addrInput){
+            addrSearchBtn.onclick = function(){
+                const val = addrInput.value;
+                if(!val) return;
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(val)}+郵便番号`);
+            };
+        }
+
     });
     </script>
 </div></body>
