@@ -61,17 +61,17 @@
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; height: auto; }
         
-        /* ▼▼▼ レイアウト統一用のラッパー ▼▼▼ */
+        /* レイアウト統一用のラッパー */
         .site-container {
             max-width: var(--content-width);
             width: 100%;
             margin: 0 auto; /* 中央揃え */
-            background-color: var(--white); /* コンテンツ背景は白 */
+            background-color: var(--white);
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
             overflow: hidden;
         }
 
-        /* --- ヘッダー --- */
+        /* ヘッダー */
         header {
             width: 100%;
             background-color: var(--primary-color);
@@ -81,7 +81,7 @@
         }
         .logo { font-size: 1.4rem; font-weight: bold; }
 
-        /* --- メインビジュアル --- */
+        /* メインビジュアル */
         .hero {
             width: 100%;
             position: relative;
@@ -117,12 +117,12 @@
             .hero-content h1 { font-size: 1.5rem; }
         }
 
-        /* --- コンテンツエリア --- */
+        /* コンテンツエリア */
         .main-wrapper {
             padding: 50px 20px 60px;
         }
 
-        /* --- 業務選択ボタン --- */
+        /* 業務選択ボタン */
         .main-actions { margin-bottom: 40px; }
         .action-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
         .action-box { flex: 1; min-width: 280px; padding: 30px 20px; border-radius: 8px; text-align: center; color: var(--white); box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s; }
@@ -132,7 +132,7 @@
         .box-title { display: block; font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; }
         .phone-area { background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 30px; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
 
-        /* --- フォーム --- */
+        /* フォーム */
         .contact-section { padding: 40px 0; }
         .section-title { text-align: center; color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 30px; }
         .contact-form { max-width: 800px; margin: 0 auto; background-color: var(--bg-form); padding: 30px; border-radius: 8px; border: 1px solid #ddd; }
@@ -188,7 +188,7 @@
         }
         .launch-btn:hover { opacity: 0.9; }
 
-        /* --- コラム --- */
+        /* コラム */
         .column-section { padding: 40px 0; max-width: 900px; margin: 0 auto; }
         .column-article { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
         .column-title { color: var(--primary-color); font-size: 1.4rem; margin-bottom: 10px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
@@ -197,7 +197,7 @@
         .nou-table th, .nou-table td { border: 1px solid #ccc; padding: 10px; }
         .nou-table th { background-color: #f0f0f0; text-align: center; width: 20%; }
 
-        /* --- ツール共通 --- */
+        /* ツール共通 */
         .tool-section { padding: 40px 20px; max-width: 800px; margin: 0 auto 40px; background-color: #f5f8fc; border-radius: 8px; border: 1px solid #dce4ec; }
         .tool-box { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; }
         .tool-header { text-align: center; margin-bottom: 15px; font-weight: bold; color: var(--primary-color); border-bottom: 1px dashed #ccc; padding-bottom: 10px; }
@@ -212,7 +212,7 @@
         .tool-label { font-size: 0.8rem; opacity: 0.8; display: block; min-width: 100px; }
         .zodiac-icon { width: 28px; height: 28px; margin-left: 10px; fill: #fff; vertical-align: middle; }
 
-        /* --- 相続図 --- */
+        /* 相続図 */
         .family-input-row { display: flex; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; align-items: center; flex-wrap: wrap; }
         .family-input-row input, .family-input-row select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; min-width: 0; }
         .btn-add { background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
@@ -220,7 +220,7 @@
         #canvasContainer { text-align: center; overflow-x: auto; margin-top: 20px; display: none; }
         canvas { max-width: 100%; height: auto; }
 
-        /* --- 印刷設定 --- */
+        /* 印刷設定 */
         @media print {
             @page { size: A4 portrait; margin: 5mm; }
             body { background: white !important; height: 100vh; margin: 0 !important; padding: 0 !important; width: 100% !important; }
@@ -245,11 +245,11 @@
             .btn-del { margin-left: auto; }
         }
 
-        /* --- 事務所情報 --- */
+        /* 事務所情報 */
         .office-info { text-align: center; margin-top: 50px; padding: 20px; background: #f9f9f9; }
         .map-container { width: 100%; height: 350px; margin-top: 20px; background: #eee; }
         
-        /* --- フッター --- */
+        /* フッター */
         footer {
             width: 100%;
             background-color: var(--primary-color);
@@ -538,7 +538,7 @@
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z",
-                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z",
@@ -554,7 +554,7 @@
             eraSel.onchange=cE; yrIn.oninput=cE;
         }
 
-        // --- 6. 郵便番号 (修正済み) ---
+        // --- 6. 郵便番号 ---
         const zipBtn = document.getElementById('zipSearchBtn');
         const zipResult = document.getElementById('zipResult');
         const zipInput = document.getElementById('zipInput');
