@@ -193,9 +193,16 @@
         .column-article { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
         .column-title { color: var(--primary-color); font-size: 1.4rem; margin-bottom: 10px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
         .column-text { font-size: 0.95rem; line-height: 1.8; color: #444; }
-        .nou-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
-        .nou-table th, .nou-table td { border: 1px solid #ccc; padding: 10px; }
-        .nou-table th { background-color: #f0f0f0; text-align: center; width: 20%; }
+        
+        /* テーブル設定 */
+        .nou-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.95rem; }
+        .nou-table th, .nou-table td { border: 1px solid #ccc; padding: 12px 10px; vertical-align: middle; }
+        .nou-table th { background-color: #f5f8fc; text-align: left; width: 30%; color: var(--primary-color); font-weight: bold; min-width: 120px; }
+        .nou-table td { background-color: #fff; }
+        @media (max-width: 600px) {
+            .nou-table th, .nou-table td { display: block; width: 100%; box-sizing: border-box; }
+            .nou-table th { background-color: #eaeaea; }
+        }
 
         /* ツール共通 */
         .tool-section { padding: 40px 20px; max-width: 800px; margin: 0 auto 40px; background-color: #f5f8fc; border-radius: 8px; border: 1px solid #dce4ec; }
@@ -350,6 +357,7 @@
 
         <div class="column-section">
             <h2 class="section-title">お役立ち情報</h2>
+            
             <article class="column-article">
                 <h3 class="column-title" style="color:#d9534f;"><i class="fa-solid fa-triangle-exclamation"></i> 【重要】相続登記義務化について</h3>
                 <p class="column-text">
@@ -357,6 +365,7 @@
                     正当な理由なく申請を怠ると、<strong>10万円以下の過料</strong>の対象となる可能性があります。また、過去に相続した未登記の不動産も対象となりますので、お早めのご対応をお勧めいたします。
                 </p>
             </article>
+            
             <article class="column-article">
                 <h3 class="column-title"><i class="fa-solid fa-book-open"></i> 農地転用許可・届出（3条・4条・5条）</h3>
                 <p class="column-text">
@@ -364,12 +373,37 @@
                     また、農地を農地のまま売買・貸借する場合も許可（3条）が必要です。花巻市での農地転用をお考えの方は、無断転用によるトラブルを防ぐためにも、まずは専門家へご相談ください。
                 </p>
             </article>
+            
             <article class="column-article">
                 <h3 class="column-title"><i class="fa-solid fa-map-location-dot"></i> 境界確定測量と地積更正</h3>
                 <p class="column-text">
                     「お隣との境界線がはっきりしない」「登記簿の面積と実際の面積が違う」といった場合、境界確定測量が必要です。土地の売買や相続による分筆登記の前提としても必須となります。<br>
                     境界標の設置から隣接地所有者様との立会いまで、円満な解決をサポートします。「杭を残して悔いを残さず」をモットーに、正確な測量を行います。
                 </p>
+            </article>
+
+            <article class="column-article">
+                <h3 class="column-title"><i class="fa-solid fa-house-chimney-crack"></i> 建物滅失登記（解体・焼失等）の必要書類</h3>
+                <p class="column-text">建物を取り壊した場合や、火災などで焼失した際に行う登記です。</p>
+                <table class="nou-table">
+                    <tr><th>① 建物滅失証明書</th><td>解体業者様から発行される「取壊証明書」や「解体証明書」です。</td></tr>
+                    <tr><th>② 解体業者の証明書</th><td>【法人の場合】登記事項証明書、代表者印鑑証明書など<br>【個人の場合】印鑑証明書</td></tr>
+                    <tr><th>③ 罹災証明書</th><td>火災や災害で焼失・倒壊した場合のみ必要となります。</td></tr>
+                    <tr><th>④ 相続関係書類</th><td>登記名義人が亡くなっている場合は、戸籍謄本等が必要です。</td></tr>
+                    <tr><th>⑤ 委任状</th><td>代理人が申請する場合に必要です。</td></tr>
+                </table>
+            </article>
+
+            <article class="column-article">
+                <h3 class="column-title"><i class="fa-solid fa-house"></i> 建物表題登記（新築・建売購入等）の必要書類</h3>
+                <p class="column-text">建物を新築した際や、建売住宅を購入した際に最初に行う登記です。</p>
+                <table class="nou-table">
+                    <tr><th>① 住所証明書</th><td>【個人】住民票<br>【法人】登記事項証明書など</td></tr>
+                    <tr><th>② 所有権証明書</th><td>建築確認済証、検査済証、または工事完了引渡証明書など。</td></tr>
+                    <tr><th>③ 工事人の印鑑証明書</th><td>引渡証明書を添付する場合などに必要となります。</td></tr>
+                    <tr><th>④ 図面</th><td>「建物図面」および「各階平面図」は、現地調査の上、当事務所で作成します。</td></tr>
+                    <tr><th>⑤ 委任状</th><td>代理人が申請する場合に必要です。</td></tr>
+                </table>
             </article>
         </div>
 
