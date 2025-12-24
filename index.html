@@ -30,7 +30,7 @@
         "longitude": 141.1186
       },
       "priceRange": "相談無料",
-      "description": "岩手県花巻市の農地転用許可申請、土地の測量・分筆登記なら植村事務所へ。登録免許税計算や相続関係図作成ツールも無料公開中。"
+      "description": "岩手県花巻市の農地転用許可申請、土地の測量・分筆登記なら植村事務所へ。外字作成支援や登録免許税計算ツールも無料公開中。"
     }
     </script>
 
@@ -361,8 +361,8 @@
         </div>
 
         <div class="tool-section">
-            <h2 class="section-title">【便利ツール】異体字・画像 アウトライン変換</h2>
-            <p style="text-align:center; font-size:0.9rem; margin-bottom:15px;">画像(JPG/PNG)を、エクセル等で拡大しても綺麗な「SVG形式」に変換します。</p>
+            <h2 class="section-title">【便利ツール】外字作成支援ツール</h2>
+            <p style="text-align:center; font-size:0.9rem; margin-bottom:15px;">手書き文字などの画像を、Excel用(SVG)または外字エディタ用(BMP)に変換します。</p>
             
             <div id="libErrorBanner">
                 <i class="fa-solid fa-triangle-exclamation"></i> 変換プログラムが読み込めませんでした。<br>
@@ -376,28 +376,33 @@
                         <input type="file" id="imageInput" accept="image/*" class="form-input" style="padding:8px;">
                     </div>
                     <div style="flex:1;">
-                        <label style="font-weight:bold; font-size:0.9rem; display:block;">② 濃さ調整 (しきい値): <span id="thresholdValue">128</span></label>
+                        <label style="font-weight:bold; font-size:0.9rem; display:block;">② 濃さ調整: <span id="thresholdValue">128</span></label>
                         <input type="range" id="thresholdRange" min="0" max="255" value="128" style="width:100%; cursor:pointer;">
                     </div>
                 </div>
 
                 <div class="preview-area">
                     <div class="preview-box">
-                        <span class="preview-label">読込画像 (白黒処理)</span>
+                        <span class="preview-label">白黒変換 (BMP用)</span>
                         <canvas id="processCanvas"></canvas>
                         <p id="canvasPlaceholder" style="color:#aaa; font-size:0.8rem; margin-top:20px;">ここに画像が表示されます</p>
                     </div>
                     <div class="preview-box">
-                        <span class="preview-label">変換結果 (SVG)</span>
+                        <span class="preview-label">アウトライン (Excel用)</span>
                         <div id="svgContainer"></div>
                         <p id="svgPlaceholder" style="color:#aaa; font-size:0.8rem; margin-top:20px;">変換結果が表示されます</p>
                     </div>
                 </div>
 
-                <div style="text-align:center; margin-top:15px;">
-                    <button id="downloadBtn" class="tool-btn dl-btn-disabled" style="width:250px; font-weight:bold;">SVGを保存 (Excel用)</button>
+                <div style="display:flex; gap:10px; justify-content:center; margin-top:15px; flex-wrap:wrap;">
+                    <button id="downloadBtn" class="tool-btn dl-btn-disabled" style="width:200px;">SVGを保存 (Excel用)</button>
+                    <button id="downloadBmpBtn" class="tool-btn dl-btn-disabled" style="width:200px; background-color:#333;">画像保存 (外字エディタ用)</button>
                 </div>
-                <p style="text-align:center; font-size:0.8rem; color:#666; margin-top:5px;">※Word/Excelの「挿入」→「画像」からファイルを選択してください。</p>
+                <div style="margin-top:10px; font-size:0.85rem; color:#666; background:#f9f9f9; padding:10px; border-radius:4px;">
+                    <strong>使い方：</strong><br>
+                    ● <strong>Excelの場合:</strong> [SVGを保存] → Excelで [挿入] > [画像] から選択<br>
+                    ● <strong>外字エディタの場合:</strong> [画像保存] → ペイントで開く → [すべて選択]して[コピー] → 外字エディタで[貼り付け]
+                </div>
             </div>
         </div>
 
@@ -463,12 +468,7 @@
                 const heirs=document.querySelectorAll('#heirsContainer .family-input-row');
                 let sp=null, ch=[];
                 heirs.forEach(r=>{ const rel=r.querySelector('.heir-rel').value, nm=r.querySelector('.heir-name').value, ad=r.querySelector('.heir-addr').value; if(nm){if(rel=='配偶者')sp={n:nm,a:ad,r:rel}; else ch.push({n:nm,a:ad,r:rel});}});
-                
-                cvsCont.style.display='block'; dlBtn.style.display='inline-block';
-                ctx.fillStyle="#fff"; ctx.fillRect(0,0,800,600);
-                ctx.strokeStyle="#000"; ctx.lineWidth=2; ctx.font="16px sans-serif"; ctx.textAlign="left"; ctx.textBaseline="middle";
-                ctx.fillStyle="#000"; ctx.font="bold 20px sans-serif"; ctx.fillText("相続関係説明図",30,40);
-                
+                cvsCont.style.display='block'; dlBtn.style.display='inline-block'; ctx.fillStyle="#fff"; ctx.fillRect(0,0,800,600); ctx.strokeStyle="#000"; ctx.lineWidth=2; ctx.font="16px sans-serif"; ctx.textAlign="left"; ctx.textBaseline="middle"; ctx.fillStyle="#000"; ctx.font="bold 20px sans-serif"; ctx.fillText("相続関係説明図",30,40);
                 const drawB=(x,y,l1,l2,l3)=>{ctx.strokeRect(x,y,160,80);ctx.fillText(l1,x+10,y+25);ctx.font="12px sans-serif";if(l2)ctx.fillText(l2,x+10,y+45);if(l3)ctx.fillText(l3,x+10,y+65);ctx.font="bold 14px sans-serif";};
                 let cx=400, sy=100, dx=sp?cx-110:cx-80; drawB(dx,sy,`被相続人 ${decName}`,decDate,decAddr);
                 if(sp){ let sx=dx+220; drawB(sx,sy,`${sp.r} ${sp.n}`,"",sp.a); ctx.beginPath(); ctx.moveTo(dx+160,sy+37); ctx.lineTo(sx,sy+37); ctx.moveTo(dx+160,sy+43); ctx.lineTo(sx,sy+43); ctx.stroke(); }
@@ -482,13 +482,8 @@
         const eraSel=document.getElementById('eraSelect'), yrIn=document.getElementById('yearInput');
         if(eraSel){
             const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"];
-            const zIcons = ["M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"];
-            const cE=function(){
-                const v=parseInt(yrIn.value); if(isNaN(v)){document.getElementById('resAge').innerText='---';return;}
-                let ad=v; if(eraSel.value=='Reiwa')ad+=2018; else if(eraSel.value=='Heisei')ad+=1988; else if(eraSel.value=='Showa')ad+=1925; else if(eraSel.value=='Taisho')ad+=1911; else if(eraSel.value=='Meiji')ad+=1867;
-                document.getElementById('resAD').innerText=ad+"年"; document.getElementById('resAge').innerText=(new Date().getFullYear()-ad)+"歳"; 
-                const idx=ad%12; document.getElementById('resZodiac').innerHTML=`${zData[idx]}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zIcons[idx]}"/></svg>`;
-            };
+            const zIcons = ["M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"];
+            const cE=function(){ const v=parseInt(yrIn.value); if(isNaN(v)){document.getElementById('resAge').innerText='---';return;} let ad=v; if(eraSel.value=='Reiwa')ad+=2018; else if(eraSel.value=='Heisei')ad+=1988; else if(eraSel.value=='Showa')ad+=1925; else if(eraSel.value=='Taisho')ad+=1911; else if(eraSel.value=='Meiji')ad+=1867; document.getElementById('resAD').innerText=ad+"年"; document.getElementById('resAge').innerText=(new Date().getFullYear()-ad)+"歳"; const idx=ad%12; document.getElementById('resZodiac').innerHTML=`${zD[idx]}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zIcons[idx]}"/></svg>`; };
             eraSel.onchange=cE; yrIn.oninput=cE;
         }
 
@@ -498,64 +493,49 @@
         const zipInput = document.getElementById('zipInput');
         const addrSearchBtn = document.getElementById('addrSearchBtn');
         const addrInput = document.getElementById('addrInput');
-
         if(zipBtn && zipResult && zipInput){
-            zipBtn.onclick = function(){
-                const zip = zipInput.value.replace(/[^\d]/g, '');
-                if(zip.length !== 7){ zipResult.innerHTML = '<span style="color:red;">7桁の数字を入力してください</span>'; return; }
-                zipResult.innerText = "検索中...";
-                fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zip}`).then(r => r.json()).then(d => {
-                    if(d.results){ const r = d.results[0]; zipResult.innerHTML = `<strong>${r.address1} ${r.address2} ${r.address3}</strong><br><small>(${r.kana1} ${r.kana2} ${r.kana3})</small>`; } else { zipResult.innerHTML = '<span style="color:red;">該当する住所が見つかりません</span>'; }
-                }).catch(err => { zipResult.innerHTML = '<span style="color:red;">検索エラー（通信失敗）</span>'; });
-            };
+            zipBtn.onclick = function(){ const zip = zipInput.value.replace(/[^\d]/g, ''); if(zip.length !== 7){ zipResult.innerHTML = '<span style="color:red;">7桁の数字を入力してください</span>'; return; } zipResult.innerText = "検索中..."; fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zip}`).then(r => r.json()).then(d => { if(d.results){ const r = d.results[0]; zipResult.innerHTML = `<strong>${r.address1} ${r.address2} ${r.address3}</strong><br><small>(${r.kana1} ${r.kana2} ${r.kana3})</small>`; } else { zipResult.innerHTML = '<span style="color:red;">該当する住所が見つかりません</span>'; } }).catch(err => { zipResult.innerHTML = '<span style="color:red;">検索エラー（通信失敗）</span>'; }); };
         }
         if(addrSearchBtn && addrInput){
             addrSearchBtn.onclick = function(){ const val = addrInput.value; if(!val) return; window.open(`https://www.google.com/search?q=${encodeURIComponent(val)}+郵便番号`); };
         }
 
-        // --- 7. 画像アウトライン変換 (修正済み) ---
+        // --- 7. 画像アウトライン変換 (外字エディタ対応追加) ---
         const imgIn = document.getElementById('imageInput');
         const thRange = document.getElementById('thresholdRange');
         const thVal = document.getElementById('thresholdValue');
         const pCv = document.getElementById('processCanvas');
         const svgCont = document.getElementById('svgContainer');
         const dlBtn = document.getElementById('downloadBtn');
+        const dlBmpBtn = document.getElementById('downloadBmpBtn');
         
-        // 読み込みチェック
-        if(typeof ImageTracer === 'undefined'){
-            const banner = document.getElementById('libErrorBanner');
-            if(banner) banner.style.display = 'block';
-        }
+        // 動作チェック
+        if(typeof ImageTracer === 'undefined'){ document.getElementById('libErrorBanner').style.display = 'block'; }
 
         let origImg = null;
 
-        if(imgIn && pCv && svgCont && dlBtn){
+        if(imgIn && pCv && svgCont && dlBtn && dlBmpBtn){
             const ctx = pCv.getContext('2d');
 
             imgIn.addEventListener('change', function(e) {
-                const f = e.target.files[0];
-                if(!f) return;
-                
+                const f = e.target.files[0]; if(!f) return;
                 const r = new FileReader();
                 r.onload = function(ev) {
                     origImg = new Image();
                     origImg.onload = function() {
-                        pCv.width = origImg.width;
-                        pCv.height = origImg.height;
+                        pCv.width = origImg.width; pCv.height = origImg.height;
                         updateTracer();
                         document.getElementById('canvasPlaceholder').style.display='none';
                         document.getElementById('svgPlaceholder').style.display='none';
                         dlBtn.classList.remove('dl-btn-disabled');
+                        dlBmpBtn.classList.remove('dl-btn-disabled');
                     };
                     origImg.src = ev.target.result;
                 };
                 r.readAsDataURL(f);
             });
 
-            thRange.addEventListener('input', function(e){
-                thVal.innerText = e.target.value;
-                if(origImg) updateTracer();
-            });
+            thRange.addEventListener('input', function(e){ thVal.innerText = e.target.value; if(origImg) updateTracer(); });
 
             function updateTracer(){
                 if(!origImg) return;
@@ -573,39 +553,35 @@
                 if(typeof ImageTracer !== 'undefined'){
                     const opt = { ltres:1, qtres:1, pathomit:8, colorsampling:0, numberofcolors:2, mincolorratio:0, colorquantcycles:0, scale:1, strokewidth:0, linefilter:false };
                     let svgStr = ImageTracer.imagedataToSVG(iData, opt);
-                    
-                    // 【重要】文字色を強制的に黒にする処理
-                    // ImageTracerは白黒で出力するため、fill="rgb(0,0,0)"をfill="#000000"に、
-                    // fill="rgb(255,255,255)"をfill="none"(透明)に置換する
+                    // 【重要】文字色を黒に固定、背景を透明に
                     svgStr = svgStr.replace(/fill="rgb\(255,255,255\)"/g, 'fill="none"');
                     svgStr = svgStr.replace(/fill="rgb\(0,0,0\)"/g, 'fill="#000000"');
-                    
                     svgCont.innerHTML = svgStr;
-                } else {
-                    svgCont.innerHTML = "<span style='color:red;'>エラー: ライブラリ未ロード</span>";
-                }
+                } else { svgCont.innerHTML = "<span style='color:red;'>エラー: ライブラリ未ロード</span>"; }
             }
 
+            // SVG保存 (Excel用)
             dlBtn.addEventListener('click', function() {
                 const svgContent = svgCont.innerHTML;
-                if(!svgContent || svgContent.indexOf('<svg') === -1) {
-                    alert('変換結果がありません。画像を再度選択してください。');
-                    return;
-                }
-                
+                if(!svgContent || svgContent.indexOf('<svg') === -1) { alert('変換結果がありません。画像を再度選択してください。'); return; }
                 const blob = new Blob([svgContent], {type: "image/svg+xml;charset=utf-8"});
                 const url = URL.createObjectURL(blob);
-                
                 const tempLink = document.createElement('a');
                 tempLink.href = url;
                 const fName = imgIn.files[0] ? imgIn.files[0].name.split('.')[0] : "vector";
                 tempLink.download = `${fName}.svg`;
-                document.body.appendChild(tempLink);
-                tempLink.click();
-                document.body.removeChild(tempLink);
+                document.body.appendChild(tempLink); tempLink.click(); document.body.removeChild(tempLink);
+            });
+
+            // 画像保存 (外字エディタ用)
+            dlBmpBtn.addEventListener('click', function() {
+                if(!origImg) return;
+                const link = document.createElement('a');
+                link.download = 'gaiji-source.png';
+                link.href = pCv.toDataURL("image/png");
+                link.click();
             });
         }
-
     });
     </script>
 </div></body>
