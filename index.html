@@ -6,7 +6,7 @@
     
     <meta name="google-site-verification" content="YdkYdalhqx1MHFQb7aFVKFsD7n2bUpgKDN--q0rWI9E" />
 
-    <script src="https://cdn.jsdelivr.net/gh/jankovicsandras/imagetracerjs/imagetracer_v1.2.6.min.js"></script>
+    <script src="https://unpkg.com/imagetracerjs@1.2.6/imagetracer_v1.2.6.js"></script>
     
     <script type="application/ld+json">
     {
@@ -231,6 +231,18 @@
         .preview-box { flex: 1; border: 1px solid #ddd; padding: 10px; text-align: center; background: #fafafa; min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
         .preview-label { position: absolute; top: 5px; left: 5px; background: #333; color: #fff; font-size: 0.7rem; padding: 2px 6px; border-radius: 3px; opacity: 0.8; }
         .preview-box canvas, .preview-box svg { max-width: 100%; max-height: 250px; width: auto; height: auto; }
+        
+        /* ライブラリエラー警告 */
+        #libErrorBanner {
+            display: none;
+            background-color: #d9534f;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
 
         /* --- 印刷設定 --- */
         @media print {
@@ -242,7 +254,7 @@
             
             header, footer, .hero, .main-actions, .contact-section, .column-section, .office-info,
             .tool-section > h2, .tool-section > p, 
-            .tool-box > *:not(#mapContainer):not(#printHeader),
+            .tool-box > *:not(#printHeader),
             .tool-input-group {
                 display: none !important;
             }
@@ -446,6 +458,12 @@
         <div class="tool-section">
             <h2 class="section-title">【便利ツール】異体字・画像 アウトライン変換</h2>
             <p style="text-align:center; font-size:0.9rem; margin-bottom:15px;">画像(JPG/PNG)を、エクセル等で拡大しても綺麗な「SVG形式」に変換します。</p>
+            
+            <div id="libErrorBanner">
+                <i class="fa-solid fa-triangle-exclamation"></i> 変換プログラムが読み込めませんでした。<br>
+                <button onclick="location.reload()" style="background:#fff; color:#d9534f; border:none; padding:5px 10px; margin-top:5px; cursor:pointer;">ページを再読み込み</button>
+            </div>
+
             <div class="tool-box">
                 <div class="tool-input-group" style="border-bottom:1px dashed #ccc; padding-bottom:15px; margin-bottom:15px;">
                     <div style="flex:1;">
@@ -581,13 +599,13 @@
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z",
-                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z",
-                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z",
+                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z",
                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"
             ];
             
@@ -600,7 +618,7 @@
             eraSel.onchange=cE; yrIn.oninput=cE;
         }
 
-        // --- 6. 郵便番号 (修正済み) ---
+        // --- 6. 郵便番号 ---
         const zipBtn = document.getElementById('zipSearchBtn');
         const zipResult = document.getElementById('zipResult');
         const zipInput = document.getElementById('zipInput');
@@ -609,7 +627,6 @@
 
         if(zipBtn && zipResult && zipInput){
             zipBtn.onclick = function(){
-                // ハイフン削除
                 const zip = zipInput.value.replace(/[^\d]/g, '');
                 if(zip.length !== 7){
                     zipResult.innerHTML = '<span style="color:red;">7桁の数字を入力してください</span>';
@@ -617,7 +634,6 @@
                 }
                 zipResult.innerText = "検索中...";
                 
-                // API呼び出し
                 fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zip}`)
                     .then(response => response.json())
                     .then(data => {
@@ -650,9 +666,14 @@
         const svgCont = document.getElementById('svgContainer');
         const dlBtn = document.getElementById('downloadBtn');
         
-        let origImg = null; // グローバルスコープで保持
+        // 動作チェック
+        if(typeof ImageTracer === 'undefined'){
+            const banner = document.getElementById('libErrorBanner');
+            if(banner) banner.style.display = 'block';
+        }
 
-        // 読み込みチェック
+        let origImg = null;
+
         if(imgIn && pCv && svgCont && dlBtn){
             const ctx = pCv.getContext('2d');
 
@@ -669,7 +690,6 @@
                         updateTracer();
                         document.getElementById('canvasPlaceholder').style.display='none';
                         document.getElementById('svgPlaceholder').style.display='none';
-                        // ボタン有効化
                         dlBtn.classList.remove('dl-btn-disabled');
                     };
                     origImg.src = ev.target.result;
@@ -682,10 +702,8 @@
                 if(origImg) updateTracer();
             });
 
-            // 変換処理
             function updateTracer(){
                 if(!origImg) return;
-                // 1. 白黒二値化
                 ctx.drawImage(origImg, 0, 0);
                 const iData = ctx.getImageData(0,0,pCv.width,pCv.height);
                 const d = iData.data;
@@ -697,36 +715,25 @@
                 }
                 ctx.putImageData(iData,0,0);
                 
-                // 2. SVG化 (エラーハンドリング)
-                try {
-                    if(typeof ImageTracer === 'undefined'){
-                        alert("変換ライブラリが読み込まれていません。ページを再読み込みしてください。");
-                        return;
-                    }
+                if(typeof ImageTracer !== 'undefined'){
                     const opt = { ltres:1, qtres:1, pathomit:8, colorsampling:0, numberofcolors:2, mincolorratio:0, colorquantcycles:0, scale:1, strokewidth:0, linefilter:false };
                     const svgStr = ImageTracer.imagedataToSVG(iData, opt);
                     svgCont.innerHTML = svgStr;
-                    
-                    // ダウンロード用データ準備 (ここではまだ保存しない)
-                    // ボタンクリック時に最新のSVGを取得する
-                } catch(e) {
-                    console.error(e);
-                    svgCont.innerHTML = "<span style='color:red;'>変換エラー</span>";
+                } else {
+                    svgCont.innerHTML = "<span style='color:red;'>エラー: ライブラリ未ロード</span>";
                 }
             }
 
-            // ダウンロードボタンクリック時
             dlBtn.addEventListener('click', function() {
                 const svgContent = svgCont.innerHTML;
                 if(!svgContent || svgContent.indexOf('<svg') === -1) {
-                    alert('変換結果がありません');
+                    alert('変換結果がありません。画像を再度選択してください。');
                     return;
                 }
                 
                 const blob = new Blob([svgContent], {type: "image/svg+xml;charset=utf-8"});
                 const url = URL.createObjectURL(blob);
                 
-                // 一時的なリンクを作ってクリック
                 const tempLink = document.createElement('a');
                 tempLink.href = url;
                 const fName = imgIn.files[0] ? imgIn.files[0].name.split('.')[0] : "vector";
