@@ -36,26 +36,196 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- 既存のCSS設定 --- */
-        :root { --primary-color: #0f2350; --survey-color: #c5a059; --admin-color: #3b6c9b; --text-color: #333; --white: #ffffff; --bg-body: #e0e0e0; --bg-form: #f9fbfd; --content-width: 1000px; }
-        body { font-family: "Helvetica Neue", Arial, sans-serif; margin: 0; padding: 0; color: var(--text-color); line-height: 1.6; background-color: var(--bg-body); width: 100%; }
-        a { text-decoration: none; color: inherit; } img { max-width: 100%; height: auto; }
-        .site-container { max-width: var(--content-width); width: 100%; margin: 0 auto; background-color: var(--white); box-shadow: 0 0 15px rgba(0,0,0,0.1); overflow: hidden; position: relative; }
-        header { width: 100%; background-color: var(--primary-color); color: var(--white); padding: 15px 0; text-align: center; } .logo { font-size: 1.4rem; font-weight: bold; }
-        .hero { width: 100%; position: relative; background-color: #87CEEB; background-image: url('sokkia-bg.png'); background-size: cover; background-position: center; height: 400px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); text-shadow: 0 2px 8px rgba(0,0,0,0.7); }
-        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.3); } .hero-content { position: relative; z-index: 2; width: 100%; padding: 0 20px; box-sizing: border-box; } .hero-content h1 { font-size: 2.2rem; font-weight: bold; line-height: 1.4; margin: 0; }
-        @media (max-width: 768px) { .hero { height: 300px; } .hero-content h1 { font-size: 1.5rem; } }
-        .main-wrapper { padding: 50px 20px 60px; }
-        .main-actions { margin-bottom: 40px; } .action-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; } .action-box { flex: 1; min-width: 280px; padding: 30px 20px; border-radius: 8px; text-align: center; color: var(--white); box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s; } .action-box:hover { transform: translateY(-3px); } .box-survey { background-color: var(--survey-color); } .box-admin { background-color: var(--admin-color); } .box-title { display: block; font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; } .phone-area { background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 30px; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
-        .contact-section { padding: 40px 0; } .section-title { text-align: center; color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 30px; } .contact-form { max-width: 800px; margin: 0 auto; background-color: var(--bg-form); padding: 30px; border-radius: 8px; border: 1px solid #ddd; } .form-group { margin-bottom: 20px; } .form-label { display: block; font-weight: bold; margin-bottom: 5px; color: var(--primary-color); } .form-input, .form-textarea, .form-select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem; } .form-textarea { height: 120px; } .submit-btn { background-color: var(--primary-color); color: white; border: none; padding: 15px 40px; font-size: 1.1rem; font-weight: bold; border-radius: 5px; cursor: pointer; display: block; margin: 30px auto 0; width: 100%; max-width: 300px; } .submit-btn:hover { opacity: 0.9; } .required { background: #d9534f; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; } .optional { background: #999; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
-        .mail-info-box { background: #fff; border: 2px solid #ddd; border-radius: 8px; padding: 15px; text-align: center; } .mail-address { font-size: 1.1rem; font-weight: bold; color: var(--primary-color); display: block; margin: 10px 0; word-break: break-all; } .mail-btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; } .copy-btn { background-color: #6c757d; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; } .copy-btn:hover { opacity: 0.9; } .launch-btn { background-color: var(--admin-color); color: white; text-decoration: none; padding: 8px 15px; border-radius: 4px; font-size: 0.9rem; display: inline-block; } .launch-btn:hover { opacity: 0.9; }
-        .column-section { padding: 40px 0; max-width: 900px; margin: 0 auto; } .column-article { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; } .column-title { color: var(--primary-color); font-size: 1.4rem; margin-bottom: 10px; font-weight: bold; display: flex; align-items: center; gap: 10px; } .column-text { font-size: 0.95rem; line-height: 1.8; color: #444; } .nou-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.95rem; } .nou-table th, .nou-table td { border: 1px solid #ccc; padding: 12px 10px; vertical-align: middle; } .nou-table th { background-color: #f5f8fc; text-align: left; width: 30%; color: var(--primary-color); font-weight: bold; min-width: 120px; } .nou-table td { background-color: #fff; }
-        .tool-section { padding: 40px 20px; max-width: 800px; margin: 0 auto 40px; background-color: #f5f8fc; border-radius: 8px; border: 1px solid #dce4ec; } .tool-box { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; } .tool-header { text-align: center; margin-bottom: 15px; font-weight: bold; color: var(--primary-color); border-bottom: 1px dashed #ccc; padding-bottom: 10px; } .tool-input-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; } .tool-btn { background-color: var(--admin-color); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; white-space: nowrap; text-align: center; text-decoration: none; display: inline-block; font-size: 1rem; } .tool-btn:hover { opacity: 0.9; } .dl-btn-disabled { background-color: #ccc !important; cursor: not-allowed !important; pointer-events: none; opacity: 0.6; }
-        .tool-result { background-color: #0f2350; color: white; padding: 20px; border-radius: 5px; } .tool-result-item { margin-bottom: 10px; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px; display: flex; align-items: center; } .tool-result-item:last-child { border-bottom: none; margin-bottom: 0; } .tool-label { font-size: 0.8rem; opacity: 0.8; display: block; min-width: 100px; } .zodiac-icon { width: 28px; height: 28px; margin-left: 10px; fill: #fff; vertical-align: middle; }
-        .family-input-row { display: flex; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; align-items: center; flex-wrap: wrap; } .family-input-row input, .family-input-row select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; min-width: 0; } .btn-add { background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; } .btn-del { background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; } #canvasContainer { text-align: center; overflow-x: auto; margin-top: 20px; display: none; } canvas { max-width: 100%; height: auto; }
-        .office-info { text-align: center; margin-top: 50px; padding: 20px; background: #f9f9f9; } .map-container { width: 100%; height: 350px; margin-top: 20px; background: #eee; } footer { width: 100%; background-color: var(--primary-color); color: #aaa; text-align: center; padding: 20px 0; font-size: 0.8rem; }
-        @media print { @page { size: A4 portrait; margin: 5mm; } body { background: white !important; height: 100vh; margin: 0 !important; padding: 0 !important; width: 100% !important; } body > * { display: none !important; } .site-container { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; max-width: none !important; box-shadow: none !important; } .main-wrapper { padding: 0 !important; } header, footer, .hero, .main-actions, .contact-section, .column-section, .office-info, .tool-section > h2, .tool-section > p, .tool-box > *:not(#printHeader), .tool-input-group { display: none !important; } .tool-section, .tool-box { border: none !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; } .chat-widget { display: none !important; } }
-        @media (max-width: 600px) { .family-input-row { gap: 5px; } .heir-rel { flex-basis: 35%; } .heir-name { flex: 1; } .heir-addr { flex-basis: 100% !important; margin-top: 5px; width: 100%; } .btn-del { margin-left: auto; } .nou-table th, .nou-table td { display: block; width: 100%; box-sizing: border-box; } .nou-table th { background-color: #eaeaea; } }
+        /* --- CSS設定 --- */
+        :root {
+            --primary-color: #0f2350; /* ネイビー */
+            --survey-color: #c5a059;  /* ゴールド */
+            --admin-color: #3b6c9b;   /* 青 */
+            --text-color: #333;
+            --white: #ffffff;
+            --bg-body: #e0e0e0;       /* 画面全体の背景 */
+            --bg-form: #f9fbfd;
+            --content-width: 1000px;  /* コンテンツ幅統一 */
+        }
+        
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--bg-body);
+            width: 100%;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; height: auto; }
+        
+        /* レイアウト統一用のラッパー */
+        .site-container {
+            max-width: var(--content-width);
+            width: 100%;
+            margin: 0 auto; /* 中央揃え */
+            background-color: var(--white); /* コンテンツ背景は白 */
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* ヘッダー */
+        header {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 15px 0;
+            text-align: center;
+        }
+        .logo { font-size: 1.4rem; font-weight: bold; }
+
+        /* メインビジュアル */
+        .hero {
+            width: 100%;
+            position: relative;
+            background-color: #87CEEB;
+            background-image: url('sokkia-bg.png');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .hero-content h1 { font-size: 2.2rem; font-weight: bold; line-height: 1.4; margin: 0; }
+
+        @media (max-width: 768px) {
+            .hero { height: 300px; }
+            .hero-content h1 { font-size: 1.5rem; }
+        }
+
+        /* コンテンツエリア */
+        .main-wrapper {
+            padding: 50px 20px 60px;
+        }
+
+        /* 業務選択ボタン */
+        .main-actions { margin-bottom: 40px; }
+        .action-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .action-box { flex: 1; min-width: 280px; padding: 30px 20px; border-radius: 8px; text-align: center; color: var(--white); box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s; }
+        .action-box:hover { transform: translateY(-3px); }
+        .box-survey { background-color: var(--survey-color); }
+        .box-admin { background-color: var(--admin-color); }
+        .box-title { display: block; font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; }
+        .phone-area { background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 30px; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
+
+        /* フォーム */
+        .contact-section { padding: 40px 0; }
+        .section-title { text-align: center; color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 30px; }
+        .contact-form { max-width: 800px; margin: 0 auto; background-color: var(--bg-form); padding: 30px; border-radius: 8px; border: 1px solid #ddd; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-weight: bold; margin-bottom: 5px; color: var(--primary-color); }
+        .form-input, .form-textarea, .form-select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem; }
+        .form-textarea { height: 120px; }
+        .submit-btn { background-color: var(--primary-color); color: white; border: none; padding: 15px 40px; font-size: 1.1rem; font-weight: bold; border-radius: 5px; cursor: pointer; display: block; margin: 30px auto 0; width: 100%; max-width: 300px; }
+        .submit-btn:hover { opacity: 0.9; }
+        .required { background: #d9534f; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
+        .optional { background: #999; color: white; padding: 2px 5px; font-size: 0.7rem; border-radius: 3px; margin-left: 5px; }
+
+        /* メール案内ボックス */
+        .mail-info-box {
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        .mail-address {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        .mail-btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .copy-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .copy-btn:hover { opacity: 0.9; }
+        .launch-btn {
+            background-color: var(--admin-color);
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+        .launch-btn:hover { opacity: 0.9; }
+
+        /* コラム */
+        .column-section { padding: 40px 0; max-width: 900px; margin: 0 auto; }
+        .column-article { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        .column-title { color: var(--primary-color); font-size: 1.4rem; margin-bottom: 10px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .column-text { font-size: 0.95rem; line-height: 1.8; color: #444; }
+        
+        /* テーブル設定 */
+        .nou-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.95rem; }
+        .nou-table th, .nou-table td { border: 1px solid #ccc; padding: 12px 10px; vertical-align: middle; }
+        .nou-table th { background-color: #f5f8fc; text-align: left; width: 30%; color: var(--primary-color); font-weight: bold; min-width: 120px; }
+        .nou-table td { background-color: #fff; }
+        @media (max-width: 600px) {
+            .nou-table th, .nou-table td { display: block; width: 100%; box-sizing: border-box; }
+            .nou-table th { background-color: #eaeaea; }
+        }
+
+        /* ツール共通 */
+        .tool-section { padding: 40px 20px; max-width: 800px; margin: 0 auto 40px; background-color: #f5f8fc; border-radius: 8px; border: 1px solid #dce4ec; }
+        .tool-box { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .tool-header { text-align: center; margin-bottom: 15px; font-weight: bold; color: var(--primary-color); border-bottom: 1px dashed #ccc; padding-bottom: 10px; }
+        .tool-input-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
+        
+        .tool-btn { background-color: var(--admin-color); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; white-space: nowrap; text-align: center; text-decoration: none; display: inline-block; font-size: 1rem; }
+        .tool-btn:hover { opacity: 0.9; }
+        
+        .tool-result { background-color: #0f2350; color: white; padding: 20px; border-radius: 5px; }
+        .tool-result-item { margin-bottom: 10px; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px; display: flex; align-items: center; }
+        .tool-result-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .tool-label { font-size: 0.8rem; opacity: 0.8; display: block; min-width: 100px; }
+        .zodiac-icon { width: 28px; height: 28px; margin-left: 10px; fill: #fff; vertical-align: middle; }
+
+        /* 相続図 */
+        .family-input-row { display: flex; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; align-items: center; flex-wrap: wrap; }
+        .family-input-row input, .family-input-row select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; min-width: 0; }
+        .btn-add { background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+        .btn-del { background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+        #canvasContainer { text-align: center; overflow-x: auto; margin-top: 20px; display: none; }
+        canvas { max-width: 100%; height: auto; }
 
         /* ▼▼▼ チャットボット用CSS ▼▼▼ */
         .chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; font-family: "Helvetica Neue", Arial, sans-serif; }
@@ -72,63 +242,280 @@
         .chat-option-btn { background: white; border: 1px solid var(--admin-color); color: var(--admin-color); padding: 8px; border-radius: 5px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; text-align: center; }
         .chat-option-btn:hover { background: var(--admin-color); color: white; }
         .typing-indicator { display: none; font-size: 0.8rem; color: #888; margin-left: 10px; }
+
+        /* 印刷設定 */
+        @media print {
+            @page { size: A4 portrait; margin: 5mm; }
+            body { background: white !important; height: 100vh; margin: 0 !important; padding: 0 !important; width: 100% !important; }
+            body > * { display: none !important; }
+            .site-container { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; max-width: none !important; box-shadow: none !important; }
+            .main-wrapper { padding: 0 !important; }
+            
+            header, footer, .hero, .main-actions, .contact-section, .column-section, .office-info,
+            .tool-section > h2, .tool-section > p, 
+            .tool-box > *:not(#printHeader),
+            .tool-input-group {
+                display: none !important;
+            }
+            .tool-section, .tool-box { border: none !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
+            .chat-widget { display: none !important; }
+        }
+
+        /* 事務所情報 */
+        .office-info { text-align: center; margin-top: 50px; padding: 20px; background: #f9f9f9; }
+        .map-container { width: 100%; height: 350px; margin-top: 20px; background: #eee; }
+        
+        /* フッター */
+        footer {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: #aaa;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
 
 <div class="site-container">
-    <header><div class="logo">植村 土地家屋調査士・行政書士事務所</div></header>
-    <section class="hero"><div class="hero-content"><h1>家づくり・土地活用。<br>「測量」と「許認可」をワンストップで。</h1></div></section>
+
+    <header>
+        <div class="logo">植村 土地家屋調査士・行政書士事務所</div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>家づくり・土地活用。<br>「測量」と「許認可」をワンストップで。</h1>
+        </div>
+    </section>
 
     <div class="main-wrapper">
-        <div class="main-actions"><div class="action-grid"><div class="action-box box-survey"><a href="business-guide.png" target="_blank" style="text-decoration:none; color:white;"><span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">土地家屋調査士業務 <i class="fa-regular fa-image" style="font-size:0.8em;"></i></span></a><a href="tel:08072319467"><div class="phone-area"><i class="fa-solid fa-mobile-screen"></i><span class="phone-number">080-7231-9467</span></div></a></div><div class="action-box box-admin"><a href="admin-guide.png" target="_blank" style="text-decoration:none; color:white;"><span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">行政書士業務 <i class="fa-regular fa-image" style="font-size:0.8em;"></i></span></a><a href="tel:07066256247"><div class="phone-area"><i class="fa-solid fa-mobile-screen"></i><span class="phone-number">070-6625-6247</span></div></a></div></div></div>
+        <div class="main-actions">
+            <div class="action-grid">
+                <div class="action-box box-survey">
+                    <a href="business-guide.png" target="_blank" style="text-decoration:none; color:white;">
+                        <span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">
+                            土地家屋調査士業務 <i class="fa-regular fa-image" style="font-size:0.8em;"></i>
+                        </span>
+                    </a>
+                    <a href="tel:08072319467">
+                        <div class="phone-area">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            <span class="phone-number">080-7231-9467</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="action-box box-admin">
+                    <a href="admin-guide.png" target="_blank" style="text-decoration:none; color:white;">
+                        <span class="box-title" style="text-decoration:underline; text-underline-offset: 4px;">
+                            行政書士業務 <i class="fa-regular fa-image" style="font-size:0.8em;"></i>
+                        </span>
+                    </a>
+                    <a href="tel:07066256247">
+                        <div class="phone-area">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            <span class="phone-number">070-6625-6247</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <div class="contact-section">
             <h2 class="section-title">お問い合わせ・ご相談</h2>
             <form action="https://formspree.io/f/mdkqdjlz" method="POST" class="contact-form" autocomplete="off">
-                <div class="form-group"><label class="form-label">お名前 <span class="required">必須</span></label><input type="text" name="お名前" class="form-input" required></div>
-                <div class="form-group"><label class="form-label">メールアドレス <span class="required">必須</span></label><input type="email" name="email" class="form-input" required></div>
-                <div class="form-group"><label class="form-label">お電話番号 <span class="optional">任意</span></label><input type="tel" name="電話番号" class="form-input"></div>
-                <div class="form-group"><label class="form-label">資料・図面の送付について</label><div class="mail-info-box"><p style="font-size:0.9rem; margin:0 0 10px 0;">図面や写真などの資料がある場合は、以下のメールアドレスへ直接お送りください。</p><span id="copyTarget" class="mail-address">info@uemura-office12-6.com</span><div class="mail-btn-group"><button type="button" class="copy-btn" id="emailCopyBtn"><i class="fa-regular fa-copy"></i> アドレスをコピー</button><a href="mailto:info@uemura-office12-6.com" class="launch-btn"><i class="fa-solid fa-envelope"></i> メールソフトで起動</a></div></div></div>
-                <div class="form-group"><label class="form-label">ご相談内容 <span class="required">必須</span></label><textarea name="詳細" class="form-textarea" required></textarea></div>
+                <div class="form-group">
+                    <label class="form-label">お名前 <span class="required">必須</span></label>
+                    <input type="text" name="お名前" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">メールアドレス <span class="required">必須</span></label>
+                    <input type="email" name="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">お電話番号 <span class="optional">任意</span></label>
+                    <input type="tel" name="電話番号" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">資料・図面の送付について</label>
+                    <div class="mail-info-box">
+                        <p style="font-size:0.9rem; margin:0 0 10px 0;">
+                            図面や写真などの資料がある場合は、以下のメールアドレスへ直接お送りください。
+                        </p>
+                        <span id="copyTarget" class="mail-address">info@uemura-office12-6.com</span>
+                        <div class="mail-btn-group">
+                            <button type="button" class="copy-btn" id="emailCopyBtn">
+                                <i class="fa-regular fa-copy"></i> アドレスをコピー
+                            </button>
+                            <a href="mailto:info@uemura-office12-6.com" class="launch-btn">
+                                <i class="fa-solid fa-envelope"></i> メールソフトで起動
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ご相談内容 <span class="required">必須</span></label>
+                    <textarea name="詳細" class="form-textarea" required></textarea>
+                </div>
                 <button type="submit" class="submit-btn">送信する</button>
             </form>
         </div>
 
         <div class="column-section">
             <h2 class="section-title">お役立ち情報</h2>
-            <article class="column-article"><h3 class="column-title" style="color:#d9534f;"><i class="fa-solid fa-triangle-exclamation"></i> 【重要】相続登記義務化について</h3><p class="column-text">令和6年（2024年）4月1日より、相続登記の申請が義務化されました。不動産の所有権を取得したことを知った日から<strong>3年以内</strong>に相続登記を行う必要があります。<br>正当な理由なく申請を怠ると、<strong>10万円以下の過料</strong>の対象となる可能性があります。また、過去に相続した未登記の不動産も対象となりますので、お早めのご対応をお勧めいたします。</p></article>
-            <article class="column-article"><h3 class="column-title"><i class="fa-solid fa-book-open"></i> 農地転用許可・届出（3条・4条・5条）</h3><p class="column-text">農地を農地以外（宅地、駐車場、資材置き場など）にする場合は、農地法に基づく許可（4条・5条）や届出が必要です。<br>また、農地を農地のまま売買・貸借する場合も許可（3条）が必要です。花巻市での農地転用をお考えの方は、無断転用によるトラブルを防ぐためにも、まずは専門家へご相談ください。</p></article>
-            <article class="column-article"><h3 class="column-title"><i class="fa-solid fa-map-location-dot"></i> 境界確定測量と地積更正</h3><p class="column-text">「お隣との境界線がはっきりしない」「登記簿の面積と実際の面積が違う」といった場合、境界確定測量が必要です。土地の売買や相続による分筆登記の前提としても必須となります。<br>境界標の設置から隣接地所有者様との立会いまで、円満な解決をサポートします。「杭を残して悔いを残さず」をモットーに、正確な測量を行います。</p></article>
-            <article class="column-article"><h3 class="column-title"><i class="fa-solid fa-house-chimney-crack"></i> 建物滅失登記（解体・焼失等）の必要書類</h3><p class="column-text">建物を取り壊した場合や、火災などで焼失した際に行う登記です。</p><table class="nou-table"><tr><th>① 建物滅失証明書</th><td>解体業者様から発行される「取壊証明書」や「解体証明書」です。</td></tr><tr><th>② 解体業者の証明書</th><td>【法人の場合】登記事項証明書、代表者印鑑証明書など<br>【個人の場合】印鑑証明書</td></tr><tr><th>③ 罹災証明書</th><td>火災や災害で焼失・倒壊した場合のみ必要となります。</td></tr><tr><th>④ 相続関係書類</th><td>登記名義人が亡くなっている場合は、戸籍謄本等が必要です。</td></tr><tr><th>⑤ 委任状</th><td>代理人が申請する場合に必要です。</td></tr></table></article>
-            <article class="column-article"><h3 class="column-title"><i class="fa-solid fa-house"></i> 建物表題登記（新築・建売購入等）の必要書類</h3><p class="column-text">建物を新築した際や、建売住宅を購入した際に最初に行う登記です。</p><table class="nou-table"><tr><th>① 住所証明書</th><td>【個人】住民票<br>【法人】登記事項証明書など</td></tr><tr><th>② 所有権証明書</th><td>建築確認済証、検査済証、または工事完了引渡証明書など。</td></tr><tr><th>③ 工事人の印鑑証明書</th><td>引渡証明書を添付する場合などに必要となります。</td></tr><tr><th>④ 図面</th><td>「建物図面」および「各階平面図」は、現地調査の上、当事務所で作成します。</td></tr><tr><th>⑤ 委任状</th><td>代理人が申請する場合に必要です。</td></tr></table></article>
-            <article class="column-article"><h3 class="column-title"><i class="fa-solid fa-pen-to-square"></i> 外字登録の方法（異体字の入力）</h3><p class="column-text">パソコンに標準搭載されていない漢字（旧字・異体字）を、Windowsの外字エディタに登録してWordやExcelで使えるようにする手順です。</p><table class="nou-table"><tr><th>① 検索・保存</th><td>「<a href="https://moji.or.jp/mojikibansearch/basic" target="_blank" rel="noopener noreferrer" style="color:#3b6c9b; text-decoration:underline;">文字情報基盤検索システム</a>」等で目的の異体字を検索し、画像(PNG)を「名前をつけて画像を保存」します。</td></tr><tr><th>② 画像変換</th><td>ペイントソフトで開き、「モノクロビットマップ」形式に変換して保存します。</td></tr><tr><th>③ Firefoxでコピー</th><td>Firefoxを起動し画像をドラッグ＆ドロップ、右クリックして画像をコピーします。</td></tr><tr><th>④ 外字エディタ</th><td>Windowsの「外字エディタ」を起動し、空いているコード（F040以降など）を選択して、外字エディタの編集タブクリック→貼り付け。これで異体字のフォントが表示されます。</td></tr><tr><th>⑤ 入力・表示</th><td>IMEパッドの「文字カテゴリ」→「シフトJIS」→「外字」で表示されればOK。Wordなどのソフトを起動し、IMEパッド「外字」欄に表示されたフォントをクリックすると入力されます。</td></tr><tr><th>⑥ 単語登録</th><td>地名や苗字などで頻繁に使用する場合は、IMEの「単語登録」をしておくと便利です。</td></tr></table></article>
+            
+            <article class="column-article">
+                <h3 class="column-title" style="color:#d9534f;"><i class="fa-solid fa-triangle-exclamation"></i> 【重要】相続登記義務化について</h3>
+                <p class="column-text">
+                    令和6年（2024年）4月1日より、相続登記の申請が義務化されました。不動産の所有権を取得したことを知った日から<strong>3年以内</strong>に相続登記を行う必要があります。<br>
+                    正当な理由なく申請を怠ると、<strong>10万円以下の過料</strong>の対象となる可能性があります。また、過去に相続した未登記の不動産も対象となりますので、お早めのご対応をお勧めいたします。
+                </p>
+            </article>
+            
+            <article class="column-article">
+                <h3 class="column-title"><i class="fa-solid fa-book-open"></i> 農地転用許可・届出（3条・4条・5条）</h3>
+                <p class="column-text">
+                    農地を農地以外（宅地、駐車場、資材置き場など）にする場合は、農地法に基づく許可（4条・5条）や届出が必要です。<br>
+                    また、農地を農地のまま売買・貸借する場合も許可（3条）が必要です。花巻市での農地転用をお考えの方は、無断転用によるトラブルを防ぐためにも、まずは専門家へご相談ください。
+                </p>
+            </article>
+            
+            <article class="column-article">
+                <h3 class="column-title"><i class="fa-solid fa-map-location-dot"></i> 境界確定測量と地積更正</h3>
+                <p class="column-text">
+                    「お隣との境界線がはっきりしない」「登記簿の面積と実際の面積が違う」といった場合、境界確定測量が必要です。土地の売買や相続による分筆登記の前提としても必須となります。<br>
+                    境界標の設置から隣接地所有者様との立会いまで、円満な解決をサポートします。「杭を残して悔いを残さず」をモットーに、正確な測量を行います。
+                </p>
+            </article>
+
+            <article class="column-article">
+                <h3 class="column-title"><i class="fa-solid fa-house-chimney-crack"></i> 建物滅失登記（解体・焼失等）の必要書類</h3>
+                <p class="column-text">建物を取り壊した場合や、火災などで焼失した際に行う登記です。</p>
+                <table class="nou-table">
+                    <tr><th>① 建物滅失証明書</th><td>解体業者様から発行される「取壊証明書」や「解体証明書」です。</td></tr>
+                    <tr><th>② 解体業者の証明書</th><td>【法人の場合】登記事項証明書、代表者印鑑証明書など<br>【個人の場合】印鑑証明書</td></tr>
+                    <tr><th>③ 罹災証明書</th><td>火災や災害で焼失・倒壊した場合のみ必要となります。</td></tr>
+                    <tr><th>④ 相続関係書類</th><td>登記名義人が亡くなっている場合は、戸籍謄本等が必要です。</td></tr>
+                    <tr><th>⑤ 委任状</th><td>代理人が申請する場合に必要です。</td></tr>
+                </table>
+            </article>
+
+            <article class="column-article">
+                <h3 class="column-title"><i class="fa-solid fa-house"></i> 建物表題登記（新築・建売購入等）の必要書類</h3>
+                <p class="column-text">建物を新築した際や、建売住宅を購入した際に最初に行う登記です。</p>
+                <table class="nou-table">
+                    <tr><th>① 住所証明書</th><td>【個人】住民票<br>【法人】登記事項証明書など</td></tr>
+                    <tr><th>② 所有権証明書</th><td>建築確認済証、検査済証、または工事完了引渡証明書など。</td></tr>
+                    <tr><th>③ 工事人の印鑑証明書</th><td>引渡証明書を添付する場合などに必要となります。</td></tr>
+                    <tr><th>④ 図面</th><td>「建物図面」および「各階平面図」は、現地調査の上、当事務所で作成します。</td></tr>
+                    <tr><th>⑤ 委任状</th><td>代理人が申請する場合に必要です。</td></tr>
+                </table>
+            </article>
+
+            <article class="column-article">
+                <h3 class="column-title"><i class="fa-solid fa-pen-to-square"></i> 外字登録の方法（異体字の入力）</h3>
+                <p class="column-text">
+                    パソコンに標準搭載されていない漢字（旧字・異体字）を、Windowsの外字エディタに登録してWordやExcelで使えるようにする手順です。
+                </p>
+                <table class="nou-table">
+                    <tr><th>① 検索・保存</th><td>「<a href="https://moji.or.jp/mojikibansearch/basic" target="_blank" rel="noopener noreferrer" style="color:#3b6c9b; text-decoration:underline;">文字情報基盤検索システム</a>」等で目的の異体字を検索し、画像(PNG)を「名前をつけて画像を保存」します。</td></tr>
+                    <tr><th>② 画像変換</th><td>ペイントソフトで開き、「モノクロビットマップ」形式に変換して保存します。</td></tr>
+                    <tr><th>③ Firefoxでコピー</th><td>Firefoxを起動し画像をドラッグ＆ドロップ、右クリックして画像をコピーします。</td></tr>
+                    <tr><th>④ 外字エディタ</th><td>Windowsの「外字エディタ」を起動し、空いているコード（F040以降など）を選択して、外字エディタの編集タブクリック→貼り付け。これで異体字のフォントが表示されます。</td></tr>
+                    <tr><th>⑤ 入力・表示</th><td>IMEパッドの「文字カテゴリ」→「シフトJIS」→「外字」で表示されればOK。Wordなどのソフトを起動し、IMEパッド「外字」欄に表示されたフォントをクリックすると入力されます。</td></tr>
+                    <tr><th>⑥ 単語登録</th><td>地名や苗字などで頻繁に使用する場合は、IMEの「単語登録」をしておくと便利です。</td></tr>
+                </table>
+            </article>
         </div>
 
-        <div class="tool-section"><h2 class="section-title">【便利ツール】坪 ⇔ 平米(㎡) ⇔ 畳 換算</h2><div class="tool-box"><div class="family-input-row"><span class="tool-label">坪数</span><input type="number" id="tsuboInput" class="form-input"></div><div class="family-input-row"><span class="tool-label">平米</span><input type="number" id="m2Input" class="form-input"></div><div class="family-input-row"><span class="tool-label">畳数</span><input type="number" id="joInput" class="form-input"></div></div></div>
-        <div class="tool-section" style="margin-top:-20px;"><h2 class="section-title">【便利ツール】登録免許税 (概算) 計算</h2><div class="tool-box"><div class="family-input-row"><span class="tool-label">評価額</span><input type="number" id="taxValue" class="form-input" placeholder="円"></div><div style="display:flex; gap:10px; margin-top:10px; justify-content:center;"><button class="tool-btn" onclick="calcTax(0.004, '所有権保存')">保存 (0.4%)</button><button class="tool-btn" onclick="calcTax(0.02, '所有権移転')">移転 (2.0%)</button><button class="tool-btn" onclick="calcTax(0.004, '抵当権設定')">抵当権 (0.4%)</button></div><div id="taxResult" style="background:#f9f9f9; padding:10px; margin-top:15px; text-align:center;">---</div></div></div>
-        <div class="tool-section"><h2 class="section-title">【無料ツール】相続関係説明図メーカー</h2><div class="tool-box"><div class="tool-header">被相続人</div><div class="family-input-row"><input type="text" id="decedentName" placeholder="氏名" style="flex:2;"><input type="text" id="decedentDate" placeholder="死亡日" style="flex:2;"></div><div class="family-input-row"><input type="text" id="decedentAddress" placeholder="住所" style="flex:4;"></div><div class="tool-header" style="margin-top:20px;">相続人</div><div id="heirsContainer"><div class="family-input-row"><select class="heir-rel" disabled><option>配偶者</option></select><input type="text" class="heir-name" placeholder="氏名"><input type="text" class="heir-addr" placeholder="住所"></div></div><div style="text-align:right; margin:10px 0;"><button class="btn-add" id="addHeirBtn">＋追加</button></div><div style="text-align:center;"><button class="tool-btn" id="genMapBtn">作成</button> <button class="tool-btn" id="downloadMapBtn" style="display:none; background-color:#c5a059;">保存</button></div></div><div id="canvasContainer" style="display:none;"><canvas id="familyCanvas" width="800" height="600"></canvas></div></div>
-        <div class="tool-section"><h2 class="section-title">【便利ツール】西暦・和暦・年齢・干支 変換</h2><div class="tool-box"><div class="tool-input-group"><select id="eraSelect" class="form-select"><option value="AD">西暦</option><option value="Reiwa">令和</option><option value="Heisei">平成</option><option value="Showa">昭和</option></select><input type="number" id="yearInput" class="form-input" placeholder="年"></div><div class="tool-result"><div class="tool-result-item"><span class="tool-label">西暦</span><span id="resAD">---</span></div><div class="tool-result-item"><span class="tool-label">和暦</span><span id="resEra">---</span></div><div class="tool-result-item"><span class="tool-label">年齢</span><span id="resAge">---</span></div><div class="tool-result-item"><span class="tool-label">干支</span><span id="resZodiac">---</span></div></div></div></div>
-        <div class="tool-section" style="margin-top:-20px;"><h2 class="section-title">【便利ツール】郵便番号 ↔ 住所 検索</h2><div class="tool-box"><div class="tool-header">郵便番号 <i class="fa-solid fa-arrow-right"></i> 住所</div><div class="tool-input-group"><input type="text" id="zipInput" class="form-input" placeholder="例: 0250075"><button id="zipSearchBtn" class="tool-btn">検索</button></div><div id="zipResult" style="padding:10px;"></div></div><div class="tool-box"><div class="tool-header">住所 <i class="fa-solid fa-arrow-right"></i> 郵便番号</div><div class="tool-input-group"><input type="text" id="addrInput" class="form-input" placeholder="例: 花巻市花城町"><button id="addrSearchBtn" class="tool-btn" style="background-color:#4285F4;">検索</button></div></div></div>
+        <div class="tool-section">
+            <h2 class="section-title">【便利ツール】坪 ⇔ 平米(㎡) ⇔ 畳 換算</h2>
+            <div class="tool-box">
+                <div class="family-input-row"><span class="tool-label">坪数</span><input type="number" id="tsuboInput" class="form-input"></div>
+                <div class="family-input-row"><span class="tool-label">平米</span><input type="number" id="m2Input" class="form-input"></div>
+                <div class="family-input-row"><span class="tool-label">畳数</span><input type="number" id="joInput" class="form-input"></div>
+            </div>
+        </div>
 
-        <div class="office-info"><h3>植村 土地家屋調査士・行政書士事務所</h3><p>〒025-0075 岩手県花巻市花城町12番6号</p><div class="map-container"><iframe src="https://maps.google.co.jp/maps?output=embed&q=岩手県花巻市花城町12-6" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div></div>
-        <footer><p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p></footer>
-    </div>
+        <div class="tool-section" style="margin-top:-20px;">
+            <h2 class="section-title">【便利ツール】登録免許税 (概算) 計算</h2>
+            <div class="tool-box">
+                <div class="family-input-row"><span class="tool-label">評価額</span><input type="number" id="taxValue" class="form-input" placeholder="円"></div>
+                <div style="display:flex; gap:10px; margin-top:10px; justify-content:center;">
+                    <button class="tool-btn" onclick="calcTax(0.004, '所有権保存')">保存 (0.4%)</button>
+                    <button class="tool-btn" onclick="calcTax(0.02, '所有権移転')">移転 (2.0%)</button>
+                    <button class="tool-btn" onclick="calcTax(0.004, '抵当権設定')">抵当権 (0.4%)</button>
+                </div>
+                <div id="taxResult" style="background:#f9f9f9; padding:10px; margin-top:15px; text-align:center;">---</div>
+            </div>
+        </div>
 
-    <div class="chat-widget">
+        <div class="tool-section">
+            <h2 class="section-title">【無料ツール】相続関係説明図メーカー</h2>
+            <div class="tool-box">
+                <div class="tool-header">被相続人</div>
+                <div class="family-input-row"><input type="text" id="decedentName" placeholder="氏名" style="flex:2;"><input type="text" id="decedentDate" placeholder="死亡日" style="flex:2;"></div>
+                <div class="family-input-row"><input type="text" id="decedentAddress" placeholder="住所" style="flex:4;"></div>
+                <div class="tool-header" style="margin-top:20px;">相続人</div>
+                <div id="heirsContainer">
+                    <div class="family-input-row"><select class="heir-rel" disabled><option>配偶者</option></select><input type="text" class="heir-name" placeholder="氏名"><input type="text" class="heir-addr" placeholder="住所"></div>
+                </div>
+                <div style="text-align:right; margin:10px 0;"><button class="btn-add" id="addHeirBtn">＋追加</button></div>
+                <div style="text-align:center;"><button class="tool-btn" id="genMapBtn">作成</button> <button class="tool-btn" id="downloadMapBtn" style="display:none; background-color:#c5a059;">保存</button></div>
+            </div>
+            <div id="canvasContainer" style="display:none;"><canvas id="familyCanvas" width="800" height="600"></canvas></div>
+        </div>
+
+        <div class="tool-section">
+            <h2 class="section-title">【便利ツール】西暦・和暦・年齢・干支 変換</h2>
+            <div class="tool-box">
+                <div class="tool-input-group">
+                    <select id="eraSelect" class="form-select"><option value="AD">西暦</option><option value="Reiwa">令和</option><option value="Heisei">平成</option><option value="Showa">昭和</option></select>
+                    <input type="number" id="yearInput" class="form-input" placeholder="年">
+                </div>
+                <div class="tool-result">
+                    <div class="tool-result-item"><span class="tool-label">西暦</span><span id="resAD">---</span></div>
+                    <div class="tool-result-item"><span class="tool-label">和暦</span><span id="resEra">---</span></div>
+                    <div class="tool-result-item"><span class="tool-label">年齢</span><span id="resAge">---</span></div>
+                    <div class="tool-result-item"><span class="tool-label">干支</span><span id="resZodiac">---</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tool-section" style="margin-top:-20px;">
+            <h2 class="section-title">【便利ツール】郵便番号 ↔ 住所 検索</h2>
+            <div class="tool-box">
+                <div class="tool-header">郵便番号 <i class="fa-solid fa-arrow-right"></i> 住所</div>
+                <div class="tool-input-group"><input type="text" id="zipInput" class="form-input" placeholder="例: 0250075"><button id="zipSearchBtn" class="tool-btn">検索</button></div>
+                <div id="zipResult" style="padding:10px;"></div>
+            </div>
+            <div class="tool-box">
+                <div class="tool-header">住所 <i class="fa-solid fa-arrow-right"></i> 郵便番号</div>
+                <div class="tool-input-group"><input type="text" id="addrInput" class="form-input" placeholder="例: 花巻市花城町"><button id="addrSearchBtn" class="tool-btn" style="background-color:#4285F4;">検索</button></div>
+            </div>
+        </div>
+
+        <div class="office-info">
+            <h3>植村 土地家屋調査士・行政書士事務所</h3>
+            <p>〒025-0075 岩手県花巻市花城町12番6号</p>
+            <div class="map-container">
+                <iframe src="https://maps.google.co.jp/maps?output=embed&q=岩手県花巻市花城町12-6" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2024 Uemura Land and House Investigator & Administrative Scrivener Office.</p>
+        </footer>
+
+    </div><div class="chat-widget">
         <button class="chat-toggle-btn" id="chatToggleBtn"><i class="fa-regular fa-comments"></i> ご相談はこちら</button>
         <div class="chat-window" id="chatWindow">
             <div class="chat-header"><span>自動受付チャット</span><span class="chat-close" id="chatClose">×</span></div>
             <div class="chat-body" id="chatBody">
-                <div class="chat-msg bot">こんにちは。<br>どのようなご用件でしょうか？</div>
-                <div class="chat-options" id="chatOptions">
-                    <button class="chat-option-btn" onclick="chatSelect('survey')">測量・境界について</button>
-                    <button class="chat-option-btn" onclick="chatSelect('inheritance')">相続・遺言について</button>
-                    <button class="chat-option-btn" onclick="chatSelect('farmland')">農地転用について</button>
-                    <button class="chat-option-btn" onclick="chatSelect('other')">その他・費用など</button>
                 </div>
-                <div class="typing-indicator" id="typingIndicator">入力中...</div>
-            </div>
         </div>
     </div>
 
@@ -148,7 +535,7 @@
         
         // 年齢
         const eraSel=document.getElementById('eraSelect'), yrIn=document.getElementById('yearInput');
-        if(eraSel){ const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"]; const zIcons=["M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"];
+        if(eraSel){ const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"]; const zIcons=["M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"];
             const cE=function(){ const v=parseInt(yrIn.value); if(isNaN(v)){document.getElementById('resAge').innerText='---';return;} let ad=v; if(eraSel.value=='Reiwa')ad+=2018; else if(eraSel.value=='Heisei')ad+=1988; else if(eraSel.value=='Showa')ad+=1925; else if(eraSel.value=='Taisho')ad+=1911; else if(eraSel.value=='Meiji')ad+=1867; document.getElementById('resAD').innerText=ad+"年"; document.getElementById('resAge').innerText=(new Date().getFullYear()-ad)+"歳"; const idx=ad%12; document.getElementById('resZodiac').innerHTML=`${zD[idx]}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zIcons[idx]}"/></svg>`; };
             eraSel.onchange=cE; yrIn.oninput=cE;
         }
@@ -161,118 +548,11 @@
         // --- チャットボット制御 ---
         const chatWindow = document.getElementById('chatWindow');
         const chatBody = document.getElementById('chatBody');
-        const chatOptions = document.getElementById('chatOptions');
-        const typingIndicator = document.getElementById('typingIndicator');
         const toggleBtn = document.getElementById('chatToggleBtn');
         const closeBtn = document.getElementById('chatClose');
 
-        // シナリオデータ
-        const scenarios = {
-            'survey': {
-                msg: "測量・境界についてのご相談ですね。<br>具体的にはどのような内容ですか？",
-                opts: [
-                    { label: "境界が分からない・揉めている", next: "boundary" },
-                    { label: "建物を新築・増築した", next: "regist" },
-                    { label: "土地を分けたい（分筆）", next: "boundary" }
-                ]
-            },
-            'inheritance': {
-                msg: "相続・遺言についてのご相談ですね。<br>現在どのような状況でしょうか？",
-                opts: [
-                    { label: "相続が発生した（手続きしたい）", next: "contact_inherit" },
-                    { label: "遺言書を作成したい", next: "contact_will" },
-                    { label: "まだ何もしていない", next: "contact_general" }
-                ]
-            },
-            'farmland': {
-                msg: "農地転用についてのご相談ですね。<br>農地をどのようにする予定ですか？",
-                opts: [
-                    { label: "宅地や駐車場にしたい", next: "contact_farm" },
-                    { label: "売買・貸借したい", next: "contact_farm" },
-                    { label: "分からないので相談したい", next: "contact_general" }
-                ]
-            },
-            'other': {
-                msg: "その他のお問い合わせですね。<br>費用のお見積りでしょうか？",
-                opts: [
-                    { label: "費用の概算を知りたい", next: "contact_cost" },
-                    { label: "その他の相談", next: "contact_general" }
-                ]
-            },
-            // 末端（連絡誘導）
-            'boundary': { msg: "承知いたしました。境界に関する件は、資料調査や現地確認が必要です。<br>下記より詳細をお知らせください。", end: true },
-            'regist': { msg: "建物の登記ですね。図面作成や申請の代理が可能です。<br>お見積りいたしますので、下記よりご連絡ください。", end: true },
-            'contact_inherit': { msg: "相続手続きのサポートをいたします。<br>戸籍収集から遺産分割協議書の作成まで承ります。<br>まずは無料相談をご予約ください。", end: true },
-            'contact_will': { msg: "遺言書作成のサポートをいたします。<br>公正証書遺言など、ご希望に合わせて提案可能です。<br>下記よりご連絡ください。", end: true },
-            'contact_farm': { msg: "農地転用は許可申請が必要です。<br>要件を確認しますので、土地の場所（地番）をご用意の上、下記よりご相談ください。", end: true },
-            'contact_cost': { msg: "費用のお見積りですね。<br>案件によって異なりますので、状況をお伺いして概算をお出しします。<br>お電話またはフォームからどうぞ。", end: true },
-            'contact_general': { msg: "ありがとうございます。<br>個別の事情に合わせて回答いたしますので、<br>お電話またはお問い合わせフォームよりご連絡ください。", end: true }
-        };
-
-        // 開閉動作
-        toggleBtn.addEventListener('click', () => {
-            if (chatWindow.style.display === 'flex') {
-                chatWindow.style.display = 'none';
-            } else {
-                chatWindow.style.display = 'flex';
-            }
-        });
-        closeBtn.addEventListener('click', () => { chatWindow.style.display = 'none'; });
-
-        // チャット進行関数
-        window.chatSelect = function(key) {
-            // ユーザーの選択を表示
-            const btn = event.target;
-            addMessage(btn.innerText, 'user');
-            
-            // 選択肢を隠す
-            chatOptions.style.display = 'none';
-            typingIndicator.style.display = 'block';
-            chatBody.scrollTop = chatBody.scrollHeight;
-
-            setTimeout(() => {
-                typingIndicator.style.display = 'none';
-                
-                const data = scenarios[key];
-                if (data) {
-                    addMessage(data.msg, 'bot');
-                    
-                    if (data.end) {
-                        // 終了時：連絡先ボタンを表示
-                        const endDiv = document.createElement('div');
-                        endDiv.className = 'chat-options';
-                        endDiv.innerHTML = `
-                            <a href="tel:08072319467" class="chat-option-btn" style="background:#0f2350; color:white; text-decoration:none;"><i class="fa-solid fa-phone"></i> 電話をかける</a>
-                            <button class="chat-option-btn" onclick="document.querySelector('.contact-section').scrollIntoView({behavior:'smooth'});">フォームへ移動</button>
-                            <button class="chat-option-btn" onclick="resetChat()">最初に戻る</button>
-                        `;
-                        chatBody.appendChild(endDiv);
-                    } else if (data.opts) {
-                        // 次の選択肢を表示
-                        const optDiv = document.createElement('div');
-                        optDiv.className = 'chat-options';
-                        data.opts.forEach(o => {
-                            const b = document.createElement('button');
-                            b.className = 'chat-option-btn';
-                            b.innerText = o.label;
-                            b.onclick = function() { chatSelect(o.next); };
-                            optDiv.appendChild(b);
-                        });
-                        chatBody.appendChild(optDiv);
-                    }
-                }
-                chatBody.scrollTop = chatBody.scrollHeight;
-            }, 600); // 少し待ってから返信
-        };
-
-        function addMessage(text, type) {
-            const div = document.createElement('div');
-            div.className = `chat-msg ${type}`;
-            div.innerHTML = text;
-            chatBody.insertBefore(div, typingIndicator); // 入力中表示の手前に追加
-        }
-
-        window.resetChat = function() {
+        // チャット初期化
+        function resetChat() {
             chatBody.innerHTML = `
                 <div class="chat-msg bot">こんにちは。<br>どのようなご用件でしょうか？</div>
                 <div class="chat-options" id="chatOptions">
@@ -283,6 +563,88 @@
                 </div>
                 <div class="typing-indicator" id="typingIndicator">入力中...</div>
             `;
+        }
+
+        // 開閉動作
+        toggleBtn.addEventListener('click', () => {
+            if (chatWindow.style.display === 'flex') {
+                chatWindow.style.display = 'none';
+                resetChat(); // 閉じる時にリセット
+            } else {
+                chatWindow.style.display = 'flex';
+            }
+        });
+        closeBtn.addEventListener('click', () => { 
+            chatWindow.style.display = 'none'; 
+            resetChat(); // 閉じる時にリセット
+        });
+
+        // 初回ロード時リセット
+        resetChat();
+
+        // シナリオデータ
+        const scenarios = {
+            'survey': { msg: "測量・境界についてのご相談ですね。<br>具体的にはどのような内容ですか？", opts: [{ label: "境界が分からない・揉めている", next: "boundary" }, { label: "建物を新築・増築した", next: "regist" }, { label: "土地を分けたい（分筆）", next: "boundary" }] },
+            'inheritance': { msg: "相続・遺言についてのご相談ですね。<br>現在どのような状況でしょうか？", opts: [{ label: "相続が発生した（手続きしたい）", next: "contact_inherit" }, { label: "遺言書を作成したい", next: "contact_will" }, { label: "まだ何もしていない", next: "contact_general" }] },
+            'farmland': { msg: "農地転用についてのご相談ですね。<br>農地をどのようにする予定ですか？", opts: [{ label: "宅地や駐車場にしたい", next: "contact_farm" }, { label: "売買・貸借したい", next: "contact_farm" }, { label: "分からないので相談したい", next: "contact_general" }] },
+            'other': { msg: "その他のお問い合わせですね。<br>費用のお見積りでしょうか？", opts: [{ label: "費用の概算を知りたい", next: "contact_cost" }, { label: "その他の相談", next: "contact_general" }] },
+            'boundary': { msg: "承知いたしました。境界に関する件は、資料調査や現地確認が必要です。<br>下記より詳細をお知らせください。", end: true },
+            'regist': { msg: "建物の登記ですね。図面作成や申請の代理が可能です。<br>お見積りいたしますので、下記よりご連絡ください。", end: true },
+            'contact_inherit': { msg: "相続手続きのサポートをいたします。<br>戸籍収集から遺産分割協議書の作成まで承ります。<br>まずは無料相談をご予約ください。", end: true },
+            'contact_will': { msg: "遺言書作成のサポートをいたします。<br>公正証書遺言など、ご希望に合わせて提案可能です。<br>下記よりご連絡ください。", end: true },
+            'contact_farm': { msg: "農地転用は許可申請が必要です。<br>要件を確認しますので、土地の場所（地番）をご用意の上、下記よりご相談ください。", end: true },
+            'contact_cost': { msg: "費用のお見積りですね。<br>案件によって異なりますので、状況をお伺いして概算をお出しします。<br>お電話またはフォームからどうぞ。", end: true },
+            'contact_general': { msg: "ありがとうございます。<br>個別の事情に合わせて回答いたしますので、<br>お電話またはお問い合わせフォームよりご連絡ください。", end: true }
+        };
+
+        window.chatSelect = function(key) {
+            const btn = event.target;
+            const chatBody = document.getElementById('chatBody');
+            const typingIndicator = document.getElementById('typingIndicator');
+            
+            // ユーザーメッセージ追加
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-msg user';
+            userMsg.innerText = btn.innerText;
+            chatBody.insertBefore(userMsg, typingIndicator);
+            
+            // 選択肢を削除
+            btn.parentElement.remove();
+            
+            typingIndicator.style.display = 'block';
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            setTimeout(() => {
+                typingIndicator.style.display = 'none';
+                const data = scenarios[key];
+                if (data) {
+                    const botMsg = document.createElement('div');
+                    botMsg.className = 'chat-msg bot';
+                    botMsg.innerHTML = data.msg;
+                    chatBody.appendChild(botMsg);
+                    
+                    const optsDiv = document.createElement('div');
+                    optsDiv.className = 'chat-options';
+                    
+                    if (data.end) {
+                        optsDiv.innerHTML = `
+                            <a href="tel:08072319467" class="chat-option-btn" style="background:#0f2350; color:white; text-decoration:none;"><i class="fa-solid fa-phone"></i> 電話をかける</a>
+                            <button class="chat-option-btn" onclick="document.querySelector('.contact-section').scrollIntoView({behavior:'smooth'});">フォームへ移動</button>
+                            <button class="chat-option-btn" onclick="resetChat()">最初に戻る</button>
+                        `;
+                    } else if (data.opts) {
+                        data.opts.forEach(o => {
+                            const b = document.createElement('button');
+                            b.className = 'chat-option-btn';
+                            b.innerText = o.label;
+                            b.onclick = function() { chatSelect(o.next); };
+                            optsDiv.appendChild(b);
+                        });
+                    }
+                    chatBody.appendChild(optsDiv);
+                }
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 600);
         };
 
     });
