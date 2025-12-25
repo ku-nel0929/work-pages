@@ -520,8 +520,83 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    // --- チャットボットのシナリオ・関数をグローバル定義 ---
+    const scenarios = {
+        'survey': { msg: "測量・境界についてのご相談ですね。<br>具体的にはどのような内容ですか？", opts: [{ label: "境界が分からない・揉めている", next: "boundary" }, { label: "建物を新築・増築した", next: "regist" }, { label: "土地を分けたい（分筆）", next: "boundary" }] },
+        'inheritance': { msg: "相続・遺言についてのご相談ですね。<br>現在どのような状況でしょうか？", opts: [{ label: "相続が発生した（手続きしたい）", next: "contact_inherit" }, { label: "遺言書を作成したい", next: "contact_will" }, { label: "まだ何もしていない", next: "contact_general" }] },
+        'farmland': { msg: "農地転用についてのご相談ですね。<br>農地をどのようにする予定ですか？", opts: [{ label: "宅地や駐車場にしたい", next: "contact_farm" }, { label: "売買・貸借したい", next: "contact_farm" }, { label: "分からないので相談したい", next: "contact_general" }] },
+        'other': { msg: "その他のお問い合わせですね。<br>費用のお見積りでしょうか？", opts: [{ label: "費用の概算を知りたい", next: "contact_cost" }, { label: "その他の相談", next: "contact_general" }] },
+        'boundary': { msg: "承知いたしました。境界に関する件は、資料調査や現地確認が必要です。<br>下記より詳細をお知らせください。", end: true },
+        'regist': { msg: "建物の登記ですね。図面作成や申請の代理が可能です。<br>お見積りいたしますので、下記よりご連絡ください。", end: true },
+        'contact_inherit': { msg: "相続手続きのサポートをいたします。<br>戸籍収集から遺産分割協議書の作成まで承ります。<br>まずは無料相談をご予約ください。", end: true },
+        'contact_will': { msg: "遺言書作成のサポートをいたします。<br>公正証書遺言など、ご希望に合わせて提案可能です。<br>下記よりご連絡ください。", end: true },
+        'contact_farm': { msg: "農地転用は許可申請が必要です。<br>要件を確認しますので、土地の場所（地番）をご用意の上、下記よりご相談ください。", end: true },
+        'contact_cost': { msg: "費用のお見積りですね。<br>案件によって異なりますので、状況をお伺いして概算をお出しします。<br>お電話またはフォームからどうぞ。", end: true },
+        'contact_general': { msg: "ありがとうございます。<br>個別の事情に合わせて回答いたしますので、<br>お電話またはお問い合わせフォームよりご連絡ください。", end: true }
+    };
+
+    window.resetChat = function() {
+        const chatBody = document.getElementById('chatBody');
+        if(!chatBody) return;
+        chatBody.innerHTML = `
+            <div class="chat-msg bot">こんにちは。<br>どのようなご用件でしょうか？</div>
+            <div class="chat-options" id="chatOptions">
+                <button class="chat-option-btn" onclick="chatSelect('survey', this)">測量・境界について</button>
+                <button class="chat-option-btn" onclick="chatSelect('inheritance', this)">相続・遺言について</button>
+                <button class="chat-option-btn" onclick="chatSelect('farmland', this)">農地転用について</button>
+                <button class="chat-option-btn" onclick="chatSelect('other', this)">その他・費用など</button>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">入力中...</div>
+        `;
+    };
+
+    window.chatSelect = function(key, btnElement) {
+        const chatBody = document.getElementById('chatBody');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg user';
+        userMsg.innerText = btnElement.innerText;
+        chatBody.insertBefore(userMsg, typingIndicator);
         
+        btnElement.parentElement.remove();
+        
+        typingIndicator.style.display = 'block';
+        chatBody.scrollTop = chatBody.scrollHeight;
+
+        setTimeout(() => {
+            typingIndicator.style.display = 'none';
+            const data = scenarios[key];
+            if (data) {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chat-msg bot';
+                botMsg.innerHTML = data.msg;
+                chatBody.appendChild(botMsg);
+                
+                const optsDiv = document.createElement('div');
+                optsDiv.className = 'chat-options';
+                
+                if (data.end) {
+                    optsDiv.innerHTML = `
+                        <a href="tel:08072319467" class="chat-option-btn" style="background:#0f2350; color:white; text-decoration:none;"><i class="fa-solid fa-phone"></i> 電話をかける</a>
+                        <button class="chat-option-btn" onclick="document.querySelector('.contact-section').scrollIntoView({behavior:'smooth'});">フォームへ移動</button>
+                        <button class="chat-option-btn" onclick="resetChat()">最初に戻る</button>
+                    `;
+                } else if (data.opts) {
+                    data.opts.forEach(o => {
+                        const b = document.createElement('button');
+                        b.className = 'chat-option-btn';
+                        b.innerText = o.label;
+                        b.onclick = function() { chatSelect(o.next, this); };
+                        optsDiv.appendChild(b);
+                    });
+                }
+                chatBody.appendChild(optsDiv);
+            }
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }, 600);
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
         // --- 共通ツール関数 ---
         const copyBtn = document.getElementById('emailCopyBtn');
         if(copyBtn) { copyBtn.addEventListener('click', function() { const email = document.getElementById('copyTarget').innerText; navigator.clipboard.writeText(email).then(function() { const originalText = copyBtn.innerHTML; copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> コピーしました'; setTimeout(() => { copyBtn.innerHTML = originalText; }, 2000); }); }); }
@@ -535,7 +610,7 @@
         
         // 年齢
         const eraSel=document.getElementById('eraSelect'), yrIn=document.getElementById('yearInput');
-        if(eraSel){ const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"]; const zIcons=["M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"];
+        if(eraSel){ const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"]; const zIcons=["M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"];
             const cE=function(){ const v=parseInt(yrIn.value); if(isNaN(v)){document.getElementById('resAge').innerText='---';return;} let ad=v; if(eraSel.value=='Reiwa')ad+=2018; else if(eraSel.value=='Heisei')ad+=1988; else if(eraSel.value=='Showa')ad+=1925; else if(eraSel.value=='Taisho')ad+=1911; else if(eraSel.value=='Meiji')ad+=1867; document.getElementById('resAD').innerText=ad+"年"; document.getElementById('resAge').innerText=(new Date().getFullYear()-ad)+"歳"; const idx=ad%12; document.getElementById('resZodiac').innerHTML=`${zD[idx]}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zIcons[idx]}"/></svg>`; };
             eraSel.onchange=cE; yrIn.oninput=cE;
         }
@@ -547,106 +622,26 @@
 
         // --- チャットボット制御 ---
         const chatWindow = document.getElementById('chatWindow');
-        const chatBody = document.getElementById('chatBody');
         const toggleBtn = document.getElementById('chatToggleBtn');
         const closeBtn = document.getElementById('chatClose');
-
-        // チャット初期化
-        function resetChat() {
-            chatBody.innerHTML = `
-                <div class="chat-msg bot">こんにちは。<br>どのようなご用件でしょうか？</div>
-                <div class="chat-options" id="chatOptions">
-                    <button class="chat-option-btn" onclick="chatSelect('survey')">測量・境界について</button>
-                    <button class="chat-option-btn" onclick="chatSelect('inheritance')">相続・遺言について</button>
-                    <button class="chat-option-btn" onclick="chatSelect('farmland')">農地転用について</button>
-                    <button class="chat-option-btn" onclick="chatSelect('other')">その他・費用など</button>
-                </div>
-                <div class="typing-indicator" id="typingIndicator">入力中...</div>
-            `;
-        }
 
         // 開閉動作
         toggleBtn.addEventListener('click', () => {
             if (chatWindow.style.display === 'flex') {
                 chatWindow.style.display = 'none';
-                resetChat(); // 閉じる時にリセット
+                resetChat();
             } else {
                 chatWindow.style.display = 'flex';
+                resetChat();
             }
         });
         closeBtn.addEventListener('click', () => { 
             chatWindow.style.display = 'none'; 
-            resetChat(); // 閉じる時にリセット
+            resetChat();
         });
 
-        // 初回ロード時リセット
+        // 初回ロード時
         resetChat();
-
-        // シナリオデータ
-        const scenarios = {
-            'survey': { msg: "測量・境界についてのご相談ですね。<br>具体的にはどのような内容ですか？", opts: [{ label: "境界が分からない・揉めている", next: "boundary" }, { label: "建物を新築・増築した", next: "regist" }, { label: "土地を分けたい（分筆）", next: "boundary" }] },
-            'inheritance': { msg: "相続・遺言についてのご相談ですね。<br>現在どのような状況でしょうか？", opts: [{ label: "相続が発生した（手続きしたい）", next: "contact_inherit" }, { label: "遺言書を作成したい", next: "contact_will" }, { label: "まだ何もしていない", next: "contact_general" }] },
-            'farmland': { msg: "農地転用についてのご相談ですね。<br>農地をどのようにする予定ですか？", opts: [{ label: "宅地や駐車場にしたい", next: "contact_farm" }, { label: "売買・貸借したい", next: "contact_farm" }, { label: "分からないので相談したい", next: "contact_general" }] },
-            'other': { msg: "その他のお問い合わせですね。<br>費用のお見積りでしょうか？", opts: [{ label: "費用の概算を知りたい", next: "contact_cost" }, { label: "その他の相談", next: "contact_general" }] },
-            'boundary': { msg: "承知いたしました。境界に関する件は、資料調査や現地確認が必要です。<br>下記より詳細をお知らせください。", end: true },
-            'regist': { msg: "建物の登記ですね。図面作成や申請の代理が可能です。<br>お見積りいたしますので、下記よりご連絡ください。", end: true },
-            'contact_inherit': { msg: "相続手続きのサポートをいたします。<br>戸籍収集から遺産分割協議書の作成まで承ります。<br>まずは無料相談をご予約ください。", end: true },
-            'contact_will': { msg: "遺言書作成のサポートをいたします。<br>公正証書遺言など、ご希望に合わせて提案可能です。<br>下記よりご連絡ください。", end: true },
-            'contact_farm': { msg: "農地転用は許可申請が必要です。<br>要件を確認しますので、土地の場所（地番）をご用意の上、下記よりご相談ください。", end: true },
-            'contact_cost': { msg: "費用のお見積りですね。<br>案件によって異なりますので、状況をお伺いして概算をお出しします。<br>お電話またはフォームからどうぞ。", end: true },
-            'contact_general': { msg: "ありがとうございます。<br>個別の事情に合わせて回答いたしますので、<br>お電話またはお問い合わせフォームよりご連絡ください。", end: true }
-        };
-
-        window.chatSelect = function(key) {
-            const btn = event.target;
-            const chatBody = document.getElementById('chatBody');
-            const typingIndicator = document.getElementById('typingIndicator');
-            
-            // ユーザーメッセージ追加
-            const userMsg = document.createElement('div');
-            userMsg.className = 'chat-msg user';
-            userMsg.innerText = btn.innerText;
-            chatBody.insertBefore(userMsg, typingIndicator);
-            
-            // 選択肢を削除
-            btn.parentElement.remove();
-            
-            typingIndicator.style.display = 'block';
-            chatBody.scrollTop = chatBody.scrollHeight;
-
-            setTimeout(() => {
-                typingIndicator.style.display = 'none';
-                const data = scenarios[key];
-                if (data) {
-                    const botMsg = document.createElement('div');
-                    botMsg.className = 'chat-msg bot';
-                    botMsg.innerHTML = data.msg;
-                    chatBody.appendChild(botMsg);
-                    
-                    const optsDiv = document.createElement('div');
-                    optsDiv.className = 'chat-options';
-                    
-                    if (data.end) {
-                        optsDiv.innerHTML = `
-                            <a href="tel:08072319467" class="chat-option-btn" style="background:#0f2350; color:white; text-decoration:none;"><i class="fa-solid fa-phone"></i> 電話をかける</a>
-                            <button class="chat-option-btn" onclick="document.querySelector('.contact-section').scrollIntoView({behavior:'smooth'});">フォームへ移動</button>
-                            <button class="chat-option-btn" onclick="resetChat()">最初に戻る</button>
-                        `;
-                    } else if (data.opts) {
-                        data.opts.forEach(o => {
-                            const b = document.createElement('button');
-                            b.className = 'chat-option-btn';
-                            b.innerText = o.label;
-                            b.onclick = function() { chatSelect(o.next); };
-                            optsDiv.appendChild(b);
-                        });
-                    }
-                    chatBody.appendChild(optsDiv);
-                }
-                chatBody.scrollTop = chatBody.scrollHeight;
-            }, 600);
-        };
-
     });
     </script>
 </div></body>
