@@ -227,7 +227,7 @@
         #canvasContainer { text-align: center; overflow-x: auto; margin-top: 20px; display: none; }
         canvas { max-width: 100%; height: auto; }
 
-        /* チャットボット用CSS */
+        /* ▼▼▼ チャットボット用CSS ▼▼▼ */
         .chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; font-family: "Helvetica Neue", Arial, sans-serif; }
         .chat-toggle-btn { background-color: var(--survey-color); color: white; border: none; border-radius: 50px; padding: 15px 20px; font-size: 1rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 10px; transition: transform 0.2s; }
         .chat-toggle-btn:hover { transform: scale(1.05); }
@@ -243,15 +243,36 @@
         .chat-option-btn:hover { background: var(--admin-color); color: white; }
         .typing-indicator { display: none; font-size: 0.8rem; color: #888; margin-left: 10px; }
 
+        /* 印刷設定 */
         @media print {
             @page { size: A4 portrait; margin: 5mm; }
             body { background: white !important; height: 100vh; margin: 0 !important; padding: 0 !important; width: 100% !important; }
             body > * { display: none !important; }
             .site-container { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; max-width: none !important; box-shadow: none !important; }
             .main-wrapper { padding: 0 !important; }
-            header, footer, .hero, .main-actions, .contact-section, .column-section, .office-info, .tool-section > h2, .tool-section > p, .tool-box > *:not(#printHeader), .tool-input-group { display: none !important; }
+            
+            header, footer, .hero, .main-actions, .contact-section, .column-section, .office-info,
+            .tool-section > h2, .tool-section > p, 
+            .tool-box > *:not(#printHeader),
+            .tool-input-group {
+                display: none !important;
+            }
             .tool-section, .tool-box { border: none !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
             .chat-widget { display: none !important; }
+        }
+
+        /* 事務所情報 */
+        .office-info { text-align: center; margin-top: 50px; padding: 20px; background: #f9f9f9; }
+        .map-container { width: 100%; height: 350px; margin-top: 20px; background: #eee; }
+        
+        /* フッター */
+        footer {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: #aaa;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -354,6 +375,18 @@
                     詳細は以下の申請ガイド画像をご確認ください。
                 </p>
                 <img src="juminhyo-info.png" alt="住民票様式変更の案内" style="margin-top:15px; border:1px solid #ddd; border-radius: 8px;">
+                
+                <div style="background:#f9fbfd; border:2px dashed #3b6c9b; padding:20px; margin-top:20px; border-radius:8px; text-align:center;">
+                    <h4 style="color:#0f2350; margin-top:0;">📋 窓口提示用シート（無料ダウンロード）</h4>
+                    <p style="text-align:left; font-size:0.95rem;">
+                        [cite_start]役所の窓口で「住所の履歴が全部載っている住民票をください」と説明するのが不安な方は、このシートをご活用ください。[cite: 25]<br>
+                        [cite_start]<strong>スマホの画面で見せるだけ</strong>、または<strong>印刷して渡すだけ</strong>で、登記や相続に必要な「履歴付き個人票」がスムーズに取得できます。[cite: 26, 27]
+                        [cite_start]<br><small style="color:#d9534f;">※コンビニ交付では履歴がつかないため、必ず窓口で取得してください。[cite: 29]</small>
+                    </p>
+                    <a href="juminhyo-info.pdf" download="juminhyo-sheet.pdf" class="tool-btn" style="background-color:#d9534f; font-weight:bold; padding:15px 30px; font-size:1.1rem; margin-top:10px;">
+                        <i class="fa-solid fa-file-pdf"></i> 窓口提示シートをダウンロード
+                    </a>
+                </div>
             </article>
             
             <article class="column-article">
@@ -520,7 +553,7 @@
         if(genMapBtn){ const addBtn=document.getElementById('addHeirBtn'), heirsCont=document.getElementById('heirsContainer'), dlBtn=document.getElementById('downloadMapBtn'), cvsCont=document.getElementById('canvasContainer'), canvas=document.getElementById('familyCanvas'), ctx=canvas.getContext('2d'); addBtn.onclick=function(){const d=document.createElement('div');d.className='family-input-row';d.innerHTML=`<select class="heir-rel" style="width:90px;"><option>長男</option><option>二男</option><option>三男</option><option>長女</option><option>二女</option><option>三女</option><option>養子</option><option>子</option></select><input class="heir-name" placeholder="氏名" style="flex:1;"><input class="heir-addr" placeholder="住所" style="flex:2;"><button class="btn-del" onclick="this.parentElement.remove()">×</button>`;heirsCont.appendChild(d)}; genMapBtn.onclick=function(){ const decName=document.getElementById('decedentName').value||"被相続人", decDate=document.getElementById('decedentDate').value||"", decAddr=document.getElementById('decedentAddress').value||""; const heirs=document.querySelectorAll('#heirsContainer .family-input-row'); let sp=null, ch=[]; heirs.forEach(r=>{ const rel=r.querySelector('.heir-rel').value, nm=r.querySelector('.heir-name').value, ad=r.querySelector('.heir-addr').value; if(nm){if(rel=='配偶者')sp={n:nm,a:ad,r:rel}; else ch.push({n:nm,a:ad,r:rel});}}); cvsCont.style.display='block'; dlBtn.style.display='inline-block'; ctx.fillStyle="#fff"; ctx.fillRect(0,0,800,600); ctx.strokeStyle="#000"; ctx.lineWidth=2; ctx.font="16px sans-serif"; ctx.textAlign="left"; ctx.textBaseline="middle"; ctx.fillStyle="#000"; ctx.font="bold 20px sans-serif"; ctx.fillText("相続関係説明図",30,40); const drawB=(x,y,l1,l2,l3)=>{ctx.strokeRect(x,y,160,80);ctx.fillText(l1,x+10,y+25);ctx.font="12px sans-serif";if(l2)ctx.fillText(l2,x+10,y+45);if(l3)ctx.fillText(l3,x+10,y+65);ctx.font="bold 14px sans-serif";}; let cx=400, sy=100, dx=sp?cx-110:cx-80; drawB(dx,sy,`被相続人 ${decName}`,decDate,decAddr); if(sp){ let sx=dx+220; drawB(sx,sy,`${sp.r} ${sp.n}`,"",sp.a); ctx.beginPath(); ctx.moveTo(dx+160,sy+37); ctx.lineTo(sx,sy+37); ctx.moveTo(dx+160,sy+43); ctx.lineTo(sx,sy+43); ctx.stroke(); } if(ch.length>0){ let pcx=sp?dx+190:dx+80, cy=sy+140; ctx.beginPath(); ctx.moveTo(pcx,sy+(sp?40:80)); ctx.lineTo(pcx,cy-20); ctx.stroke(); let tw=(160*ch.length)+(40*(ch.length-1)), scx=pcx-(tw/2); ctx.beginPath(); ctx.moveTo(scx+80,cy-20); ctx.lineTo(scx+tw-80,cy-20); ctx.stroke(); ch.forEach((c,i)=>{ let kx=scx+(200*i); ctx.beginPath(); ctx.moveTo(kx+80,cy-20); ctx.lineTo(kx+80,cy); ctx.stroke(); drawB(kx,cy,`${c.r} ${c.n}`,"",c.a); }); } ctx.font="12px sans-serif"; ctx.fillText("作成：植村 土地家屋調査士・行政書士事務所", 550, 580); }; dlBtn.onclick=function(){const a=document.createElement('a');a.download='sozoku.png';a.href=canvas.toDataURL();a.click()}; }
         
         const eraSel=document.getElementById('eraSelect'), yrIn=document.getElementById('yearInput');
-        if(eraSel){ const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"]; const zIcons=["M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"]; const cE=function(){ const v=parseInt(yrIn.value); if(isNaN(v)){document.getElementById('resAge').innerText='---';return;} let ad=v; if(eraSel.value=='Reiwa')ad+=2018; else if(eraSel.value=='Heisei')ad+=1988; else if(eraSel.value=='Showa')ad+=1925; else if(eraSel.value=='Taisho')ad+=1911; else if(eraSel.value=='Meiji')ad+=1867; document.getElementById('resAD').innerText=ad+"年"; document.getElementById('resAge').innerText=(new Date().getFullYear()-ad)+"歳"; const idx=ad%12; document.getElementById('resZodiac').innerHTML=`${zD[idx]}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zIcons[idx]}"/></svg>`; }; eraSel.onchange=cE; yrIn.oninput=cE; }
+        if(eraSel){ const zD=["申","酉","戌","亥","子","丑","寅","卯","辰","巳","午","未"]; const zIcons=["M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-13h-4v2h4V7zm-4 4h4v2h-4v-2zm0 4h4v2h-4v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2V7zm0 8h2v2h-2v-2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.85-12.15l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.19-.2.19-.51-.01-.71zm3.5 3.5l-1.2-1.2c-.2-.2-.51-.2-.71 0l-1.2 1.2c-.2.2-.2.51 0 .71l1.2 1.2c.2.2.51.2.71 0l1.2-1.2c.2-.2.2-.51 0-.71zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-9.5l1.5 1.5 3.5-3.5 1.5 1.5-5 5-3-3 1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm1-5h-2V7h2v4zm0 4h-2v-2h2v2z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2.5-9.5l-1.5-1.5-3.5 3.5-1.5-1.5L6 12l5 5 3-3-1.5-1.5z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-2v-2h-1v2H9v2h1v1h1v-1h2v1h1v-1h1v-2zm-1-6h-2v3h-1V7H9v3H8V7H6v5h1v2h1v-2h1v2h1v-2h1V7z","M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3 15h-2v-2h2v2zm0-4h-2V7h2v6z"]; const cE=function(){ const v=parseInt(yrIn.value); if(isNaN(v)){document.getElementById('resAge').innerText='---';return;} let ad=v; if(eraSel.value=='Reiwa')ad+=2018; else if(eraSel.value=='Heisei')ad+=1988; else if(eraSel.value=='Showa')ad+=1925; else if(eraSel.value=='Taisho')ad+=1911; else if(eraSel.value=='Meiji')ad+=1867; document.getElementById('resAD').innerText=ad+"年"; document.getElementById('resAge').innerText=(new Date().getFullYear()-ad)+"歳"; const idx=ad%12; document.getElementById('resZodiac').innerHTML=`${zD[idx]}<svg class="zodiac-icon" viewBox="0 0 24 24"><path d="${zIcons[idx]}"/></svg>`; }; eraSel.onchange=cE; yrIn.oninput=cE; }
 
         const zipBtn = document.getElementById('zipSearchBtn'), zipResult = document.getElementById('zipResult'), zipInput = document.getElementById('zipInput'), addrSearchBtn = document.getElementById('addrSearchBtn'), addrInput = document.getElementById('addrInput');
         if(zipBtn && zipResult && zipInput){ zipBtn.onclick = function(){ const zip = zipInput.value.replace(/[^\d]/g, ''); if(zip.length !== 7){ zipResult.innerHTML = '<span style="color:red;">7桁の数字を入力してください</span>'; return; } zipResult.innerText = "検索中..."; fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zip}`).then(r => r.json()).then(d => { if(d.results){ const r = d.results[0]; zipResult.innerHTML = `<strong>${r.address1} ${r.address2} ${r.address3}</strong><br><small>(${r.kana1} ${r.kana2} ${r.kana3})</small>`; } else { zipResult.innerHTML = '<span style="color:red;">該当する住所が見つかりません</span>'; } }).catch(err => { zipResult.innerHTML = '<span style="color:red;">検索エラー（通信失敗）</span>'; }); }; }
